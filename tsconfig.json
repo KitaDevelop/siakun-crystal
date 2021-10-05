@@ -17,6 +17,7 @@
     "paths": {
       "@components/*": ["components/*"],
       "@api/*": ["services/api/*"],
+      "@constants/*": ["services/constants/*"],
       "@context/*": ["services/contexts/*"]
     }
   },

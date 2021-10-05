@@ -1,45 +1,30 @@
 import React from 'react'
-import { BsBarChartLine, BsJournalBookmark } from 'react-icons/bs'
-import { IoBookOutline } from 'react-icons/io5'
-import { MdOutlineAccountBalance } from 'react-icons/md'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { navigation } from '@constants/navigation'
 import { FiChevronsLeft } from 'react-icons/fi'
 
 export const Sidebar: React.FC = () => {
+  const { pathname } = useRouter()
+
   return (
     <div className="drawer-side p-2 overflow-y-auto w-72 bg-base-200 text-base-content">
       <div className="flex flex-col items-start">
-        <img src="/logo.png" alt="logo" className="object-none p-4 pb-2" />
+        <Link href="/">
+          <img src="/logo.png" alt="logo" className="object-none p-4 pb-2 cursor-pointer" />
+        </Link>
         <ul className="menu w-full p-2 rounded-box flex-1">
-          <li>
-            <a>
-              <BsBarChartLine className="w-5 h-5 mr-2" /> Chart of Accounts
-            </a>
-          </li>
-          <li>
-            <a>
-              <BsJournalBookmark className="w-5 h-5 mr-2" />
-              Journal Entries
-            </a>
-          </li>
-
-          <li>
-            <a>
-              <MdOutlineAccountBalance className="w-5 h-5 mr-2" />
-              Adjusting Entries
-            </a>
-          </li>
-          <li>
-            <a>
-              <IoBookOutline className="w-5 h-5 mr-2" />
-              Buku Besar
-            </a>
-          </li>
-          <li>
-            <a>
-              <BsJournalBookmark className="w-5 h-5 mr-2" />
-              Trial Balance
-            </a>
-          </li>
+          {navigation.map((navItem) => (
+            <li>
+              <Link href={navItem.link}>
+                <a className={pathname.startsWith(navItem.link) ? 'active font-semibold' : ''}>
+                  <div className="flex gap-2 items-center">
+                    {navItem.icon} {navItem.name}
+                  </div>
+                </a>
+              </Link>
+            </li>
+          ))}
         </ul>
         <div className="btn btn-ghost flex justify-between w-full">
           Collapse Sidebar <FiChevronsLeft className="w-5 h-5" />
