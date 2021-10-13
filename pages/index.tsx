@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Head from 'next/head'
 import Layout from '@components/Layout'
 import { FiHome } from 'react-icons/fi'
 import { NavbarProps } from '@components/Navbar'
+import { Modal } from '@components/Modal'
+import { Table, TableBody, TableHeader } from '@components/Table'
 
 export default function Home() {
+  const [isOpen, setIsOpen] = useState(false)
   const meta: NavbarProps = {
     title: 'Home',
     icon: <FiHome />,
@@ -18,7 +21,105 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Layout navbarProps={meta}>ini home</Layout>
+      <Layout navbarProps={meta}>
+        Ini home
+        <div>
+          <div className="btn btn-primary" onClick={() => setIsOpen(!isOpen)}>
+            ini modal
+          </div>
+          <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
+            Ini Modal
+          </Modal>
+          <div className="my-4">
+            ini table generic
+            <Table zebra>
+              <TableHeader cells={dummyThead} />
+              <TableBody>
+                <tr>
+                  <td className="text-center">1</td>
+                  <td>1-1111</td>
+                  <td>Ini nama akun</td>
+                  <td>
+                    Lemon drops muffin pie marshmallow bear claw tart. Gummi bears ice cream cake dessert candy oat cake
+                    gingerbread donut.{' '}
+                  </td>
+                  <td className="text-center">Akun</td>
+                  <td className="text-center">Neraca</td>
+                  <td className="text-center">Debit</td>
+                </tr>
+                <tr>
+                  <td className="text-center">1</td>
+                  <td>1-1111</td>
+                  <td>Ini nama akun yang rada panjaaaang</td>
+                  <td>
+                    Lemon drops muffin pie marshmallow bear claw tart. Gummi bears ice cream cake dessert candy oat cake
+                    gingerbread donut.{' '}
+                  </td>
+                  <td className="text-center">Akun</td>
+                  <td className="text-center">Neraca</td>
+                  <td className="text-center">Debit</td>
+                </tr>
+                <tr>
+                  <td className="text-center">1</td>
+                  <td>1-1111</td>
+                  <td>Ini nama akun yang rada panjaaaang</td>
+                  <td>
+                    Lemon drops muffin pie marshmallow bear claw tart. Gummi bears ice cream cake dessert candy oat cake
+                    gingerbread donut.{' '}
+                  </td>
+                  <td className="text-center">Akun</td>
+                  <td className="text-center">Neraca</td>
+                  <td className="text-center">Debit</td>
+                </tr>
+                <tr>
+                  <td className="text-center">1</td>
+                  <td>1-1111</td>
+                  <td>Ini nama akun duduuddu lalalala</td>
+                  <td>
+                    Lemon drops muffin pie marshmallow bear claw tart. Gummi bears ice cream cake dessert candy oat cake
+                    gingerbread donut.{' '}
+                  </td>
+                  <td className="text-center">Akun</td>
+                  <td className="text-center">Neraca</td>
+                  <td className="text-center">Debit</td>
+                </tr>
+              </TableBody>
+            </Table>
+          </div>
+          <div>
+            ini header trial balance
+            <Table zebra>
+              <TableHeader trialBalance />
+              <TableBody>
+                <tr className="text-center">
+                  <td>1-1111</td>
+                  <td className="whitespace-normal text-left">Ini nama akun yang rada panjaaaang</td>
+                  <td>Rp999.999.999</td>
+                  <td>Rp999.999.999</td>
+                  <td>Rp999.999.999</td>
+                  <td>Rp0</td>
+                  <td>Rp999.999.999</td>
+                  <td>Rp999.999.999</td>
+                  <td>Rp999.999.999</td>
+                </tr>
+                <tr className="text-center">
+                  <td>1-1111</td>
+                  <td className="whitespace-normal text-left">Ini nama akun yang rada panjaaaang</td>
+                  <td>Rp999.999.999</td>
+                  <td>Rp999.999.999</td>
+                  <td>Rp999.999.999</td>
+                  <td>Rp999.999.999</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>Rp999.999.999</td>
+                </tr>
+              </TableBody>
+            </Table>
+          </div>
+        </div>
+      </Layout>
     </div>
   )
 }
+
+const dummyThead = ['', 'acc no.', 'account name', 'description', 'jenis', 'tipe', 'saldo normal']

@@ -4,7 +4,7 @@ import { MdOutlineAccountBalance } from 'react-icons/md'
 import { FaBalanceScale } from 'react-icons/fa'
 
 export interface Navigation {
-  name: String
+  name: string
   icon: React.ReactNode
   link: string
 }
