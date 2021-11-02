@@ -14,6 +14,7 @@ export const Sidebar: React.FC = () => {
       className={`drawer-side p-2 overflow-y-auto bg-base-200 text-base-content overflow-hidden transition-all ease-in-out ${
         isCollapsed ? '-translate-x-full w-0 h-0' : 'w-72'
       }`}
+      style={{ zIndex: 1 }}
     >
       <div className="flex flex-col items-start">
         <Link href="/">
@@ -54,7 +55,13 @@ export const SidebarCollapsed: React.FC = () => {
             <li key={navItem.name}>
               <Link href={navItem.link}>
                 <a className={pathname.startsWith(navItem.link) ? 'active font-semibold icon-only' : 'icon-only'}>
-                  <div className="">{navItem.icon}</div>
+                  <div className="w-5 h-5 overflow-visible">
+                    <div className="absolute">
+                      <div className="tooltip tooltip-right" data-tip={navItem.name}>
+                        {navItem.icon}
+                      </div>
+                    </div>
+                  </div>
                 </a>
               </Link>
             </li>
