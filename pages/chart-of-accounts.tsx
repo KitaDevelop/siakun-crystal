@@ -5,8 +5,7 @@ import React from 'react'
 
 interface Props {}
 
-const navInfo: Navigation =
-  navigation.find((n) => n.name == 'Chart of Accounts') || ({} as Navigation)
+const navInfo: Navigation = navigation.find((n) => n.name == 'Chart of Accounts') || ({} as Navigation)
 const meta: NavbarProps = {
   title: navInfo.name,
   icon: navInfo.icon,

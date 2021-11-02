@@ -3,6 +3,7 @@ import React, { useContext } from 'react'
 
 import Navbar, { NavbarProps } from './Navbar'
 import { Sidebar, SidebarCollapsed } from './Sidebar'
+import Breadcrumbs from './Breadcrumbs'
 
 export type LayoutProps = {
   navbarProps: NavbarProps
@@ -16,13 +17,7 @@ const Layout: React.FC<LayoutProps> = ({ navbarProps, children }: LayoutProps) =
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content p-6">
           <Navbar {...navbarProps} />
-          <div className="text-sm breadcrumbs mx-4">
-            <ul>
-              <li className="font-bold text-primary">
-                <a>Home</a>
-              </li>
-            </ul>
-          </div>
+          <Breadcrumbs />
 
           <main>{children}</main>
         </div>
