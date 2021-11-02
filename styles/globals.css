@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+
+.modal {
+  @apply backdrop-filter backdrop-blur-sm;
+}
+
+.table thead th {
+  @apply bg-secondary text-secondary-content text-center;
+}
+
+.table thead th.nested {
+  @apply rounded-none bg-secondary-focus;
+}
+
+.table:not(.table-zebra) thead tr:not(:last-child) th {
+  @apply border-none;
+}
+
+.table td {
+  @apply whitespace-normal;
+}
+
+.menu li > a.icon-only,
+.menu li > a.icon-only.active {
+  @apply p-4 rounded-lg;
+}
+
+@tailwind utilities;
