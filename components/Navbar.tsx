@@ -1,6 +1,11 @@
 import React from 'react'
 import { FaRegUser, FaSignOutAlt } from 'react-icons/fa'
 
+export interface NavbarProps {
+  title: String
+  icon: React.ReactNode
+}
+
 export default function Navbar({ title, icon }: NavbarProps) {
   return (
     <div className="navbar shadow-lg bg-neutral text-neutral-content rounded-box">
@@ -37,9 +42,4 @@ export default function Navbar({ title, icon }: NavbarProps) {
       </div>
     </div>
   )
-}
-
-export interface NavbarProps {
-  title: String
-  icon: React.ReactNode
 }

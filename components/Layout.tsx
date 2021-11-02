@@ -4,6 +4,11 @@ import React, { useContext } from 'react'
 import Navbar, { NavbarProps } from './Navbar'
 import { Sidebar, SidebarCollapsed } from './Sidebar'
 
+export type LayoutProps = {
+  navbarProps: NavbarProps
+  children?: React.ReactNode
+}
+
 const Layout: React.FC<LayoutProps> = ({ navbarProps, children }: LayoutProps) => {
   return (
     <SidebarProvider>
@@ -26,11 +31,6 @@ const Layout: React.FC<LayoutProps> = ({ navbarProps, children }: LayoutProps) =
       </div>
     </SidebarProvider>
   )
-}
-
-export type LayoutProps = {
-  navbarProps: NavbarProps
-  children?: React.ReactNode
 }
 
 export default Layout
