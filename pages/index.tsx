@@ -102,17 +102,6 @@ export default function Home() {
                   <td>Rp999.999.999</td>
                   <td>Rp999.999.999</td>
                 </tr>
-                <tr className="text-center">
-                  <td>1-1111</td>
-                  <td className="whitespace-normal text-left">Ini nama akun yang rada panjaaaang</td>
-                  <td>Rp999.999.999</td>
-                  <td>Rp999.999.999</td>
-                  <td>Rp999.999.999</td>
-                  <td>Rp999.999.999</td>
-                  <td>-</td>
-                  <td>-</td>
-                  <td>Rp999.999.999</td>
-                </tr>
               </TableBody>
             </Table>
           </div>

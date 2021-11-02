@@ -2,6 +2,7 @@ import Layout from '@components/Layout'
 import { NavbarProps } from '@components/Navbar'
 import { Navigation, navigation } from '@constants/navigation'
 import React from 'react'
+import ChartOfAccount from '@components/CoA'
 
 interface Props {}
 
@@ -12,7 +13,11 @@ const meta: NavbarProps = {
 }
 
 export const CoAPage = (props: Props) => {
-  return <Layout navbarProps={meta}>ini Chart of accounts</Layout>
+  return (
+    <Layout navbarProps={meta}>
+      <ChartOfAccount />
+    </Layout>
+  )
 }
 
 export default CoAPage

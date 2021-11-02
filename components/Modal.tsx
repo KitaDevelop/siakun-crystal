@@ -8,8 +8,10 @@ interface Props {
 
 export const Modal = ({ children, isOpen, setIsOpen }: Props) => {
   return (
-    <div className={`modal ${isOpen && 'modal-open'}`} onClick={() => setIsOpen(!isOpen)}>
-      <div className="modal-box">{children}</div>
+    <div className={`modal overflow-auto ${isOpen && 'modal-open'}`} onClick={() => setIsOpen(!isOpen)}>
+      <div className="modal-box" onClick={(e) => e.stopPropagation()}>
+        {children}
+      </div>
     </div>
   )
 }

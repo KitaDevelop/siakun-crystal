@@ -11,7 +11,7 @@ export const Sidebar: React.FC = () => {
 
   return (
     <div
-      className={`drawer-side p-2 overflow-y-auto bg-base-200 text-base-content overflow-hidden z-10 transition-all ease-in-out ${
+      className={`drawer-side p-2 overflow-y-auto bg-base-200 text-base-content overflow-hidden transition-all ease-in-out ${
         isCollapsed ? '-translate-x-full w-0 h-0' : 'w-72'
       }`}
     >
