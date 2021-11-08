@@ -3,18 +3,32 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { navigation } from '@constants/navigation'
 import { FiChevronsLeft, FiChevronsRight } from 'react-icons/fi'
-import { SidebarContext } from '@context/SidebarContext'
+import { useSidebar } from '@context/SidebarContext'
 
 export const Sidebar: React.FC = () => {
+  const {
+    state: { isCollapsed },
+  } = useSidebar()
+  return (
+    <React.Fragment>
+      <SidebarCollapsed />
+      <SidebarExpanded />
+    </React.Fragment>
+  )
+}
+
+const SidebarExpanded: React.FC = () => {
   const { pathname } = useRouter()
-  const { isCollapsed, toggleCollapse } = useContext(SidebarContext)
+  const {
+    state: { isCollapsed },
+    dispatch,
+  } = useSidebar()
 
   return (
     <div
-      className={`drawer-side p-2 overflow-y-auto bg-base-200 text-base-content overflow-hidden transition-all ease-in-out ${
+      className={`drawer-side p-2 overflow-y-auto bg-base-200 z-10 text-base-content overflow-hidden transition-all ease-in-out ${
         isCollapsed ? '-translate-x-full w-0 h-0' : 'w-72'
       }`}
-      style={{ zIndex: 1 }}
     >
       <div className="flex flex-col items-start">
         <Link href="/">
@@ -33,7 +47,10 @@ export const Sidebar: React.FC = () => {
             </li>
           ))}
         </ul>
-        <div className="btn btn-ghost flex justify-between w-full" onClick={() => toggleCollapse()}>
+        <div
+          className="btn btn-ghost flex justify-between w-full"
+          onClick={() => dispatch({ type: 'toggle_collapse' })}
+        >
           Collapse Sidebar <FiChevronsLeft className="w-5 h-5" />
         </div>
       </div>
@@ -41,11 +58,11 @@ export const Sidebar: React.FC = () => {
   )
 }
 
-export const SidebarCollapsed: React.FC = () => {
+const SidebarCollapsed: React.FC = () => {
   const { pathname } = useRouter()
-  const { toggleCollapse } = useContext(SidebarContext)
+  const { dispatch } = useSidebar()
   return (
-    <div className="drawer-side overflow-y-auto w-16 bg-base-200 text-base-content">
+    <div className="drawer-side overflow-y-auto w-16 bg-base-200 text-base-content z-10">
       <div className="flex flex-col items-center">
         <Link href="/">
           <img src="/logo_icon_only.png" alt="logo" className="object-none p-4 pb-2 cursor-pointer" />
@@ -67,7 +84,7 @@ export const SidebarCollapsed: React.FC = () => {
             </li>
           ))}
         </ul>
-        <div className="btn btn-ghost flex justify-between mb-1" onClick={() => toggleCollapse()}>
+        <div className="btn btn-ghost flex justify-between mb-1" onClick={() => dispatch({ type: 'toggle_collapse' })}>
           <FiChevronsRight className="w-5 h-5" />
         </div>
       </div>
