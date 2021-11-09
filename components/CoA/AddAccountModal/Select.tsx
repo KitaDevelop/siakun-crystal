@@ -1,5 +1,4 @@
 import { JenisAccount, useAccount } from '@context/AccountContext'
-import { type } from 'os'
 import React from 'react'
 import Select from 'react-select'
 
@@ -26,6 +25,7 @@ export const ParentAccountSelect: React.FC = () => {
 
 export const JenisAccountSelect: React.FC = () => {
   const { dispatch } = useAccount()
+
   return (
     <div className="form-control">
       <label className="label font-bold">

@@ -1,5 +1,7 @@
 import { Modal } from '@components/Modal'
+import { JenisAccount, useAccount } from '@context/AccountContext'
 import React from 'react'
+import { AdditionalInfo } from './AdditionalInfo'
 import { JenisAccountSelect, ParentAccountSelect } from './Select'
 
 interface Props {
@@ -8,8 +10,11 @@ interface Props {
 }
 
 export const AddAccountModal = ({ isOpen, setIsOpen }: Props) => {
+  const {
+    state: { jenis },
+  } = useAccount()
   return (
-    <Modal {...{ isOpen, setIsOpen }}>
+    <Modal {...{ isOpen, setIsOpen, isOverflow: jenis == JenisAccount.AKUN || jenis == JenisAccount.JUMLAH }}>
       <div className="font-bold text-xl mb-4">Create New Account</div>
       <form className="w-full flex flex-col gap-2">
         <ParentAccountSelect />
@@ -38,6 +43,7 @@ export const AddAccountModal = ({ isOpen, setIsOpen }: Props) => {
           <textarea className="textarea textarea-bordered resize-none" placeholder="Enter Description"></textarea>
         </div>
         <JenisAccountSelect />
+        <AdditionalInfo />
       </form>
       <div className="modal-action">
         <button className="btn btn-ghost" onClick={() => setIsOpen(false)}>
