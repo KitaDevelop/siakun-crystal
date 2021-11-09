@@ -13,6 +13,7 @@ export const AddAccountModal = ({ isOpen, setIsOpen }: Props) => {
   const {
     state: { jenis },
   } = useAccount()
+
   return (
     <Modal {...{ isOpen, setIsOpen, isOverflow: jenis == JenisAccount.AKUN || jenis == JenisAccount.JUMLAH }}>
       <div className="font-bold text-xl mb-4">Create New Account</div>

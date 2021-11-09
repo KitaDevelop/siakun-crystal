@@ -5,7 +5,11 @@ type Action =
   | { type: 'set_account_no'; accNo: string }
   | { type: 'set_account_name'; accName: string }
   | { type: 'set_desc'; desc: string }
+  | { type: 'set_normal_balance'; normalBalance: NormalBalance }
+  | { type: 'set_account_type'; accType: AccountType }
+  | { type: 'set_desc'; desc: string }
   | { type: 'set_jenis'; jenis: JenisAccount }
+  | { type: 'set_sub_accounts'; subAccounts: SubAccount[] }
 type Dispatch = (action: Action) => void
 type State = {
   parentAccount: string
@@ -14,25 +18,27 @@ type State = {
   desc: string
   jenis: JenisAccount
   normalBalance?: NormalBalance
-  category?: AccountCategory
+  type?: AccountType
+  subAccounts?: SubAccount[]
 }
 type AccountProviderProps = { children: React.ReactNode }
+export type SubAccount = { id: number; accountNumber: string; name: string }
 export enum JenisAccount {
   NONE,
   HEADING,
   AKUN,
   JUMLAH,
 }
-export enum AccountCategory {
+export enum AccountType {
   NERACA,
   LABARUGI,
 }
 export enum NormalBalance {
   DEBIT,
-  KREDIT,
+  CREDIT,
 }
 
-const INITIAL_STATE = {
+const INITIAL_STATE: State = {
   parentAccount: '',
   accountNo: '',
   accountName: '',
@@ -54,6 +60,12 @@ const AccountReducer = (state: State, action: Action) => {
       return { ...state, desc: action.desc }
     case 'set_jenis':
       return { ...state, jenis: action.jenis }
+    case 'set_account_type':
+      return { ...state, type: action.accType }
+    case 'set_normal_balance':
+      return { ...state, normalBalance: action.normalBalance }
+    case 'set_sub_accounts':
+      return { ...state, subAccounts: action.subAccounts }
   }
 }
 

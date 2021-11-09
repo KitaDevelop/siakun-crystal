@@ -1,6 +1,7 @@
 import { JenisAccount, useAccount } from '@context/AccountContext'
 import React from 'react'
 import Select from 'react-select'
+import { IoTrashOutline } from 'react-icons/io5'
 
 export const ParentAccountSelect: React.FC = () => {
   const { dispatch } = useAccount()
@@ -41,6 +42,27 @@ export const JenisAccountSelect: React.FC = () => {
         closeMenuOnSelect
         isSearchable
       />
+    </div>
+  )
+}
+
+export const SubAccountSelect: React.FC = () => {
+  const { dispatch } = useAccount()
+
+  return (
+    <div className="flex gap-2 items-center">
+      <Select
+        className="flex-1"
+        options={dummyAccounts}
+        placeholder="Select Jenis Account"
+        styles={customStyles}
+        onChange={(e) => dispatch({ type: 'set', jenis: e.value })}
+        closeMenuOnSelect
+        isSearchable
+      />
+      <div className="btn btn-circle btn-secondary btn-outline btn-sm">
+        <IoTrashOutline className="w-5 h-5" />
+      </div>
     </div>
   )
 }
