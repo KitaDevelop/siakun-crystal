@@ -19,5 +19,4 @@ export const CoAPage = (props: Props) => {
     </Layout>
   )
 }
-// test
 export default CoAPage
