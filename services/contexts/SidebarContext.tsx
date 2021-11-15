@@ -1,10 +1,12 @@
-import React, { createContext, useReducer, useState } from 'react'
+import { LocalStorageWorker } from '@api/StorageHelper'
+import React, { createContext, useEffect, useReducer, useState } from 'react'
 
+const localStorage = new LocalStorageWorker()
 const INITIAL_STATE = {
   isCollapsed: false,
 }
 
-type Action = { type: 'toggle_collapse' }
+type Action = { type: 'toggle_collapse' } | { type: 'set_collapse'; payload: boolean }
 type Dispatch = (action: Action) => void
 type State = { isCollapsed: boolean }
 type SidebarProviderProps = { children: React.ReactNode }
@@ -13,12 +15,11 @@ const SidebarContext = React.createContext<{ state: State; dispatch: Dispatch } 
 
 const sidebarReducer = (state: State, action: Action) => {
   switch (action.type) {
-    case 'toggle_collapse': {
+    case 'set_collapse':
+      return { ...state, isCollapsed: action.payload }
+    case 'toggle_collapse':
+      localStorage.add('sidebarCollapsed', String(!state.isCollapsed))
       return { ...state, isCollapsed: !state.isCollapsed }
-    }
-    default: {
-      throw new Error(`Unhandled action type: ${action.type}`)
-    }
   }
 }
 
@@ -26,6 +27,10 @@ const SidebarProvider = ({ children }: SidebarProviderProps) => {
   const [state, dispatch] = React.useReducer(sidebarReducer, INITIAL_STATE)
 
   const value = { state, dispatch }
+  useEffect(() => {
+    dispatch({ type: 'set_collapse', payload: Boolean(localStorage.get('sidebarCollapsed')) })
+  }, [])
+
   return <SidebarContext.Provider value={value}>{children}</SidebarContext.Provider>
 }
 
