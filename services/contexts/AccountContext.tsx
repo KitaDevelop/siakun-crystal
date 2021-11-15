@@ -30,12 +30,12 @@ export enum JenisAccount {
   JUMLAH,
 }
 export enum AccountType {
-  NERACA,
-  LABARUGI,
+  NERACA = 'neraca',
+  LABARUGI = 'labarugi',
 }
 export enum NormalBalance {
-  DEBIT,
-  CREDIT,
+  DEBIT = 'debit',
+  CREDIT = 'credit',
 }
 
 const INITIAL_STATE: State = {

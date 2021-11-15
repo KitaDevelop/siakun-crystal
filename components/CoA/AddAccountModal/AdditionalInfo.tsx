@@ -18,6 +18,15 @@ export const AdditionalInfo: React.FC = () => {
 
 const AccountAdditionalInfo: React.FC = () => {
   const { dispatch } = useAccount()
+  const onNormalBalanceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target
+    dispatch({ type: 'set_normal_balance', normalBalance: value as NormalBalance })
+  }
+  const onAccountTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target
+    dispatch({ type: 'set_account_type', accType: value as AccountType })
+  }
+
   return (
     <div className="flex flex-col gap-3">
       <div className="form-control">
@@ -29,7 +38,7 @@ const AccountAdditionalInfo: React.FC = () => {
         <div className="grid grid-cols-3 ml-2">
           <label htmlFor="nb-debit" className="flex gap-2 items-center">
             <input
-              onChange={(e) => dispatch({ type: 'set_normal_balance', normalBalance: e.target.value as NormalBalance })}
+              onChange={onNormalBalanceChange}
               id="nb-debit"
               type="radio"
               name="normal-balance"
@@ -40,7 +49,7 @@ const AccountAdditionalInfo: React.FC = () => {
           </label>
           <label htmlFor="nb-credit" className="flex gap-2 items-center">
             <input
-              onChange={(e) => dispatch({ type: 'set_normal_balance', normalBalance: e.target.value as NormalBalance })}
+              onChange={onNormalBalanceChange}
               id="nb-credit"
               type="radio"
               name="normal-balance"
@@ -60,7 +69,7 @@ const AccountAdditionalInfo: React.FC = () => {
         <div className="grid grid-cols-3 ml-2">
           <label htmlFor="at-neraca" className="flex gap-2 items-center">
             <input
-              onChange={(e) => dispatch({ type: 'set_account_type', accType: e.target.value as AccountType })}
+              onChange={onAccountTypeChange}
               id="at-neraca"
               type="radio"
               name="account-type"
@@ -71,7 +80,7 @@ const AccountAdditionalInfo: React.FC = () => {
           </label>
           <label htmlFor="at-labarugi" className="flex gap-2 items-center">
             <input
-              onChange={(e) => dispatch({ type: 'set_account_type', accType: e.target.value as AccountType })}
+              onChange={onAccountTypeChange}
               id="at-labarugi"
               type="radio"
               name="account-type"

@@ -1,6 +1,6 @@
 import { JenisAccount, useAccount } from '@context/AccountContext'
 import React from 'react'
-import Select from 'react-select'
+import Select, { CSSObjectWithLabel, StylesConfig } from 'react-select'
 import { IoTrashOutline } from 'react-icons/io5'
 
 export const ParentAccountSelect: React.FC = () => {
@@ -16,7 +16,6 @@ export const ParentAccountSelect: React.FC = () => {
         options={dummyAccounts}
         placeholder="Select Parent Account"
         styles={customStyles}
-        onChange={(e) => dispatch({ type: 'set_parent_acc', parent: e.value })}
         closeMenuOnSelect
         isSearchable
       />
@@ -38,7 +37,6 @@ export const JenisAccountSelect: React.FC = () => {
         options={jenisAccount}
         placeholder="Select Jenis Account"
         styles={customStyles}
-        onChange={(e) => dispatch({ type: 'set_jenis', jenis: e.value })}
         closeMenuOnSelect
         isSearchable
       />
@@ -56,7 +54,6 @@ export const SubAccountSelect: React.FC = () => {
         options={dummyAccounts}
         placeholder="Select Jenis Account"
         styles={customStyles}
-        onChange={(e) => dispatch({ type: 'set', jenis: e.value })}
         closeMenuOnSelect
         isSearchable
       />
@@ -68,8 +65,8 @@ export const SubAccountSelect: React.FC = () => {
 }
 
 const customStyles = {
-  placeholder: (styles) => ({ ...styles, lineHeight: 2, fontSize: '0.875rem' }),
-  control: (styles) => ({ ...styles, borderRadius: 8 }),
+  placeholder: (styles: CSSObjectWithLabel) => ({ ...styles, lineHeight: 2, fontSize: '0.875rem' }),
+  control: (styles: CSSObjectWithLabel) => ({ ...styles, borderRadius: 8 }),
 }
 
 const jenisAccount = [
