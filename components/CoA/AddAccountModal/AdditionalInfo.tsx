@@ -122,7 +122,6 @@ const JumlahAdditionalInfo: React.FC = () => {
       <div className="flex flex-col gap-2">
         {subAccounts && subAccounts.map((_, i) => <SubAccountSelect key={i} />)}
       </div>
-      {/* <SubAccountSelect /> */}
       <div onClick={addSubAccountHandler} className="btn btn-ghost text-primary self-start btn-sm">
         <IoAdd className="mr-2" /> Add More
       </div>

@@ -1,19 +1,21 @@
 import React, { useState } from 'react'
 import Head from 'next/head'
 import Layout from '@components/Layout'
+import Login from '@components/Login'
 import { FiHome } from 'react-icons/fi'
 import { NavbarProps } from '@components/Navbar'
 import { Modal } from '@components/Modal'
 import { Table, TableBody, TableHeader } from '@components/Table'
 
 export default function Home() {
+  const [authorized, setAuthorized] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const meta: NavbarProps = {
     title: 'Home',
     icon: <FiHome />,
   }
 
-  return (
+  return authorized ? (
     <div className="">
       <Head>
         <title>{meta.title}</title>
@@ -86,28 +88,11 @@ export default function Home() {
               </TableBody>
             </Table>
           </div>
-          <div>
-            ini header trial balance
-            <Table zebra>
-              <TableHeader trialBalance />
-              <TableBody>
-                <tr className="text-center">
-                  <td>1-1111</td>
-                  <td className="whitespace-normal text-left">Ini nama akun yang rada panjaaaang</td>
-                  <td>Rp999.999.999</td>
-                  <td>Rp999.999.999</td>
-                  <td>Rp999.999.999</td>
-                  <td>Rp0</td>
-                  <td>Rp999.999.999</td>
-                  <td>Rp999.999.999</td>
-                  <td>Rp999.999.999</td>
-                </tr>
-              </TableBody>
-            </Table>
-          </div>
         </div>
       </Layout>
     </div>
+  ) : (
+    <Login />
   )
 }
 
