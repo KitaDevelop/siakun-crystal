@@ -1,7 +1,8 @@
+import { useFetchAccounts } from '@api/accounts'
 import Layout from '@components/Layout'
 import { NavbarProps } from '@components/Navbar'
 import { Navigation, navigation } from '@constants/navigation'
-import React from 'react'
+import React, { useEffect } from 'react'
 import ChartOfAccount from '@components/CoA'
 
 interface Props {}
@@ -13,9 +14,16 @@ const meta: NavbarProps = {
 }
 
 export const CoAPage = (props: Props) => {
+  const { isLoading, isError, data, error } = useFetchAccounts()
+
+  useEffect(() => {
+    console.log(data)
+  }, [data, isLoading])
+
   return (
     <Layout navbarProps={meta}>
-      <ChartOfAccount />
+      ini Chart of accounts
+      {isLoading ? <h1>Loading...</h1> : <ChartOfAccount data={data?.data}/>    }  
     </Layout>
   )
 }

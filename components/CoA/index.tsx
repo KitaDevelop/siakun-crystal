@@ -3,10 +3,13 @@ import React, { useState } from 'react'
 import { AccountRow } from './AccountRow'
 import { IoAdd } from 'react-icons/io5'
 import { AddAccountModal } from './AddAccountModal'
+import { Account } from '@api/accounts'
 
-interface Props {}
+interface Props {
+  data?: Account[]
+}
 
-export const Index = (props: Props) => {
+export const Index = ({ data }: Props) => {
   const [isOpen, setOpen] = useState(false)
 
   const cells = ['', 'acc no.', 'account name', 'description', 'jenis', 'tipe', 'saldo normal']
@@ -15,8 +18,8 @@ export const Index = (props: Props) => {
       <Table zebra>
         <TableHeader {...{ cells }} />
         <TableBody>
-          {dummy.map((dum, i) => (
-            <AccountRow key={dum.no} idx={i + 1} {...dum} />
+          {data && data.map((d, i) => (
+            <AccountRow key={d.accountNumber} idx={i + 1} account={d} />
           ))}
         </TableBody>
       </Table>
@@ -27,6 +30,8 @@ export const Index = (props: Props) => {
     </div>
   )
 }
+
+
 
 const dummy = [
   {
