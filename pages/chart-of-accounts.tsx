@@ -3,6 +3,7 @@ import Layout from '@components/Layout'
 import { NavbarProps } from '@components/Navbar'
 import { Navigation, navigation } from '@constants/navigation'
 import React, { useEffect } from 'react'
+import ChartOfAccount from '@components/CoA'
 
 interface Props {}
 
@@ -19,23 +20,11 @@ export const CoAPage = (props: Props) => {
     console.log(data)
   }, [data, isLoading])
 
-  if (isLoading) return <h1>Loading...</h1>
-
   return (
     <Layout navbarProps={meta}>
       ini Chart of accounts
-      {data?.data.map((d) => (
-        <div key={`coa-${d.accountNumber}`} className="my-4">
-          <p>{d.accountNumber}</p>
-          <p>{d.name}</p>
-          <p>{d.description}</p>
-          <p>{d.category}</p>
-          <p>{d.normalBalance}</p>
-          <p>{d.type}</p>
-        </div>
-      ))}
+      {isLoading ? <h1>Loading...</h1> : <ChartOfAccount data={data?.data}/>    }  
     </Layout>
   )
 }
-
 export default CoAPage

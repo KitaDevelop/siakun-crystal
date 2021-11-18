@@ -1,35 +1,45 @@
-import React, { createContext, useReducer, useState } from 'react'
-import SidebarReducer from './SidebarReducer'
+import { LocalStorageWorker } from '@api/localStorageHelper'
+import React, { createContext, useEffect, useReducer, useState } from 'react'
 
+const localStorage = new LocalStorageWorker()
 const INITIAL_STATE = {
   isCollapsed: false,
 }
 
-export interface SidebarState {
-  isCollapsed: boolean
-  toggleCollapse?: () => void
-}
+type Action = { type: 'toggle_collapse' } | { type: 'set_collapse'; payload: boolean }
+type Dispatch = (action: Action) => void
+type State = { isCollapsed: boolean }
+type SidebarProviderProps = { children: React.ReactNode }
 
-const SidebarContext = createContext<SidebarState>(INITIAL_STATE)
+const SidebarContext = React.createContext<{ state: State; dispatch: Dispatch } | undefined>(undefined)
 
-const SidebarProvider: React.FC = ({ children }) => {
-  const [isCollapsed, setCollapsed] = useState(false)
-
-  const toggleCollapse = () => {
-    console.log(isCollapsed)
-    setCollapsed(!isCollapsed)
+const sidebarReducer = (state: State, action: Action) => {
+  switch (action.type) {
+    case 'set_collapse':
+      return { ...state, isCollapsed: action.payload }
+    case 'toggle_collapse':
+      localStorage.add('sidebarCollapsed', String(!state.isCollapsed))
+      return { ...state, isCollapsed: !state.isCollapsed }
   }
-
-  return (
-    <SidebarContext.Provider
-      value={{
-        isCollapsed,
-        toggleCollapse,
-      }}
-    >
-      {children}
-    </SidebarContext.Provider>
-  )
 }
 
-export { SidebarContext, SidebarProvider }
+const SidebarProvider = ({ children }: SidebarProviderProps) => {
+  const [state, dispatch] = React.useReducer(sidebarReducer, INITIAL_STATE)
+
+  const value = { state, dispatch }
+  useEffect(() => {
+    dispatch({ type: 'set_collapse', payload: Boolean(localStorage.get('sidebarCollapsed')) })
+  }, [])
+
+  return <SidebarContext.Provider value={value}>{children}</SidebarContext.Provider>
+}
+
+function useSidebar() {
+  const context = React.useContext(SidebarContext)
+  if (context === undefined) {
+    throw new Error('useSidebar must be used within a SidebarProvider')
+  }
+  return context
+}
+
+export { useSidebar, SidebarProvider }
