@@ -1,4 +1,4 @@
-import { JenisAccount } from '@context/AccountContext'
+import { JenisAccount } from '@context/AccountContext/types'
 import { CSSObjectWithLabel } from 'react-select'
 
 export const customStyles = {

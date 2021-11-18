@@ -1,4 +1,5 @@
-import { AccountType, NormalBalance, useAccount } from '@context/AccountContext'
+import { useAccount } from '@context/AccountContext/AccountProvider'
+import { AccountType, NormalBalance } from '@context/AccountContext/types'
 import React from 'react'
 
 export const AccountAdditionalInfo: React.FC = () => {

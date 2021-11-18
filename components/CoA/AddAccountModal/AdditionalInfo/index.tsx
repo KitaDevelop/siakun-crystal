@@ -1,5 +1,6 @@
-import { AccountType, JenisAccount, NormalBalance, SubAccount, useAccount } from '@context/AccountContext'
-import React, { useEffect } from 'react'
+import { useAccount } from '@context/AccountContext/AccountProvider'
+import { JenisAccount } from '@context/AccountContext/types'
+import React from 'react'
 import { AccountAdditionalInfo } from './AccountAdditionalInfo'
 import { JumlahAdditionalInfo } from './JumlahAdditionalInfo'
 

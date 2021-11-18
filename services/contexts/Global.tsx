@@ -1,7 +1,7 @@
 import React from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
-import { AccountProvider } from './AccountContext'
+import { AccountProvider } from './AccountContext/AccountProvider'
 import { SidebarProvider } from './SidebarContext'
 
 const queryClient = new QueryClient()
@@ -15,7 +15,7 @@ export const GlobalProvider: React.FC<Props> = ({ children }: Props) => {
       <SidebarProvider>
         <AccountProvider>{children}</AccountProvider>
       </SidebarProvider>
-      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   )
 }

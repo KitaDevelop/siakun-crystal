@@ -1,4 +1,4 @@
-import { useAccount } from '@context/AccountContext'
+import { useAccount } from '@context/AccountContext/AccountProvider'
 import React from 'react'
 import Select from 'react-select'
 import { dummyAccounts, customStyles } from './index'
