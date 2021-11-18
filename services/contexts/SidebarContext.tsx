@@ -1,4 +1,4 @@
-import { LocalStorageWorker } from '@api/StorageHelper'
+import { LocalStorageWorker } from '@api/localStorageHelper'
 import React, { createContext, useEffect, useReducer, useState } from 'react'
 
 const localStorage = new LocalStorageWorker()
