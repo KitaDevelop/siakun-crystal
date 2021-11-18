@@ -11,11 +11,11 @@ interface Props {
 }
 export const GlobalProvider: React.FC<Props> = ({ children }: Props) => {
   return (
-      <QueryClientProvider client={queryClient} contextSharing={true}>
-    <SidebarProvider>
-      <AccountProvider>{children}</AccountProvider>
-    </SidebarProvider>
-      <ReactQueryDevtools initialIsOpen={false} />
+    <QueryClientProvider client={queryClient} contextSharing={true}>
+      <SidebarProvider>
+        <AccountProvider>{children}</AccountProvider>
+      </SidebarProvider>
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
     </QueryClientProvider>
   )
 }
