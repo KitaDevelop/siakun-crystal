@@ -2,7 +2,7 @@ import Layout from '@components/Layout'
 import { NavbarProps } from '@components/Navbar'
 import { Navigation, navigation } from '@constants/navigation'
 import React from 'react'
-import JournalEntries from '@components/JE'
+import JournalEntries from '@components/JournalEntries'
 
 interface Props {}
 

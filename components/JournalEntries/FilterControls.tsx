@@ -1,7 +1,7 @@
-import { customStyles } from '@components/CoA/AddAccountModal/Select'
+import { customStyles } from '@components/ChartOfAccounts/AddAccountModal/Select'
 import React, { ReactElement } from 'react'
 import { HiOutlineSearch } from 'react-icons/hi'
-import Select, { CSSObjectWithLabel } from 'react-select'
+import Select from 'react-select'
 
 interface Props {
   years: SelectYearOption[]

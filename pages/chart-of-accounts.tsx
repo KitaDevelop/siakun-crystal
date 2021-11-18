@@ -3,7 +3,7 @@ import Layout from '@components/Layout'
 import { NavbarProps } from '@components/Navbar'
 import { Navigation, navigation } from '@constants/navigation'
 import React, { useEffect } from 'react'
-import ChartOfAccount from '@components/CoA'
+import ChartOfAccount from '@components/ChartOfAccounts'
 
 interface Props {}
 
@@ -23,7 +23,7 @@ export const CoAPage = (props: Props) => {
   return (
     <Layout navbarProps={meta}>
       ini Chart of accounts
-      {isLoading ? <h1>Loading...</h1> : <ChartOfAccount data={data?.data}/>    }  
+      {isLoading ? <h1>Loading...</h1> : <ChartOfAccount data={data?.data} />}
     </Layout>
   )
 }
