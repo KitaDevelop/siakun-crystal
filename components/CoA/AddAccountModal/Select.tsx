@@ -3,6 +3,11 @@ import React from 'react'
 import Select, { CSSObjectWithLabel, StylesConfig } from 'react-select'
 import { IoTrashOutline } from 'react-icons/io5'
 
+type SelectJenisOption = {
+  label: string
+  value: JenisAccount
+}
+
 export const ParentAccountSelect: React.FC = () => {
   const { dispatch } = useAccount()
   return (
@@ -26,6 +31,11 @@ export const ParentAccountSelect: React.FC = () => {
 export const JenisAccountSelect: React.FC = () => {
   const { dispatch } = useAccount()
 
+  const isSelectJenisOption = (v: any): v is SelectJenisOption => {
+    if ((v as SelectJenisOption).value !== undefined) return v.value
+    return false
+  }
+
   return (
     <div className="form-control">
       <label className="label font-bold">
@@ -38,6 +48,11 @@ export const JenisAccountSelect: React.FC = () => {
         placeholder="Select Jenis Account"
         styles={customStyles}
         closeMenuOnSelect
+        onChange={(v) => {
+          if (isSelectJenisOption(v)) {
+            dispatch({ type: 'set_jenis', jenis: v.value })
+          }
+        }}
         isSearchable
       />
     </div>
