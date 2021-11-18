@@ -6,14 +6,11 @@ import { FiChevronsLeft, FiChevronsRight } from 'react-icons/fi'
 import { useSidebar } from '@context/SidebarContext'
 
 export const Sidebar: React.FC = () => {
-  const {
-    state: { isCollapsed },
-  } = useSidebar()
   return (
-    <React.Fragment>
+    <>
       <SidebarCollapsed />
       <SidebarExpanded />
-    </React.Fragment>
+    </>
   )
 }
 
