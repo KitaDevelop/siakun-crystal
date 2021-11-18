@@ -1,8 +1,10 @@
 import { Modal } from '@components/Modal'
-import { JenisAccount, useAccount } from '@context/AccountContext'
+import { useAccount } from '@context/AccountContext/AccountProvider'
+import { JenisAccount } from '@context/AccountContext/types'
 import React from 'react'
 import { AdditionalInfo } from './AdditionalInfo'
-import { JenisAccountSelect, ParentAccountSelect } from './Select'
+import { JenisAccountSelect } from './Select/JenisAccountSelect'
+import { ParentAccountSelect } from './Select/ParentAccountSelect'
 
 interface Props {
   isOpen: boolean
