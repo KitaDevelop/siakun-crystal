@@ -1,3 +1,4 @@
+import { customStyles } from '@components/CoA/AddAccountModal/Select'
 import React, { ReactElement } from 'react'
 import { HiOutlineSearch } from 'react-icons/hi'
 import Select, { CSSObjectWithLabel } from 'react-select'
@@ -46,9 +47,4 @@ export default function FilterControls({ years, year, setYear }: Props): ReactEl
       </div>
     </div>
   )
-}
-
-const customStyles = {
-  placeholder: (styles: CSSObjectWithLabel) => ({ ...styles, lineHeight: 2, fontSize: '0.875rem' }),
-  control: (styles: CSSObjectWithLabel) => ({ ...styles, borderRadius: 8 }),
 }

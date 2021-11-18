@@ -1,26 +1,12 @@
 import { TableBody } from '@components/Table'
 import React, { ReactElement } from 'react'
 import { numberToRupiah } from 'services/utils/numberToRupiah'
+import { JournalEntry } from './types'
 
 interface Props {
   idx: number
   entry: JournalEntry
 }
-
-export type JournalEntry = {
-  id: number
-  date: string
-  description: string
-  transactions: Transaction[]
-}
-
-type Transaction = {
-  accNumber: string
-  accName: string
-  debit?: number
-  credit?: number
-}
-
 export default function TableRow({ idx, entry: { date, description, transactions } }: Props): ReactElement {
   return (
     <TableBody className="hover multirow">

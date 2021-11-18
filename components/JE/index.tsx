@@ -1,7 +1,8 @@
 import { Table, TableBody, TableHeader } from '@components/Table'
 import React, { useState } from 'react'
 import FilterControls, { SelectYearOption } from './FilterControls'
-import TableRow, { JournalEntry } from './TableRow'
+import TableRow from './TableRow'
+import { JournalEntry } from './types'
 
 interface Props {}
 
