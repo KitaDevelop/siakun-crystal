@@ -8,7 +8,7 @@ import { Modal } from '@components/Modal'
 import { Table, TableBody, TableHeader } from '@components/Table'
 
 export default function Home() {
-  const [authorized, setAuthorized] = useState(true)
+  const [authorized, setAuthorized] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const meta: NavbarProps = {
     title: 'Home',
