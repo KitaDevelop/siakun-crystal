@@ -21,6 +21,15 @@
   @apply whitespace-normal;
 }
 
+.table tbody.hover:hover tr td {
+  @apply bg-base-300;
+}
+
+.table tbody.multirow tr:nth-child(n + 2) ~ tr td:first-child,
+.table tbody.multirow tr:nth-child(n + 2) ~ tr td:last-child {
+  @apply rounded-none;
+}
+
 .menu li > a.icon-only,
 .menu li > a.icon-only.active {
   @apply p-4 rounded-lg;

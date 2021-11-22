@@ -1,5 +1,6 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { navigation } from '@constants/navigation'
 import { FiChevronsLeft, FiChevronsRight } from 'react-icons/fi'
@@ -28,9 +29,11 @@ const SidebarExpanded: React.FC = () => {
       }`}
     >
       <div className="flex flex-col items-start">
-        <Link href="/">
-          <img src="/logo.png" alt="logo" className="object-none p-4 pb-2 cursor-pointer" />
-        </Link>
+        <div className="object-none p-4 pb-2 cursor-pointer">
+          <Link href="/" passHref>
+            <Image src="/logo.png" alt="logo" width={80} height={46} />
+          </Link>
+        </div>
         <ul className="menu w-full p-2 rounded-box flex-1">
           {navigation.map((navItem) => (
             <li key={navItem.name}>
@@ -61,9 +64,11 @@ const SidebarCollapsed: React.FC = () => {
   return (
     <div className="drawer-side overflow-y-auto w-16 bg-base-200 text-base-content z-10">
       <div className="flex flex-col items-center">
-        <Link href="/">
-          <img src="/logo_icon_only.png" alt="logo" className="object-none p-4 pb-2 cursor-pointer" />
-        </Link>
+        <div className="object-none px-4 pb-2 pt-6 cursor-pointer">
+          <Link href="/" passHref>
+            <Image width={22} height={35} src="/logo_icon_only.png" alt="logo" />
+          </Link>
+        </div>
         <ul className="menu rounded-lg flex-1">
           {navigation.map((navItem) => (
             <li key={navItem.name}>

@@ -1,18 +1,21 @@
 /* eslint-disable @next/next/no-img-element */
 import React from 'react'
+import Image from 'next/image'
 
 interface Props {}
 
 const Index = (props: Props) => {
   return (
     <div className="grid grid-cols-12 bg-primary max-h-screen overflow-hidden">
-      <div className="col-span-8 relative">
-        <img src="/illust.svg" alt="illustration" className="object-cover object-center h-screen w-full" />
-        <img src="/komak.png" alt="illustration" className="absolute bottom-0 h-screen object-cover" />
+      <div className="col-span-8 relative h-screen ">
+        <Image src="/illust.svg" alt="illustration" className="object-cover object-center w-full" layout="fill" />
+        <Image src="/komak.png" alt="illustration" className="absolute bottom-0 object-cover" layout="fill" />
       </div>
       <div className="col-span-4 bg-white grid place-items-center">
         <div className="flex flex-col w-full max-w-sm gap-4">
-          <img src="/logo_lg.png" alt="logo" className="self-center mb-8" />
+          <div className="grid place-content-center">
+            <Image width={183} height={104} src="/logo_lg.png" alt="logo" className="self-center mb-8" />
+          </div>
           <div className="form-control">
             <label className="label font-bold">
               <span className="label-text">

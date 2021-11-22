@@ -5,6 +5,11 @@ interface TableHeaderProps {
   trialBalance?: Boolean
 }
 
+interface TableBodyProps {
+  children: React.ReactNode
+  className?: string
+}
+
 interface TableProps {
   children: React.ReactNode
   zebra?: Boolean
@@ -54,8 +59,8 @@ export const TableHeader = ({ cells, trialBalance }: TableHeaderProps) => {
   )
 }
 
-export const TableBody: React.FC = ({ children }) => {
-  return <tbody>{children}</tbody>
+export const TableBody = ({ children, className }: TableBodyProps) => {
+  return <tbody {...{ className }}>{children}</tbody>
 }
 
 export const Table = ({ children, zebra }: TableProps) => {
