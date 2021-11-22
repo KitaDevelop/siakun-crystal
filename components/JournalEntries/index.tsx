@@ -1,5 +1,7 @@
 import { Table, TableBody, TableHeader } from '@components/Table'
 import React, { useState } from 'react'
+import { IoAdd } from 'react-icons/io5'
+import { AddJournalEntryModal } from './AddJournalEntryModal'
 import FilterControls, { SelectYearOption } from './FilterControls'
 import TableRow from './TableRow'
 import { JournalEntry } from './types'
@@ -7,6 +9,7 @@ import { JournalEntry } from './types'
 interface Props {}
 
 export const Index = (props: Props) => {
+  const [isOpen, setOpen] = useState(false)
   const [year, setYear] = useState<SelectYearOption[]>(
     years.filter((option) => option.value === new Date().getFullYear())
   )
@@ -20,6 +23,10 @@ export const Index = (props: Props) => {
           <TableRow key={entry.id} idx={idx} entry={entry} />
         ))}
       </Table>
+      <button onClick={() => setOpen(true)} className="btn btn-circle fixed bottom-6 right-6 btn-primary">
+        <IoAdd className="w-5 h-5" />
+      </button>
+      <AddJournalEntryModal {...{ isOpen, setIsOpen: setOpen }} />
     </div>
   )
 }

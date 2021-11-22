@@ -12,13 +12,14 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
-    "daisyui": "^1.10.0",
+    "daisyui": "^1.16.2",
     "next": "11.1.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "react-dropzone-uploader": "^2.11.0",
     "react-icons": "^4.3.1",
-    "react-select": "^5.2.1",
-    "react-query": "^3.32.1"
+    "react-query": "^3.32.1",
+    "react-select": "^5.2.1"
   },
   "devDependencies": {
     "@types/node": "^14.14.41",

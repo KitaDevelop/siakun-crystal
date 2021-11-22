@@ -35,4 +35,20 @@
   @apply p-4 rounded-lg;
 }
 
+.dzu-inputLabel {
+  @apply text-base-content;
+}
+
+.dzu-inputLabelWithFiles {
+  @apply btn btn-sm btn-secondary;
+}
+
+.dzu-previewStatusContainer {
+  @apply w-48;
+}
+
+.dzu-previewStatusContainer progress {
+  @apply progress progress-primary;
+}
+
 @tailwind utilities;

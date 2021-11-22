@@ -64,9 +64,5 @@ export const TableBody = ({ children, className }: TableBodyProps) => {
 }
 
 export const Table = ({ children, zebra }: TableProps) => {
-  return (
-    <div className="overflow-x-auto">
-      <table className={`table w-full table-compact ${zebra && 'table-zebra'}`}>{children}</table>
-    </div>
-  )
+  return <table className={`table w-full table-compact ${zebra && 'table-zebra'}`}>{children}</table>
 }

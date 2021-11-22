@@ -1,14 +1,14 @@
 import { useSidebar } from '@context/SidebarContext'
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
-
 interface Props {
   children?: React.ReactNode
-  isOpen: boolean
+  size?: 'md' | 'lg'
   isOverflow?: boolean
+  isOpen: boolean
   setIsOpen: Function
 }
 
-export const Modal = ({ children, isOpen, setIsOpen, isOverflow }: Props) => {
+export const Modal = ({ children, size, isOpen, setIsOpen, isOverflow }: Props) => {
   const {
     state: { isCollapsed },
   } = useSidebar()
@@ -16,6 +16,15 @@ export const Modal = ({ children, isOpen, setIsOpen, isOverflow }: Props) => {
   useEffect(() => {
     document.body.style.overflow = isOpen ? 'hidden' : 'visible'
   }, [isOpen])
+
+  const getModalWidth = () => {
+    switch (size) {
+      case 'lg':
+        return 'max-w-screen-sm'
+      default:
+        return ''
+    }
+  }
 
   return (
     <div
@@ -25,7 +34,7 @@ export const Modal = ({ children, isOpen, setIsOpen, isOverflow }: Props) => {
         ${isOverflow ? 'items-start' : 'items-center'}`}
       onClick={() => setIsOpen(!isOpen)}
     >
-      <div className="modal-box" onClick={(e) => e.stopPropagation()}>
+      <div className={`modal-box ${getModalWidth()}`} onClick={(e) => e.stopPropagation()}>
         {children}
       </div>
     </div>
