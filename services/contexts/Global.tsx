@@ -18,7 +18,7 @@ export const GlobalProvider: React.FC<Props> = ({ children }: Props) => {
           <AccountProvider>{children}</AccountProvider>
         </JournalEntryProvider>
       </SidebarProvider>
-      <ReactQueryDevtools initialIsOpen={false} />
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
     </QueryClientProvider>
   )
 }
