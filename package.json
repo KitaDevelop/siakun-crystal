@@ -11,6 +11,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tuttinator/react-dropzone-uploader": "^2.12.0",
     "axios": "^0.21.1",
     "daisyui": "^1.16.2",
     "next": "11.1.2",

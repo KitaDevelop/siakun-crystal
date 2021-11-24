@@ -1,5 +1,5 @@
 import { CSSProperties } from 'react'
-import Dropzone, { IFileWithMeta, IStyleCustomization } from 'react-dropzone-uploader'
+import Dropzone, { IFileWithMeta, IStyleCustomization } from '@tuttinator/react-dropzone-uploader'
 import { AiOutlineCloudUpload } from 'react-icons/ai'
 
 export const ReceiptDropzone = () => {
