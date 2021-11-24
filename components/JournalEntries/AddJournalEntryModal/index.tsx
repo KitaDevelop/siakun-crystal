@@ -1,5 +1,6 @@
 import { Modal } from '@components/Modal'
-import React, { useState } from 'react'
+import { useJournalEntry } from '@context/JournalEntryContext/JournalEntryProvider'
+import React from 'react'
 import { IoAdd } from 'react-icons/io5'
 import { ReceiptDropzone } from './ReceiptDropzone'
 import { TransactionInputTable } from './TransactionInputTable'
@@ -10,11 +11,16 @@ interface Props {
 }
 
 export const AddJournalEntryModal = ({ isOpen, setIsOpen }: Props) => {
-  // dummy
-  const [transactions, setTransactions] = useState([0])
+  const {
+    state: { transactions },
+    dispatch,
+  } = useJournalEntry()
 
   const onAddTransaction = () => {
-    setTransactions([...transactions, 0])
+    dispatch({
+      type: 'set_transactions',
+      transactions: [...transactions, { id: Date.now(), accNumber: '', accName: '' }],
+    })
   }
 
   return (
@@ -46,7 +52,7 @@ export const AddJournalEntryModal = ({ isOpen, setIsOpen }: Props) => {
         <label className="label font-bold">
           <span className="label-text">Transactions</span>
         </label>
-        <TransactionInputTable {...{ transactions }} />
+        <TransactionInputTable />
         <div onClick={onAddTransaction} className="btn btn-ghost text-primary self-start btn-sm">
           <IoAdd className="mr-2" /> Add More
         </div>

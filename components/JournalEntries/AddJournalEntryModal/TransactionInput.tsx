@@ -1,16 +1,39 @@
 import { customStyles, dummyAccounts } from '@components/ChartOfAccounts/AddAccountModal/Select'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Select from 'react-select'
 import { IoTrashOutline } from 'react-icons/io5'
+import { useJournalEntry } from '@context/JournalEntryContext/JournalEntryProvider'
+import { Transaction } from '@context/JournalEntryContext/types'
 
 interface Props {
+  transaction: Transaction
   isOnlyChild: boolean
+  idx: number
 }
 
-export const TransactionInput = ({ isOnlyChild }: Props) => {
+export const TransactionInput = ({ transaction, isOnlyChild, idx }: Props) => {
+  const {
+    state: { transactions },
+    dispatch,
+  } = useJournalEntry()
   const [isDebit, setIsDebit] = useState(true)
   const [debit, setDebit] = useState(0)
   const [credit, setCredit] = useState(0)
+
+  useEffect(() => {
+    const tmpTransactions = [...transactions]
+    tmpTransactions[idx] = {
+      ...tmpTransactions[idx],
+      ...(isDebit ? { debit } : { credit }),
+    }
+    dispatch({ type: 'set_transactions', transactions: tmpTransactions })
+  }, [debit, credit])
+
+  const onTransactionDelete = () => {
+    const tmpTransactions = [...transactions]
+    tmpTransactions.splice(idx, 1)
+    dispatch({ type: 'set_transactions', transactions: tmpTransactions })
+  }
 
   return (
     <tr>
@@ -63,7 +86,7 @@ export const TransactionInput = ({ isOnlyChild }: Props) => {
       </td>
       <td>
         {!isOnlyChild && (
-          <div className="btn btn-sm btn-error btn-outline btn-circle">
+          <div onClick={onTransactionDelete} className="btn btn-sm btn-error btn-outline btn-circle">
             <IoTrashOutline className="text-base" />
           </div>
         )}

@@ -1,10 +1,10 @@
 import { Table, TableBody, TableHeader } from '@components/Table'
+import { JournalEntry } from '@context/JournalEntryContext/types'
 import React, { useState } from 'react'
 import { IoAdd } from 'react-icons/io5'
 import { AddJournalEntryModal } from './AddJournalEntryModal'
 import FilterControls, { SelectYearOption } from './FilterControls'
 import TableRow from './TableRow'
-import { JournalEntry } from './types'
 
 interface Props {}
 
@@ -47,16 +47,19 @@ const dummyJournalEntries: JournalEntry[] = [
       'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Distinctio dolor voluptatum dolore repudiandae! Numquam eos, eaque aut maiores fugiat fuga.',
     transactions: [
       {
+        id: 1,
         accName: 'Akun Debit Satu',
         accNumber: '1-1111',
         debit: 12000,
       },
       {
+        id: 2,
         accName: 'Akun Kredit Dua',
         accNumber: '1-2222',
         credit: 25000,
       },
       {
+        id: 3,
         accName: 'Akun Debit Tiga',
         accNumber: '1-3333',
         debit: 13000,
@@ -70,11 +73,13 @@ const dummyJournalEntries: JournalEntry[] = [
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio voluptas quibusdam provident facere soluta reprehenderit?',
     transactions: [
       {
+        id: 4,
         accName: 'Akun Debit Satu',
         accNumber: '1-1111',
         debit: 9999999,
       },
       {
+        id: 5,
         accName: 'Akun Kredit Dua',
         accNumber: '1-2222',
         credit: 9999999,
