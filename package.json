@@ -4,21 +4,21 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "dev-server": "SET API_ENV=server &&npm run dev",
-    "dev-mock": "SET API_ENV=mock &&npm run dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@types/js-cookie": "^3.0.1",
     "axios": "^0.21.1",
     "daisyui": "^1.10.0",
+    "js-cookie": "^3.0.1",
     "next": "11.1.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-icons": "^4.3.1",
-    "react-select": "^5.2.1",
-    "react-query": "^3.32.1"
+    "react-query": "^3.32.1",
+    "react-select": "^5.2.1"
   },
   "devDependencies": {
     "@types/node": "^14.14.41",
