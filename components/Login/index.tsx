@@ -1,10 +1,33 @@
 /* eslint-disable @next/next/no-img-element */
-import React from 'react'
+import React, { useRef } from 'react'
 import Image from 'next/image'
+
+import useAxios from 'services/hooks/useAxios'
+import config from 'config'
 
 interface Props {}
 
 const Index = (props: Props) => {
+  const axios = useAxios();
+  const usernameInputRef = useRef<HTMLInputElement>(null)
+  const passwordInputRef = useRef<HTMLInputElement>(null)
+
+  console.log(process.env.API_ENV)
+  console.log(config.API_URL_CARBON)
+
+  const onSignInButtonPressed = () => {
+    console.log('Sign in button pressed')
+    const username = usernameInputRef.current?.value
+    const password = passwordInputRef.current?.value
+
+    axios?.post('/auth/login', {
+      username,
+      password,
+    }).then(res => {
+      console.log(res)
+    })
+  }
+
   return (
     <div className="grid grid-cols-12 bg-primary max-h-screen overflow-hidden">
       <div className="col-span-8 relative h-screen ">
@@ -22,7 +45,7 @@ const Index = (props: Props) => {
                 Username <span className="text-error">*</span>
               </span>
             </label>
-            <input type="text" placeholder="Enter your username" className="input input-bordered" />
+            <input type="text" ref={usernameInputRef} placeholder="Enter your username" className="input input-bordered" />
           </div>
           <div className="form-control">
             <label className="label font-bold">
@@ -30,9 +53,9 @@ const Index = (props: Props) => {
                 Password <span className="text-error">*</span>
               </span>
             </label>
-            <input type="password" placeholder="Enter your password" className="input input-bordered" />
+            <input type="password" ref={passwordInputRef} placeholder="Enter your password" className="input input-bordered" />
           </div>
-          <div className="btn btn-primary mt-4">Sign in</div>
+          <div className="btn btn-primary mt-4" onClick={onSignInButtonPressed}>Sign in</div>
         </div>
       </div>
     </div>
