@@ -22,7 +22,7 @@ export const ReceiptDropzone = () => {
 
 const InputPlaceholder = () => {
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center text-base-content">
       <AiOutlineCloudUpload className="w-8 h-8" />
       <div className="text-base font-normal mb-2">Drag and drop files here or</div>
       <div className="btn btn-xs btn-primary">browse</div>

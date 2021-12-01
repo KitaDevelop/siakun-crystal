@@ -1,7 +1,6 @@
 import { Modal } from '@components/Modal'
 import { useJournalEntry } from '@context/JournalEntryContext/JournalEntryProvider'
 import React from 'react'
-import { IoAdd } from 'react-icons/io5'
 import { ReceiptDropzone } from './ReceiptDropzone'
 import { TransactionInputTable } from './TransactionInputTable'
 
@@ -53,9 +52,6 @@ export const AddJournalEntryModal = ({ isOpen, setIsOpen }: Props) => {
           <span className="label-text">Transactions</span>
         </label>
         <TransactionInputTable />
-        <div onClick={onAddTransaction} className="btn btn-ghost text-primary self-start btn-sm">
-          <IoAdd className="mr-2" /> Add More
-        </div>
       </div>
       <div className="modal-action">
         <button className="btn btn-ghost" onClick={() => setIsOpen(false)}>
