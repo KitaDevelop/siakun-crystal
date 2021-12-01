@@ -17,6 +17,6 @@ export const useFetchAccounts = () => {
     'accounts',
     () => (
       axios.get<Account[]>(`${config.API_URL_CARBON}/accounts`)
-    )
+    ),
   )
 }
