@@ -5,14 +5,13 @@ import { AdjustingEntry } from '@context/AdjustingEntryContext/types'
 import React, { useState } from 'react'
 import { IoAdd } from 'react-icons/io5'
 import { AddAdjustingEntryModal } from './AddAdjustingEntryModal'
+import { CURRENT_YEAR } from '@constants/.'
 
 interface Props {}
 
 export const Index = (props: Props) => {
   const [isOpen, setOpen] = useState(false)
-  const [year, setYear] = useState<SelectYearOption[]>(
-    years.filter((option) => option.value === new Date().getFullYear())
-  )
+  const [year, setYear] = useState<SelectYearOption[]>(years.filter((option) => option.value === CURRENT_YEAR))
 
   return (
     <div className="flex flex-col gap-4">

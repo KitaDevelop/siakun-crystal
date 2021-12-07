@@ -1,4 +1,5 @@
 import { Table, TableBody, TableHeader } from '@components/Table'
+import { CURRENT_YEAR } from '@constants/.'
 import { JournalEntry } from '@context/JournalEntryContext/types'
 import React, { useState } from 'react'
 import { IoAdd } from 'react-icons/io5'
@@ -10,9 +11,7 @@ interface Props {}
 
 export const Index = (props: Props) => {
   const [isOpen, setOpen] = useState(false)
-  const [year, setYear] = useState<SelectYearOption[]>(
-    years.filter((option) => option.value === new Date().getFullYear())
-  )
+  const [year, setYear] = useState<SelectYearOption[]>(years.filter((option) => option.value === CURRENT_YEAR))
 
   return (
     <div className="flex flex-col gap-4">
