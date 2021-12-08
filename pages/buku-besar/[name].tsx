@@ -18,8 +18,8 @@ export const BukuBesarPage = (props: Props) => {
   const router = useRouter()
   const { name } = router.query
   const accountName = name instanceof Array ? name[0] : name
-  // fetch account info
-  // fetch entries
+  // TODO: fetch account info
+  // TODO: fetch entries
 
   return (
     <Layout navbarProps={meta}>
