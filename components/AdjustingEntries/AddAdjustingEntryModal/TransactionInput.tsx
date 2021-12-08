@@ -2,7 +2,7 @@ import { customStyles, dummyAccounts } from '@components/ChartOfAccounts/AddAcco
 import React, { useEffect, useState } from 'react'
 import Select from 'react-select'
 import { IoTrashOutline } from 'react-icons/io5'
-import { useAdjustingEntry } from '@context/AdjustingEntryContext/AdjustingEntryProvider'
+import { useAdjustingEntry } from '@hooks/useAdjustingEntry'
 
 interface Props {
   isOnlyChild: boolean

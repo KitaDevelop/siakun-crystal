@@ -1,10 +1,10 @@
 import { Table, TableBody, TableHeader } from '@components/Table'
-import { useJournalEntry } from '@context/JournalEntryContext/JournalEntryProvider'
 import React, { useEffect, useState } from 'react'
 import { TransactionInput } from './TransactionInput'
 import { IoAdd } from 'react-icons/io5'
 import { numberToRupiah } from 'services/utils/numberToRupiah'
 import { BsCheckCircleFill, BsFillExclamationCircleFill } from 'react-icons/bs'
+import { useJournalEntry } from '@hooks/useJournalEntry'
 
 export const TransactionInputTable = () => {
   const {

@@ -1,5 +1,5 @@
 import { Modal } from '@components/Modal'
-import { useJournalEntry } from '@context/JournalEntryContext/JournalEntryProvider'
+import { useJournalEntry } from '@hooks/useJournalEntry'
 import React from 'react'
 import { ReceiptDropzone } from './ReceiptDropzone'
 import { TransactionInputTable } from './TransactionInputTable'
