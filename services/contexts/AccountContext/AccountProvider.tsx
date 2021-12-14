@@ -18,13 +18,4 @@ const AccountProvider = ({ children }: AccountProviderProps) => {
   const value = { state, dispatch }
   return <AccountContext.Provider value={value}>{children}</AccountContext.Provider>
 }
-
-function useAccount() {
-  const context = React.useContext(AccountContext)
-  if (context === undefined) {
-    throw new Error('useAccount must be used within a AccountProvider')
-  }
-  return context
-}
-
-export { useAccount, AccountProvider }
+export { AccountContext, AccountProvider }
