@@ -6,7 +6,7 @@ export const TableRow = ({ content }: TrialBalanceRow) => {
   const row = content as BalanceRow
   return (
     <>
-      <td>{row.accountNo}</td>
+      <td className="text-center">{row.accountNo}</td>
       <td className="whitespace-normal text-left">{row.accountName}</td>
       <td>{row?.startBalance ? numberToRupiah(row.startBalance) : '-'}</td>
       <td>{row?.movement.debit ? numberToRupiah(row.movement.debit) : '-'}</td>

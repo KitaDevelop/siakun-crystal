@@ -11,7 +11,7 @@ export const TableReadOnly = ({ data }: Props) => {
   return data.length > 0 ? (
     <TableBody>
       {data.map((row, i) => (
-        <tr key={i} className="text-center">
+        <tr key={i} className="text-right">
           {row.rowType === 'header' ? (
             <td colSpan={9} className="text-left font-bold">
               {row.content}
