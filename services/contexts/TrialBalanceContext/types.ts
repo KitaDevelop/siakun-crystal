@@ -27,7 +27,7 @@ export type State = {
 
 export type RowType = 'blank' | 'data' | 'header'
 
-export type TrialBalanceRow = {
+export interface TrialBalanceRow {
   id: number
   rowType: RowType
   content: string | BalanceRow

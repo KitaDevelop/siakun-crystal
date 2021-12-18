@@ -1,11 +1,12 @@
 import { TableBody } from '@components/Table'
 import { TrialBalanceRow } from '@context/TrialBalanceContext/types'
 import { useTrialBalance } from '@hooks/useTrialBalance'
-import React, { ChangeEvent } from 'react'
+import React, { ChangeEvent, forwardRef } from 'react'
 import { FiMoreVertical } from 'react-icons/fi'
 import { IoAdd, IoTrashOutline } from 'react-icons/io5'
 import { MdOutlineEdit } from 'react-icons/md'
 import { TableRowEditable } from './TableRowEditable'
+import { ReactSortable } from 'react-sortablejs'
 
 interface Props {
   data: TrialBalanceRow[]
@@ -54,14 +55,27 @@ export const TableEditable = ({ data, targetTable, setPosition, setTargetRow, se
   }
 
   return data.length > 0 ? (
-    <>
+    <ReactSortable
+      className="contents"
+      list={data}
+      handle=".handle"
+      setList={(newState) =>
+        dispatch(
+          targetTable === 'ac'
+            ? { type: 'set_activities', activities: newState }
+            : { type: 'set_financial_position', financialPosition: newState }
+        )
+      }
+    >
       {data.map((row, i) => (
         <TableBody key={row.id} className="relative group">
           <div className="invisible group-hover:visible absolute -left-5">
             <div className="dropdown">
-              <div tabIndex={0} className="relative top-2 text-gray-400 hover:bg-gray-100 btn btn-xs btn-ghost">
-                <FiMoreVertical className="absolute w-5 h-5" style={{ left: '-5px' }} />
-                <FiMoreVertical className="absolute  w-5 h-5" style={{ left: '1px' }} />
+              <div data-tip="DRAG to move, CLICK to open menu" className="relative top-2 tooltip tooltip-right">
+                <div tabIndex={0} className="handle relative text-gray-400 hover:bg-gray-100 btn btn-xs btn-ghost">
+                  <FiMoreVertical className="absolute w-5 h-5" style={{ left: '-5px' }} />
+                  <FiMoreVertical className="absolute  w-5 h-5" style={{ left: '1px' }} />
+                </div>
               </div>
               <ul tabIndex={0} className="p-2 shadow menu compact dropdown-content bg-base-100 rounded-box w-52">
                 <li>
@@ -111,7 +125,7 @@ export const TableEditable = ({ data, targetTable, setPosition, setTargetRow, se
           </tr>
         </TableBody>
       ))}
-    </>
+    </ReactSortable>
   ) : (
     <div className="mt-2">
       <div>This table is empty.</div>
