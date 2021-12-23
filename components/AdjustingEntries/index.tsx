@@ -59,7 +59,7 @@ export const Index = (props: Props) => {
       <Table zebra>
         <TableHeader cells={cells} />
         {dummyAdjustingEntries.map((entry, idx) => (
-          <TableRow key={entry.id} idx={idx} entry={entry} isDateVisible={false} />
+          <TableRow key={entry.id} idx={idx} entry={entry} />
         ))}
         <tr className="text-center font-bold">
           <td colSpan={3} className="text-right">

@@ -9,6 +9,7 @@ import TableRow from './TableRow'
 import { numberToRupiah } from '@utils//numberToRupiah'
 
 import * as XLSX from 'xlsx'
+import { formatDate } from '@utils/formatDate'
 const { writeFile, utils } = XLSX
 
 interface Props {}
@@ -31,7 +32,7 @@ export const Index = (props: Props) => {
     for (let entry of data) {
       for (let transaction of entry.transactions) {
         flatJson.push({
-          Tanggal: entry.date,
+          Tanggal: formatDate(entry.date),
           'Nomor Akun': transaction.accNumber,
           'Nama Akun': transaction.accName,
           Debit: transaction?.debit,
