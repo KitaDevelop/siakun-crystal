@@ -37,6 +37,10 @@
   @apply p-4 rounded-lg;
 }
 
+.menu ul {
+  @apply p-2;
+}
+
 .dzu-inputLabelWithFiles {
   @apply btn btn-sm btn-secondary;
 }
@@ -47,6 +51,15 @@
 
 .dzu-previewStatusContainer progress {
   @apply progress progress-primary;
+}
+.nested-dropdown > .dropdown-content {
+  @apply opacity-0 invisible absolute z-50;
+}
+.nested-dropdown.dropdown-open > .dropdown-content,
+.nested-dropdown.dropdown-hover:hover > .dropdown-content,
+.nested-dropdown:focus > .dropdown-content,
+.nested-dropdown:focus-within > .dropdown-content {
+  @apply visible opacity-100 scale-100;
 }
 
 @tailwind utilities;

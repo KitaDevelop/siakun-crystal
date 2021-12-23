@@ -1,28 +1,27 @@
 import { TableBody } from '@components/Table'
 import { TrialBalanceRow } from '@context/TrialBalanceContext/types'
 import { useTrialBalance } from '@hooks/useTrialBalance'
-import React, { ChangeEvent, forwardRef } from 'react'
+import React, { ChangeEvent } from 'react'
 import { FiMoreVertical } from 'react-icons/fi'
 import { IoAdd, IoTrashOutline } from 'react-icons/io5'
 import { MdOutlineEdit } from 'react-icons/md'
 import { TableRowEditable } from './TableRowEditable'
 import { ReactSortable } from 'react-sortablejs'
+import { DropdownRowType } from './DropdownRowType'
 
 interface Props {
   data: TrialBalanceRow[]
   targetTable: 'fp' | 'ac'
   setPosition: (v: 'above' | 'below' | undefined) => void
   setTargetRow: (v: number) => void
-  setIsOpen: (v: boolean) => void
   setMode: (v: 'add' | 'edit') => void
 }
 
-export const TableEditable = ({ data, targetTable, setPosition, setTargetRow, setMode, setIsOpen }: Props) => {
+export const TableEditable = ({ data, targetTable, setPosition, setTargetRow, setMode }: Props) => {
   const { dispatch } = useTrialBalance()
 
   const onAddRow = (i: number) => {
     setTargetRow(i)
-    setIsOpen(true)
     setMode('add')
   }
   const onAddRowAbove = (i: number) => {
@@ -35,7 +34,6 @@ export const TableEditable = ({ data, targetTable, setPosition, setTargetRow, se
   }
   const onChangeRowType = (i: number) => {
     setTargetRow(i)
-    setIsOpen(true)
     setMode('edit')
   }
 
@@ -70,32 +68,61 @@ export const TableEditable = ({ data, targetTable, setPosition, setTargetRow, se
       {data.map((row, i) => (
         <TableBody key={row.id} className="relative group">
           <div className="invisible group-hover:visible absolute -left-5">
-            <div className="dropdown">
+            <div className="nested-dropdown">
               <div data-tip="DRAG to move, CLICK to open menu" className="relative top-2 tooltip tooltip-right">
                 <div tabIndex={0} className="handle relative text-gray-400 hover:bg-gray-100 btn btn-xs btn-ghost">
                   <FiMoreVertical className="absolute w-5 h-5" style={{ left: '-5px' }} />
                   <FiMoreVertical className="absolute  w-5 h-5" style={{ left: '1px' }} />
                 </div>
               </div>
-              <ul tabIndex={0} className="p-2 shadow menu compact dropdown-content bg-base-100 rounded-box w-52">
-                <li>
-                  <a onClick={() => onAddRowAbove(row.id)}>
-                    <IoAdd className="w-5 h-5 mr-2" />
-                    Add Row Above
-                  </a>
-                </li>
-                <li>
-                  <a onClick={() => onAddRowBelow(row.id)}>
-                    <IoAdd className="w-5 h-5 mr-2" />
-                    Add Row Below
-                  </a>
-                </li>
-                <li>
-                  <a onClick={() => onChangeRowType(row.id)}>
-                    <MdOutlineEdit className="w-5 h-5 mr-2" />
-                    Change Row Type
-                  </a>
-                </li>
+              <ul
+                tabIndex={0}
+                className="p-2 shadow menu compact bg-base-100 overflow-visible rounded-box w-52 dropdown-content"
+              >
+                <DropdownRowType
+                  targetTable={targetTable}
+                  targetRow={row.id}
+                  mode={'add'}
+                  position={'above'}
+                  tabIndex={-1}
+                  className="dropdown-right"
+                >
+                  <li>
+                    <a onClick={() => onAddRowAbove(row.id)}>
+                      <IoAdd className="w-5 h-5 mr-2" />
+                      Add Row Above
+                    </a>
+                  </li>
+                </DropdownRowType>
+                <DropdownRowType
+                  targetTable={targetTable}
+                  targetRow={row.id}
+                  mode={'add'}
+                  position={'below'}
+                  tabIndex={-1}
+                  className="dropdown-right"
+                >
+                  <li>
+                    <a onClick={() => onAddRowBelow(row.id)}>
+                      <IoAdd className="w-5 h-5 mr-2" />
+                      Add Row Below
+                    </a>
+                  </li>
+                </DropdownRowType>
+                <DropdownRowType
+                  targetTable={targetTable}
+                  targetRow={row.id}
+                  mode={'edit'}
+                  tabIndex={-1}
+                  className="dropdown-right"
+                >
+                  <li>
+                    <a onClick={() => onChangeRowType(row.id)}>
+                      <MdOutlineEdit className="w-5 h-5 mr-2" />
+                      Change Row Type
+                    </a>
+                  </li>
+                </DropdownRowType>
                 <li>
                   <a onClick={() => onDeleteRow(row.id)}>
                     <IoTrashOutline className="w-5 h-5 mr-2" />

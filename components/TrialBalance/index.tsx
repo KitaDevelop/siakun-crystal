@@ -5,7 +5,7 @@ import { useTrialBalance } from '@hooks/useTrialBalance'
 import React, { useState } from 'react'
 import { IoAdd } from 'react-icons/io5'
 import { Controls } from './Controls'
-import { ModalRowType } from './ModalRowType'
+import { DropdownRowType } from './DropdownRowType'
 import { TableEditable } from './TableEditable'
 import { TableReadOnly } from './TableReadOnly'
 
@@ -20,21 +20,18 @@ export const Index = (props: Props) => {
   } = useTrialBalance()
 
   const onAddRowFP = () => {
-    setIsOpen(true)
     setMode('add')
     setTargetTable('fp')
     setPosition(undefined)
   }
 
   const onAddRowAC = () => {
-    setIsOpen(true)
     setMode('add')
     setTargetTable('ac')
     setPosition(undefined)
   }
 
   // MODAL
-  const [isOpen, setIsOpen] = useState<boolean>(false)
   const [mode, setMode] = useState<'add' | 'edit'>('add')
   const [position, setPosition] = useState<'above' | 'below' | undefined>()
   const [targetRow, setTargetRow] = useState<number>(0)
@@ -47,37 +44,38 @@ export const Index = (props: Props) => {
       <Table zebra>
         <TableHeader trialBalance />
         {isEditing ? (
-          <TableEditable
-            {...{ setTargetRow, setIsOpen, setMode, setPosition, data: financialPosition, targetTable: 'fp' }}
-          />
+          <TableEditable {...{ setTargetRow, setMode, setPosition, data: financialPosition, targetTable: 'fp' }} />
         ) : (
           <TableReadOnly data={financialPosition} />
         )}
       </Table>
       {isEditing && (
-        <div className="btn btn-ghost text-primary" onClick={() => onAddRowFP()}>
-          <IoAdd className="mr-2" />
-          Add More Row
-        </div>
+        <DropdownRowType className="dropdown-top" {...{ targetRow, targetTable, mode, position }}>
+          <div className="btn btn-ghost text-primary" onClick={() => onAddRowFP()}>
+            <IoAdd className="mr-2" />
+            Add More Row
+          </div>
+        </DropdownRowType>
       )}
       <div className="divider" />
       <div className="font-bold text-xl mb-2">II. Statement of Activities</div>
       <Table zebra>
         <TableHeader trialBalance />
         {isEditing ? (
-          <TableEditable {...{ setTargetRow, setIsOpen, setMode, setPosition, data: activities, targetTable: 'ac' }} />
+          <TableEditable {...{ setTargetRow, setMode, setPosition, data: activities, targetTable: 'ac' }} />
         ) : (
           <TableReadOnly data={activities} />
         )}
       </Table>
       {isEditing && (
-        <div className="btn btn-ghost text-primary" onClick={() => onAddRowAC()}>
-          <IoAdd className="mr-2" />
-          Add More Row
-        </div>
+        <DropdownRowType className="dropdown-top" {...{ targetRow, targetTable, mode, position }}>
+          <div className="btn btn-ghost text-primary mt-2" onClick={() => onAddRowAC()}>
+            <IoAdd className="mr-2" />
+            Add More Row
+          </div>
+        </DropdownRowType>
       )}
       <Controls {...{ isEditing, setIsEditing }} position="bottom" />
-      <ModalRowType {...{ targetRow, targetTable, isOpen, setIsOpen, mode, position }} />
     </div>
   )
 }
