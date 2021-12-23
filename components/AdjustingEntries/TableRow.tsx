@@ -1,7 +1,7 @@
 import { TableBody } from '@components/Table'
 import { AdjustingEntry } from '@context/AdjustingEntryContext/types'
 import React, { ReactElement } from 'react'
-import { numberToRupiah } from 'services/utils/numberToRupiah'
+import { numberToRupiah } from '@utils//numberToRupiah'
 
 interface Props {
   idx: number

@@ -52,7 +52,7 @@ export const Index = (props: Props) => {
     var workbook = utils.book_new()
     var worksheet = utils.json_to_sheet(flattenJson(dummyJournalEntries))
     utils.book_append_sheet(workbook, worksheet, 'Journal Entries')
-    return writeFile(workbook, 'journal_entries_2021.xlsx')
+    return writeFile(workbook, `journal_entries_${year[0].value}.xlsx`)
   }
 
   return (
