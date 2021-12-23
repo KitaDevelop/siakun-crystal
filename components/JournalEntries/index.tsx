@@ -6,10 +6,10 @@ import { IoAdd } from 'react-icons/io5'
 import { AddJournalEntryModal } from './AddJournalEntryModal'
 import FilterControls, { SelectYearOption } from './FilterControls'
 import TableRow from './TableRow'
-import { numberToRupiah } from 'services/utils/numberToRupiah'
+import { numberToRupiah } from '@utils//numberToRupiah'
 
 import * as XLSX from 'xlsx'
-const { write, utils } = XLSX
+const { writeFile, utils } = XLSX
 
 interface Props {}
 
@@ -49,10 +49,10 @@ export const Index = (props: Props) => {
   }
 
   const exportDocument = () => {
-    var workbook = XLSX.utils.book_new()
-    var worksheet = XLSX.utils.json_to_sheet(flattenJson(dummyJournalEntries))
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Journal Entries')
-    return XLSX.writeFile(workbook, 'journal_entries_2021.xlsx')
+    var workbook = utils.book_new()
+    var worksheet = utils.json_to_sheet(flattenJson(dummyJournalEntries))
+    utils.book_append_sheet(workbook, worksheet, 'Journal Entries')
+    return writeFile(workbook, 'journal_entries_2021.xlsx')
   }
 
   return (

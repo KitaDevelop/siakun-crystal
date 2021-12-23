@@ -1,6 +1,6 @@
 import { BalanceRow, TrialBalanceRow } from '@context/TrialBalanceContext/types'
 import React from 'react'
-import { numberToRupiah } from 'services/utils/numberToRupiah'
+import { numberToRupiah } from '@utils//numberToRupiah'
 
 export const TableRow = ({ content }: TrialBalanceRow) => {
   const row = content as BalanceRow
