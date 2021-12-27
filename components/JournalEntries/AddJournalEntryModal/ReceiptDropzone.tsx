@@ -1,19 +1,22 @@
 import { CSSProperties } from 'react'
-import Dropzone, { IFileWithMeta, IStyleCustomization } from '@tuttinator/react-dropzone-uploader'
+import Dropzone, { IFileWithMeta, IStyleCustomization, StatusValue } from '@tuttinator/react-dropzone-uploader'
 import { AiOutlineCloudUpload } from 'react-icons/ai'
+import { blobToBase64 } from '@utils/blobToBase64'
 
 export const ReceiptDropzone = () => {
   const getUploadParams = () => ({ url: 'https://httpbin.org/post' })
 
-  const handleSubmit = (files: IFileWithMeta[], allFiles: IFileWithMeta[]) => {
-    console.log(files.map((f) => f))
-    allFiles.forEach((f) => f.remove())
+  const handleSubmit = ({ file, meta, remove }: IFileWithMeta, status: StatusValue) => {
+    console.log(file)
+    blobToBase64(file).then((res: any) => console.log(res))
   }
 
   return (
     <Dropzone
       getUploadParams={getUploadParams}
-      onSubmit={handleSubmit}
+      onChangeStatus={handleSubmit}
+      maxFiles={1}
+      multiple={false}
       inputContent={InputPlaceholder}
       styles={dropzoneStyle}
     />
