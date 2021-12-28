@@ -2,19 +2,27 @@ import { LocalStorageWorker } from '@api/localStorageHelper'
 import React, { createContext, useEffect, useReducer, useState } from 'react'
 
 const localStorage = new LocalStorageWorker()
-const INITIAL_STATE = {
-  isCollapsed: false,
-}
 
-type Action = { type: 'toggle_collapse' } | { type: 'set_collapse'; payload: boolean }
+type Role = 'auditor' | 'organization'
+type Action =
+  | { type: 'toggle_collapse' }
+  | { type: 'set_collapse'; payload: boolean }
+  | { type: 'set_role'; role: Role }
 type Dispatch = (action: Action) => void
-type State = { isCollapsed: boolean }
+type State = { isCollapsed: boolean; role: Role }
 type SidebarProviderProps = { children: React.ReactNode }
+
+const INITIAL_STATE: State = {
+  isCollapsed: false,
+  role: 'organization',
+}
 
 const SidebarContext = React.createContext<{ state: State; dispatch: Dispatch } | undefined>(undefined)
 
 const sidebarReducer = (state: State, action: Action) => {
   switch (action.type) {
+    case 'set_role':
+      return { ...state, role: action.role }
     case 'set_collapse':
       return { ...state, isCollapsed: action.payload }
     case 'toggle_collapse':
