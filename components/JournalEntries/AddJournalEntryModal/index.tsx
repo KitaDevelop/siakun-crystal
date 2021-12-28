@@ -1,6 +1,8 @@
 import { Modal } from '@components/Modal'
+import { JournalEntry } from '@context/JournalEntryContext/types'
 import { useJournalEntry } from '@hooks/useJournalEntry'
-import React from 'react'
+import { blobToBase64 } from '@utils/blobToBase64'
+import React, { ChangeEvent } from 'react'
 import { ReceiptDropzone } from './ReceiptDropzone'
 import { TransactionInputTable } from './TransactionInputTable'
 
@@ -11,15 +13,25 @@ interface Props {
 
 export const AddJournalEntryModal = ({ isOpen, setIsOpen }: Props) => {
   const {
-    state: { transactions },
+    state: { date, description, receipt, transactions },
     dispatch,
   } = useJournalEntry()
 
-  const onAddTransaction = () => {
-    dispatch({
-      type: 'set_transactions',
-      transactions: [...transactions, { id: Date.now(), accNumber: '', accName: '' }],
-    })
+  const onSubmitEntry = async () => {
+    var receiptBase64
+    if (receipt) receiptBase64 = await blobToBase64(receipt)
+
+    var payload = {
+      date,
+      description,
+      receipt: receiptBase64,
+      transactions: transactions.map((t) => {
+        let { id, ...transaction } = t
+        return transaction
+      }),
+    }
+
+    console.log(payload)
   }
 
   return (
@@ -32,13 +44,25 @@ export const AddJournalEntryModal = ({ isOpen, setIsOpen }: Props) => {
               Date <span className="text-error">*</span>
             </span>
           </label>
-          <input type="date" className="input input-bordered" />
+          <input
+            type="date"
+            className="input input-bordered"
+            value={date}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => dispatch({ type: 'set_date', date: e.target.value })}
+          />
         </div>
         <div className="form-control">
           <label className="label font-bold">
             <span className="label-text">Description</span>
           </label>
-          <textarea className="textarea textarea-bordered resize-none" placeholder="Enter Description"></textarea>
+          <textarea
+            value={description}
+            onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
+              dispatch({ type: 'set_desc', description: e.target.value })
+            }
+            className="textarea textarea-bordered resize-none"
+            placeholder="Enter Description"
+          ></textarea>
         </div>
         <div className="form-control">
           <label className="label font-bold">
@@ -57,7 +81,9 @@ export const AddJournalEntryModal = ({ isOpen, setIsOpen }: Props) => {
         <button className="btn btn-ghost" onClick={() => setIsOpen(false)}>
           cancel
         </button>
-        <button className="btn btn-primary">create</button>
+        <button className="btn btn-primary" onClick={() => onSubmitEntry()}>
+          create
+        </button>
       </div>
     </Modal>
   )

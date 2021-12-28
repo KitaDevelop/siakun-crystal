@@ -5,7 +5,6 @@ import { JournalEntryProviderProps, Dispatch, State, Transaction } from './types
 const INITIAL_STATE: State = {
   date: '',
   description: '',
-  receipts: [],
   transactions: [{ id: Date.now(), accNumber: '', accName: '' }],
 }
 
