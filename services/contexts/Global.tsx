@@ -7,6 +7,7 @@ import { AdjustingEntryProvider } from './AdjustingEntryContext/AdjustingEntryPr
 import { JournalEntryProvider } from './JournalEntryContext/JournalEntryProvider'
 import { SidebarProvider } from './SidebarContext'
 import AxiosProvider from './AxiosContext/AxiosProvider'
+import { TrialBalanceProvider } from './TrialBalanceContext/TrialBalanceProvider'
 
 const queryClient = new QueryClient()
 
@@ -20,7 +21,9 @@ export const GlobalProvider: React.FC<Props> = ({ children }: Props) => {
         <SidebarProvider>
           <JournalEntryProvider>
             <AdjustingEntryProvider>
-              <AccountProvider>{children}</AccountProvider>
+              <TrialBalanceProvider>
+                <AccountProvider>{children}</AccountProvider>
+              </TrialBalanceProvider>
             </AdjustingEntryProvider>
           </JournalEntryProvider>
         </SidebarProvider>
