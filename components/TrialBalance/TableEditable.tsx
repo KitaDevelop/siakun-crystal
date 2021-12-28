@@ -1,5 +1,10 @@
 import { TableBody } from '@components/Table'
-import { TrialBalanceRow } from '@context/TrialBalanceContext/types'
+import {
+  RowRelativePosition,
+  RowTypeSelectionMode,
+  TrialBalanceRow,
+  TrialBalanceTable,
+} from '@context/TrialBalanceContext/types'
 import { useTrialBalance } from '@hooks/useTrialBalance'
 import React, { ChangeEvent } from 'react'
 import { FiMoreVertical } from 'react-icons/fi'
@@ -11,10 +16,10 @@ import { DropdownRowType } from './DropdownRowType'
 
 interface Props {
   data: TrialBalanceRow[]
-  targetTable: 'fp' | 'ac'
-  setPosition: (v: 'above' | 'below' | undefined) => void
+  targetTable: TrialBalanceTable
+  setPosition: (v: RowRelativePosition | undefined) => void
   setTargetRow: (v: number) => void
-  setMode: (v: 'add' | 'edit') => void
+  setMode: (v: RowTypeSelectionMode) => void
 }
 
 export const TableEditable = ({ data, targetTable, setPosition, setTargetRow, setMode }: Props) => {

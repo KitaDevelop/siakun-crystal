@@ -1,13 +1,19 @@
-import { RowType, TrialBalanceRow } from '@context/TrialBalanceContext/types'
+import {
+  RowRelativePosition,
+  RowType,
+  RowTypeSelectionMode,
+  TrialBalanceRow,
+  TrialBalanceTable,
+} from '@context/TrialBalanceContext/types'
 import { useTrialBalance } from '@hooks/useTrialBalance'
 import React from 'react'
 
 interface Props {
   children: React.ReactNode
   targetRow: number
-  targetTable: 'fp' | 'ac'
-  mode: 'add' | 'edit'
-  position?: 'above' | 'below'
+  targetTable: TrialBalanceTable
+  mode: RowTypeSelectionMode
+  position?: RowRelativePosition
   tabIndex?: number
   className?: string
 }

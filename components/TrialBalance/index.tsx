@@ -1,6 +1,7 @@
 import { SelectYearOption } from '@components/JournalEntries/FilterControls'
 import { Table, TableHeader } from '@components/Table'
 import { CURRENT_YEAR } from '@constants/.'
+import { RowRelativePosition, RowTypeSelectionMode, TrialBalanceTable } from '@context/TrialBalanceContext/types'
 import { useTrialBalance } from '@hooks/useTrialBalance'
 import React, { useState } from 'react'
 import { IoAdd } from 'react-icons/io5'
@@ -32,10 +33,10 @@ export const Index = (props: Props) => {
   }
 
   // MODAL
-  const [mode, setMode] = useState<'add' | 'edit'>('add')
-  const [position, setPosition] = useState<'above' | 'below' | undefined>()
+  const [mode, setMode] = useState<RowTypeSelectionMode>('add')
+  const [position, setPosition] = useState<RowRelativePosition | undefined>()
   const [targetRow, setTargetRow] = useState<number>(0)
-  const [targetTable, setTargetTable] = useState<'fp' | 'ac'>('fp')
+  const [targetTable, setTargetTable] = useState<TrialBalanceTable>('fp')
 
   return (
     <div>

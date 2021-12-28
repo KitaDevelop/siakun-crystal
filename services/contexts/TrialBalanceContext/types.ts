@@ -5,7 +5,7 @@ export type Action =
       type: 'fp_add_row'
       rowType: RowType
       id?: number
-      position?: 'below' | 'above'
+      position?: RowRelativePosition
     }
   | { type: 'fp_delete_row'; id: number }
   | { type: 'fp_edit_row'; id: number; row: TrialBalanceRow }
@@ -13,7 +13,7 @@ export type Action =
       type: 'ac_add_row'
       rowType: RowType
       id?: number
-      position?: 'below' | 'above'
+      position?: RowRelativePosition
     }
   | { type: 'ac_delete_row'; id: number }
   | { type: 'ac_edit_row'; id: number; row: TrialBalanceRow }
@@ -25,7 +25,10 @@ export type State = {
   activities: TrialBalanceRow[]
 }
 
+export type TrialBalanceTable = 'fp' | 'ac'
 export type RowType = 'blank' | 'data' | 'header'
+export type RowRelativePosition = 'below' | 'above'
+export type RowTypeSelectionMode = 'add' | 'edit'
 
 export interface TrialBalanceRow {
   id: number
