@@ -1,12 +1,11 @@
 import { TableBody } from '@components/Table'
 import { AdjustingEntry } from '@context/AdjustingEntryContext/types'
 import React, { ReactElement } from 'react'
-import { numberToRupiah } from 'services/utils/numberToRupiah'
+import { numberToRupiah } from '@utils//numberToRupiah'
 
 interface Props {
   idx: number
   entry: AdjustingEntry
-  isDateVisible?: boolean
 }
 export default function TableRow({ idx, entry: { description, transactions } }: Props): ReactElement {
   return (

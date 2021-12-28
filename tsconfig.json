@@ -19,6 +19,7 @@
       "@api/*": ["services/api/*"],
       "@constants/*": ["services/constants/*"],
       "@context/*": ["services/contexts/*"],
+      "@utils/*": ["services/utils/*"],
       "@hooks/*": ["services/hooks/*"]
     }
   },
