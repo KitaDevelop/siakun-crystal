@@ -1,12 +1,17 @@
-import { createContext, useMemo } from "react"
+import React from "react"
 import { AxiosInstance, default as Axios } from "axios"
-import Cookies from 'js-cookie'
 import config from "config"
 
-export const AxiosContext = createContext<AxiosInstance | undefined>(undefined)
+interface AxiosContextValue {
+  axios: AxiosInstance
+  setToken: (token: string) => void
+}
+
+export const AxiosContext = React.createContext<AxiosContextValue | undefined>(undefined)
 
 export default function AxiosProvider({ children }: React.PropsWithChildren<unknown>) {
-  const axios = useMemo(() => {
+  const [token, setToken] = React.useState('')
+  const axios = React.useMemo(() => {
     const axios = Axios.create({
       headers: {
         'Content-Type': 'application/json',
@@ -15,20 +20,34 @@ export default function AxiosProvider({ children }: React.PropsWithChildren<unkn
     })
 
     axios.interceptors.request.use((config) => {
-      const token = Cookies.get('token')
       if (token) {
+        console.log("masuk", token)
         config.headers.Authorization = `Bearer ${token}`
+        config.withCredentials = true
+      } else {
+        config.headers.Authorization = null
+        config.withCredentials = false
       }
 
       return config
     })
 
     return axios
-  }, [])
+  }, [token])
+
+  const value = { axios, setToken }
 
   return (
-    <AxiosContext.Provider value={axios}>
+    <AxiosContext.Provider value={value}>
       {children}
     </AxiosContext.Provider>
   )
+}
+
+export function useAxios() {
+  const context = React.useContext(AxiosContext)
+  if (context === undefined) {
+    throw new Error('useAxios must be used within a AxiosProvider')
+  }
+  return context
 }

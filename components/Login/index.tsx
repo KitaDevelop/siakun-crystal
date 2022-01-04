@@ -2,30 +2,29 @@
 import React, { useRef } from 'react'
 import Image from 'next/image'
 
-import useAxios from 'services/hooks/useAxios'
-import config from 'config'
+import { useAuth } from '@context/AuthContext/AuthProvider'
+import router from 'next/router'
 
 interface Props {}
 
 const Index = (props: Props) => {
-  const axios = useAxios();
   const usernameInputRef = useRef<HTMLInputElement>(null)
   const passwordInputRef = useRef<HTMLInputElement>(null)
 
-  console.log(process.env.API_ENV)
-  console.log(config.API_URL_CARBON)
+  const { login, isAuthenticated } = useAuth();
 
-  const onSignInButtonPressed = () => {
-    console.log('Sign in button pressed')
-    const username = usernameInputRef.current?.value
-    const password = passwordInputRef.current?.value
+  if (isAuthenticated) router.push('/')
 
-    axios?.post('/auth/login', {
-      username,
-      password,
-    }).then(res => {
-      console.log(res)
-    })
+  const onSignInButtonPressed = async () => {
+    const username = usernameInputRef.current?.value || ''
+    const password = passwordInputRef.current?.value || ''
+
+    try {
+      await login(username, password)
+      // TODO: Redirect after login
+    } catch(error) {
+      alert('Username atau password salah')      
+    }
   }
 
   return (

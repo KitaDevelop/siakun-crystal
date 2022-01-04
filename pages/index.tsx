@@ -5,6 +5,7 @@ import { FiHome } from 'react-icons/fi'
 import { NavbarProps } from '@components/Navbar'
 import { Modal } from '@components/Modal'
 import { Table, TableBody, TableHeader } from '@components/Table'
+import { useFetchAccounts } from '@api/accounts'
 
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false)
@@ -12,6 +13,10 @@ export default function Home() {
     title: 'Home',
     icon: <FiHome />,
   }
+
+  const { isLoading, isError, data, error } = useFetchAccounts()
+
+  console.log(data)
 
   return (
     <div>
