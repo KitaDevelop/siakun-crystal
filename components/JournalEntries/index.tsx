@@ -6,6 +6,11 @@ import { IoAdd } from 'react-icons/io5'
 import { AddJournalEntryModal } from './AddJournalEntryModal'
 import FilterControls, { SelectYearOption } from './FilterControls'
 import TableRow from './TableRow'
+import { numberToRupiah } from '@utils//numberToRupiah'
+
+import * as XLSX from 'xlsx'
+import { formatDate } from '@utils/formatDate'
+const { writeFile, utils } = XLSX
 
 interface Props {}
 
@@ -13,14 +18,60 @@ export const Index = (props: Props) => {
   const [isOpen, setOpen] = useState(false)
   const [year, setYear] = useState<SelectYearOption[]>(years.filter((option) => option.value === CURRENT_YEAR))
 
+  const sum = (arr: number[]): number => arr.reduce((a, b) => a + b, 0)
+
+  const currentCredit = sum(
+    dummyJournalEntries.map((x) => x.transactions.reduce((acc: number, t) => acc + (t?.credit || 0), 0))
+  )
+  const currentDebit = sum(
+    dummyJournalEntries.map((x) => x.transactions.reduce((acc: number, t) => acc + (t?.debit || 0), 0))
+  )
+
+  const flattenJson = (data: JournalEntry[]) => {
+    var flatJson = []
+    for (let entry of data) {
+      for (let transaction of entry.transactions) {
+        flatJson.push({
+          Tanggal: formatDate(entry.date),
+          'Nomor Akun': transaction.accNumber,
+          'Nama Akun': transaction.accName,
+          Debit: transaction?.debit,
+          Kredit: transaction?.credit,
+          Deskripsi: entry.description,
+        })
+      }
+    }
+    flatJson.push({
+      'Nama Akun': 'TOTAL',
+      Debit: currentDebit,
+      Kredit: currentCredit,
+    })
+    return flatJson
+  }
+
+  const exportDocument = () => {
+    var workbook = utils.book_new()
+    var worksheet = utils.json_to_sheet(flattenJson(dummyJournalEntries))
+    utils.book_append_sheet(workbook, worksheet, 'Journal Entries')
+    return writeFile(workbook, `journal_entries_${year[0].value}.xlsx`)
+  }
+
   return (
     <div className="flex flex-col gap-4">
-      <FilterControls {...{ years, year, setYear }} />
+      <FilterControls {...{ years, year, setYear, exportDocument }} />
       <Table zebra>
         <TableHeader cells={cells} />
         {dummyJournalEntries.map((entry, idx) => (
           <TableRow key={entry.id} idx={idx} entry={entry} />
         ))}
+        <tr className="text-center font-bold">
+          <td colSpan={3} className="text-right">
+            Total
+          </td>
+          <td>{numberToRupiah(currentCredit)}</td>
+          <td>{numberToRupiah(currentDebit)}</td>
+          <td></td>
+        </tr>
       </Table>
       <button onClick={() => setOpen(true)} className="btn btn-circle fixed bottom-6 right-6 btn-primary">
         <IoAdd className="w-5 h-5" />

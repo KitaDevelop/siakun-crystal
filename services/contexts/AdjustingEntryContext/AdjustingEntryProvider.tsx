@@ -16,12 +16,4 @@ const AdjustingEntryProvider = ({ children }: AdjustingEntryProviderProps) => {
   return <AdjustingEntryContext.Provider value={value}>{children}</AdjustingEntryContext.Provider>
 }
 
-function useAdjustingEntry() {
-  const context = React.useContext(AdjustingEntryContext)
-  if (context === undefined) {
-    throw new Error('useAdjustingEntry must be used within a AdjustingEntryProvider')
-  }
-  return context
-}
-
-export { useAdjustingEntry, AdjustingEntryProvider }
+export { AdjustingEntryContext, AdjustingEntryProvider }

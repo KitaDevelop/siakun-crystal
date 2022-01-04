@@ -1,7 +1,8 @@
 import { TableBody } from '@components/Table'
 import { JournalEntry } from '@context/JournalEntryContext/types'
 import React, { ReactElement } from 'react'
-import { numberToRupiah } from 'services/utils/numberToRupiah'
+import { numberToRupiah } from '@utils//numberToRupiah'
+import { formatDate } from '@utils/formatDate'
 
 interface Props {
   idx: number
@@ -12,9 +13,7 @@ export default function TableRow({ idx, entry: { date, description, transactions
     <TableBody className="hover multirow">
       {idx % 2 !== 0 && <tr></tr>}
       <tr className="text-center">
-        <td rowSpan={transactions.length * 2 - 1}>
-          {new Date(date).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' })}
-        </td>
+        <td rowSpan={transactions.length * 2 - 1}>{formatDate(date)}</td>
         {transactions.length > 0 &&
           transactions.slice(0, 1).map((t) => (
             <React.Fragment key={t.accNumber}>

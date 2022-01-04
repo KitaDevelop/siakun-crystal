@@ -18,12 +18,4 @@ const JournalEntryProvider = ({ children }: JournalEntryProviderProps) => {
   return <JournalEntryContext.Provider value={value}>{children}</JournalEntryContext.Provider>
 }
 
-function useJournalEntry() {
-  const context = React.useContext(JournalEntryContext)
-  if (context === undefined) {
-    throw new Error('useJournalEntry must be used within a JournalEntryProvider')
-  }
-  return context
-}
-
-export { useJournalEntry, JournalEntryProvider }
+export { JournalEntryContext, JournalEntryProvider }

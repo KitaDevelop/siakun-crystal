@@ -1,6 +1,6 @@
 import Layout from '@components/Layout'
 import { NavbarProps } from '@components/Navbar'
-import { Table, TableBody, TableHeader } from '@components/Table'
+import TrialBalance from '@components/TrialBalance'
 import { Navigation, navigation } from '@constants/navigation'
 import React from 'react'
 
@@ -15,28 +15,7 @@ const meta: NavbarProps = {
 export const TBPage = (props: Props) => {
   return (
     <Layout navbarProps={meta}>
-      ini trial balance
-      <div>
-        ini header trial balance
-        <Table zebra>
-          <TableHeader trialBalance />
-          <TableBody>
-            {Array.from({ length: 10 }).map((_, i) => (
-              <tr key={i} className="text-center">
-                <td>1-1111</td>
-                <td className="whitespace-normal text-left">Ini nama akun yang rada panjaaaang</td>
-                <td>Rp999.999.999</td>
-                <td>Rp999.999.999</td>
-                <td>Rp999.999.999</td>
-                <td>Rp0</td>
-                <td>Rp999.999.999</td>
-                <td>Rp999.999.999</td>
-                <td>Rp999.999.999</td>
-              </tr>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+      <TrialBalance />
     </Layout>
   )
 }

@@ -3,6 +3,7 @@ import React from 'react'
 import Navbar, { NavbarProps } from './Navbar'
 import { Sidebar } from './Sidebar'
 import Breadcrumbs from './Breadcrumbs'
+import { useSidebar } from '@context/SidebarContext'
 
 export type LayoutProps = {
   navbarProps: NavbarProps
@@ -10,6 +11,11 @@ export type LayoutProps = {
 }
 
 const Layout: React.FC<LayoutProps> = ({ navbarProps, children }: LayoutProps) => {
+  // dummy
+  const {
+    state: { role },
+  } = useSidebar()
+
   return (
     <div>
       <div className="bg-base-100 drawer drawer-mobile min-h-screen">
@@ -20,7 +26,7 @@ const Layout: React.FC<LayoutProps> = ({ navbarProps, children }: LayoutProps) =
 
           <main>{children}</main>
         </div>
-        <Sidebar />
+        {(role != 'auditor' || navbarProps.title != 'Home') && <Sidebar />}
       </div>
     </div>
   )

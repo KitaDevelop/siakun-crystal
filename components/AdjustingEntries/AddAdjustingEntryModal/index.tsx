@@ -1,5 +1,5 @@
 import { Modal } from '@components/Modal'
-import { useAdjustingEntry } from '@context/AdjustingEntryContext/AdjustingEntryProvider'
+import { useAdjustingEntry } from '@hooks/useAdjustingEntry'
 import React from 'react'
 import { TransactionInputTable } from './TransactionInputTable'
 

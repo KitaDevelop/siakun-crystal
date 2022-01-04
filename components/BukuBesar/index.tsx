@@ -4,7 +4,13 @@ import TableRow from '@components/JournalEntries/TableRow'
 import { Table, TableHeader } from '@components/Table'
 import { CURRENT_YEAR } from '@constants/.'
 import { JournalEntry } from '@context/JournalEntryContext/types'
+import { formatDate } from '@utils/formatDate'
+import { numberToRupiah } from '@utils/numberToRupiah'
+import { sum } from '@utils/sum'
 import React, { useState } from 'react'
+
+import * as XLSX from 'xlsx'
+const { writeFile, utils } = XLSX
 
 interface Props {
   data: Account
@@ -56,15 +62,59 @@ export const Index = ({ data }: Props) => {
     },
   ]
 
+  const currentCredit = sum(
+    dummyJournalEntries.map((x) => x.transactions.reduce((acc: number, t) => acc + (t?.credit || 0), 0))
+  )
+  const currentDebit = sum(
+    dummyJournalEntries.map((x) => x.transactions.reduce((acc: number, t) => acc + (t?.debit || 0), 0))
+  )
+
+  const flattenJson = (data: JournalEntry[]) => {
+    var flatJson = []
+    for (let entry of data) {
+      for (let transaction of entry.transactions) {
+        flatJson.push({
+          Tanggal: formatDate(entry.date),
+          'Nomor Akun': transaction.accNumber,
+          'Nama Akun': transaction.accName,
+          Debit: transaction?.debit,
+          Kredit: transaction?.credit,
+          Deskripsi: entry.description,
+        })
+      }
+    }
+    flatJson.push({
+      'Nama Akun': 'TOTAL',
+      Debit: currentDebit,
+      Kredit: currentCredit,
+    })
+    return flatJson
+  }
+
+  const exportDocument = () => {
+    var workbook = utils.book_new()
+    var worksheet = utils.json_to_sheet(flattenJson(dummyJournalEntries))
+    utils.book_append_sheet(workbook, worksheet, data.name)
+    return writeFile(workbook, `buku_besar_${data.name}_${year[0].value}.xlsx`)
+  }
+
   return (
     <div className="flex flex-col gap-4">
       <h2 className="font-bold text-2xl">{data.name}</h2>
-      <FilterControls {...{ years, year, setYear }} />
+      <FilterControls {...{ years, year, setYear, exportDocument }} />
       <Table zebra>
         <TableHeader cells={cells} />
         {dummyJournalEntries.map((entry, idx) => (
           <TableRow key={entry.id} idx={idx} entry={entry} />
         ))}
+        <tr className="text-center font-bold">
+          <td colSpan={3} className="text-right">
+            Total
+          </td>
+          <td>{numberToRupiah(currentCredit)}</td>
+          <td>{numberToRupiah(currentDebit)}</td>
+          <td></td>
+        </tr>
       </Table>
     </div>
   )
