@@ -1,7 +1,13 @@
 import { SelectYearOption } from '@components/JournalEntries/FilterControls'
 import { Table, TableHeader } from '@components/Table'
 import { CURRENT_YEAR } from '@constants/.'
-import { RowRelativePosition, RowTypeSelectionMode, TrialBalanceTable } from '@context/TrialBalanceContext/types'
+import {
+  BalanceRow,
+  RowRelativePosition,
+  RowTypeSelectionMode,
+  TrialBalanceRow,
+  TrialBalanceTable,
+} from '@context/TrialBalanceContext/types'
 import { useTrialBalance } from '@hooks/useTrialBalance'
 import React, { useState } from 'react'
 import { IoAdd } from 'react-icons/io5'
@@ -9,6 +15,9 @@ import { Controls } from './Controls'
 import { DropdownRowType } from './DropdownRowType'
 import { TableEditable } from './TableEditable'
 import { TableReadOnly } from './TableReadOnly'
+
+import * as XLSX from 'xlsx'
+const { writeFile, utils } = XLSX
 
 interface Props {}
 
@@ -32,15 +41,51 @@ export const Index = (props: Props) => {
     setPosition(undefined)
   }
 
-  // MODAL
+  // TYPE SELECTION
   const [mode, setMode] = useState<RowTypeSelectionMode>('add')
   const [position, setPosition] = useState<RowRelativePosition | undefined>()
   const [targetRow, setTargetRow] = useState<number>(0)
   const [targetTable, setTargetTable] = useState<TrialBalanceTable>('fp')
 
+  // DOCUMENT EXPORTS
+  const flattenJson = (data: TrialBalanceRow[]) => {
+    var flatJson = []
+    for (let row of data) {
+      const { content } = row
+      if (typeof content === 'string') {
+        flatJson.push({ 'Nomor Akun': content })
+      } else {
+        const balanceRow = content as BalanceRow
+        flatJson.push({
+          'Nomor Akun': balanceRow.accountNo,
+          'Nama Akun': balanceRow.accountName,
+          'Beginning Balance': balanceRow?.startBalance,
+          'Debit Movements': balanceRow?.movement?.debit,
+          'Credit Movements': balanceRow?.movement?.credit,
+          'Ending Balance': balanceRow?.endBalance,
+          'Debit Adjustments': balanceRow?.adjustment?.debit,
+          'Credit Adjustments': balanceRow?.adjustment?.credit,
+          'Adjusted Balance': balanceRow?.adjustedBalance,
+        })
+      }
+    }
+    return flatJson
+  }
+
+  const exportAsPdf = () => {}
+
+  const exportAsXlsx = () => {
+    var workbook = utils.book_new()
+    var financialPositionSheet = utils.json_to_sheet(flattenJson(financialPosition))
+    var activitiesSheet = utils.json_to_sheet(flattenJson(activities))
+    utils.book_append_sheet(workbook, financialPositionSheet, 'Statement of Financial Position')
+    utils.book_append_sheet(workbook, activitiesSheet, 'Statement of Activities')
+    return writeFile(workbook, `trial_balance_${year[0].value}.xlsx`)
+  }
+
   return (
     <div>
-      <Controls {...{ year, years, setYear, isEditing, setIsEditing }} position="top" />
+      <Controls {...{ year, years, setYear, isEditing, setIsEditing, exportAsPdf, exportAsXlsx }} position="top" />
       <div className="font-bold text-xl mb-2">I. Statement of Financial Position</div>
       <Table zebra>
         <TableHeader trialBalance />
@@ -76,12 +121,13 @@ export const Index = (props: Props) => {
           </div>
         </DropdownRowType>
       )}
-      <Controls {...{ isEditing, setIsEditing }} position="bottom" />
+      <Controls {...{ isEditing, setIsEditing, exportAsPdf, exportAsXlsx }} position="bottom" />
     </div>
   )
 }
 
 const years: SelectYearOption[] = [
+  { value: 2022, label: '2022' },
   { value: 2021, label: '2021' },
   { value: 2020, label: '2020' },
   { value: 2019, label: '2019' },

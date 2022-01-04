@@ -23,8 +23,10 @@ export const TableReadOnly = ({ data }: Props) => {
       ))}
     </TableBody>
   ) : (
-    <div className="mt-2">
-      <div>This table is empty.</div>
-    </div>
+    <TableBody className="mt-2">
+      <tr>
+        <td colSpan={5}>This table is empty.</td>
+      </tr>
+    </TableBody>
   )
 }
