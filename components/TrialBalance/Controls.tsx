@@ -5,15 +5,16 @@ import Select from 'react-select'
 import { SelectYearOption } from '@components/JournalEntries/FilterControls'
 import { BsTable } from 'react-icons/bs'
 import { GrDocumentPdf } from 'react-icons/gr'
+import ReactPDF from '@react-pdf/renderer'
 
 interface Props {
   isEditing: Boolean
   years?: SelectYearOption[]
-  year?: SelectYearOption[]
+  year: SelectYearOption[]
   position: 'top' | 'bottom'
   setIsEditing: (v: boolean) => void
   setYear?: (v: SelectYearOption[]) => void
-  exportAsPdf: () => void
+  document: ReactPDF.UsePDFInstance
   exportAsXlsx: () => void
 }
 
@@ -23,7 +24,7 @@ export const Controls = ({
   year,
   years,
   setYear,
-  exportAsPdf,
+  document,
   exportAsXlsx,
   position = 'top',
 }: Props) => {
@@ -51,7 +52,7 @@ export const Controls = ({
             </div>
             <ul tabIndex={-1} className="p-2 shadow-lg menu dropdown-content bg-base-100 rounded-box w-56 my-2">
               <li>
-                <a onClick={() => exportAsPdf()}>
+                <a href={document.url ? document.url : '#'} download={`trial_balance_${year[0].value}`}>
                   <GrDocumentPdf className="mr-2" /> Download as PDF
                 </a>
               </li>
