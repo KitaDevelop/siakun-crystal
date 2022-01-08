@@ -40,9 +40,6 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
 
       axios.defaults.headers.common['Authorization'] = `BEARER ${token_}`
     },
-    onError: (error) => {
-      console.log('haloooo2', error)
-    },
   })
   
 
