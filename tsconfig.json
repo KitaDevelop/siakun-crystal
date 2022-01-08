@@ -18,7 +18,9 @@
       "@components/*": ["components/*"],
       "@api/*": ["services/api/*"],
       "@constants/*": ["services/constants/*"],
-      "@context/*": ["services/contexts/*"]
+      "@context/*": ["services/contexts/*"],
+      "@utils/*": ["services/utils/*"],
+      "@hooks/*": ["services/hooks/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

@@ -1,6 +1,6 @@
 import { Modal } from '@components/Modal'
-import { useAccount } from '@context/AccountContext/AccountProvider'
 import { JenisAccount } from '@context/AccountContext/types'
+import { useAccount } from '@hooks/useAccount'
 import React from 'react'
 import { AdditionalInfo } from './AdditionalInfo'
 import { JenisAccountSelect } from './Select/JenisAccountSelect'

@@ -2,6 +2,7 @@ import React from 'react'
 import { FaRegUser, FaSignOutAlt } from 'react-icons/fa'
 import Image from 'next/image'
 import { useAuth } from '@context/AuthContext/AuthProvider'
+import { useSidebar } from '@context/SidebarContext'
 
 export interface NavbarProps {
   title: String
@@ -10,6 +11,12 @@ export interface NavbarProps {
 
 export default function Navbar({ title, icon }: NavbarProps) {
   const {logout} = useAuth()
+  // dummy
+  const {
+    state: { role },
+    dispatch,
+  } = useSidebar()
+
   return (
     <div className="navbar shadow-lg bg-neutral text-neutral-content rounded-box">
       <div className="flex-none">
@@ -19,6 +26,12 @@ export default function Navbar({ title, icon }: NavbarProps) {
         <span className="font-bold uppercase">{title}</span>
       </div>
       <div className="flex-none font-medium">
+        <div
+          className="btn btn-secondary mr-4"
+          onClick={() => dispatch({ type: 'set_role', role: role == 'auditor' ? 'organization' : 'auditor' })}
+        >
+          switch role
+        </div>
         Gue Lagi Login
         <div className="dropdown dropdown-hover dropdown-end">
           <button tabIndex={0} className="ml-2 btn btn-square btn-ghost">

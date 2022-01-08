@@ -1,5 +1,5 @@
-import { useAccount } from '@context/AccountContext/AccountProvider'
 import { JenisAccount } from '@context/AccountContext/types'
+import { useAccount } from '@hooks/useAccount'
 import React from 'react'
 import Select from 'react-select'
 import { customStyles, jenisAccount } from './index'

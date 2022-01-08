@@ -2,8 +2,8 @@ import { customStyles, dummyAccounts } from '@components/ChartOfAccounts/AddAcco
 import React, { useEffect, useState } from 'react'
 import Select from 'react-select'
 import { IoTrashOutline } from 'react-icons/io5'
-import { useJournalEntry } from '@context/JournalEntryContext/JournalEntryProvider'
 import { Transaction } from '@context/JournalEntryContext/types'
+import { useJournalEntry } from '@hooks/useJournalEntry'
 
 interface Props {
   transaction: Transaction

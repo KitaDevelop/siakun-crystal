@@ -1,5 +1,5 @@
-import { useAccount } from '@context/AccountContext/AccountProvider'
 import { SubAccount } from '@context/AccountContext/types'
+import { useAccount } from '@hooks/useAccount'
 import React, { useEffect } from 'react'
 import { IoAdd } from 'react-icons/io5'
 import { SubAccountSelect } from '../Select/SubAccountSelect'

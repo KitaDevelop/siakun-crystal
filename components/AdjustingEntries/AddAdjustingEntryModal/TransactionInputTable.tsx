@@ -2,9 +2,9 @@ import { Table, TableBody, TableHeader } from '@components/Table'
 import React, { useEffect, useState } from 'react'
 import { TransactionInput } from './TransactionInput'
 import { IoAdd } from 'react-icons/io5'
-import { numberToRupiah } from 'services/utils/numberToRupiah'
+import { numberToRupiah } from '@utils//numberToRupiah'
 import { BsCheckCircleFill, BsFillExclamationCircleFill } from 'react-icons/bs'
-import { useAdjustingEntry } from '@context/AdjustingEntryContext/AdjustingEntryProvider'
+import { useAdjustingEntry } from '@hooks/useAdjustingEntry'
 
 export const TransactionInputTable = () => {
   const {
