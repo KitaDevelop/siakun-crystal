@@ -23,6 +23,4 @@ switch (API_ENV) {
     break;
 }
 
-console.log(config)
-
 export default config

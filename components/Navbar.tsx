@@ -1,6 +1,7 @@
 import React from 'react'
 import { FaRegUser, FaSignOutAlt } from 'react-icons/fa'
 import Image from 'next/image'
+import { useAuth } from '@context/AuthContext/AuthProvider'
 
 export interface NavbarProps {
   title: String
@@ -8,6 +9,7 @@ export interface NavbarProps {
 }
 
 export default function Navbar({ title, icon }: NavbarProps) {
+  const {logout} = useAuth()
   return (
     <div className="navbar shadow-lg bg-neutral text-neutral-content rounded-box">
       <div className="flex-none">
@@ -33,7 +35,7 @@ export default function Navbar({ title, icon }: NavbarProps) {
               </a>
             </li>
             <li className="text-error">
-              <a>
+              <a onClick={logout}>
                 <FaSignOutAlt className="w-5 h-5 mr-2" />
                 Logout
               </a>

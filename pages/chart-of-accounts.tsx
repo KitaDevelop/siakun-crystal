@@ -17,7 +17,7 @@ export const CoAPage = (props: Props) => {
   const { isLoading, isError, data, error } = useFetchAccounts()
 
   useEffect(() => {
-    console.log(data)
+    console.log(data, 'useFetchAccount data')
   }, [data, isLoading])
 
   return (

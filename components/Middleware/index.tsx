@@ -1,6 +1,5 @@
 import React from 'react'
-import router from 'next/router'
-import { useEffect } from 'react'
+import router, { useRouter } from 'next/router'
 import { useAuth } from '@context/AuthContext/AuthProvider'
 
 interface Props {
@@ -8,23 +7,27 @@ interface Props {
 }
 
 export const Middleware: React.FC<Props> = ({ children }: Props) => {
-  const { isAuthenticated, fetchProfile } = useAuth()
+  const {
+    isAuthenticated,
+    isLoadingLogin,
+    isLoadingUserProfile,
+  } = useAuth()
 
-  useEffect(() => {
-    (async () => {
-      let _isAuthenticated = isAuthenticated
-      console.log(_isAuthenticated, '_isAuthenticated1')
-      if (!_isAuthenticated) {
-        const { isAuthenticated } = await fetchProfile()
-        _isAuthenticated = isAuthenticated
-        console.log(_isAuthenticated, '_isAuthenticated2')
-      }
+  const { pathname } = useRouter()
 
-      console.log(_isAuthenticated, '_isAuthenticated3')
-      if (!_isAuthenticated) router.push('/login')
-    })()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  const isLoginPage = pathname.includes('/login')
+  const isErrorPage = pathname.includes('error')
 
-  return <>{children}</>
+  if (
+    !isLoginPage
+    && !isErrorPage
+    && !isAuthenticated
+    && !isLoadingLogin
+    && !isLoadingUserProfile
+  ) {
+    router.push('/login')
+    return <></>;
+  }
+
+  return <>{children}</>;
 }

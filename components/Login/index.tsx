@@ -11,7 +11,13 @@ const Index = (props: Props) => {
   const usernameInputRef = useRef<HTMLInputElement>(null)
   const passwordInputRef = useRef<HTMLInputElement>(null)
 
-  const { login, isAuthenticated } = useAuth();
+  const { useLoginMutation, isAuthenticated } = useAuth();
+
+  React.useEffect(() => {
+    if (useLoginMutation.isError) {
+      alert('Username atau password salah')
+    }
+  }, [useLoginMutation.isError])
 
   if (isAuthenticated) router.push('/')
 
@@ -19,12 +25,7 @@ const Index = (props: Props) => {
     const username = usernameInputRef.current?.value || ''
     const password = passwordInputRef.current?.value || ''
 
-    try {
-      await login(username, password)
-      // TODO: Redirect after login
-    } catch(error) {
-      alert('Username atau password salah')      
-    }
+    useLoginMutation.mutate({username, password})
   }
 
   return (

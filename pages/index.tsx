@@ -16,8 +16,6 @@ export default function Home() {
 
   const { isLoading, isError, data, error } = useFetchAccounts()
 
-  console.log(data)
-
   return (
     <div>
       <Head>
