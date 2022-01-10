@@ -5,7 +5,9 @@ import Select from 'react-select'
 import { SelectYearOption } from '@components/JournalEntries/FilterControls'
 import { BsTable } from 'react-icons/bs'
 import { GrDocumentPdf } from 'react-icons/gr'
-import ReactPDF from '@react-pdf/renderer'
+import ReactPDF, { PDFDownloadLink } from '@react-pdf/renderer'
+import PDFDocument from './PdfDocument'
+import { useTrialBalance } from '@hooks/useTrialBalance'
 
 interface Props {
   isEditing: Boolean
@@ -14,20 +16,14 @@ interface Props {
   position: 'top' | 'bottom'
   setIsEditing: (v: boolean) => void
   setYear?: (v: SelectYearOption[]) => void
-  document: ReactPDF.UsePDFInstance
   exportAsXlsx: () => void
 }
 
-export const Controls = ({
-  isEditing,
-  setIsEditing,
-  year,
-  years,
-  setYear,
-  document,
-  exportAsXlsx,
-  position = 'top',
-}: Props) => {
+export const Controls = ({ isEditing, setIsEditing, year, years, setYear, exportAsXlsx, position = 'top' }: Props) => {
+  const {
+    state: { financialPosition, activities },
+  } = useTrialBalance()
+
   const isSelectYearOption = (v: any): v is SelectYearOption => {
     if ((v as SelectYearOption).value !== undefined) return v.value
     return false
@@ -52,9 +48,12 @@ export const Controls = ({
             </div>
             <ul tabIndex={-1} className="p-2 shadow-lg menu dropdown-content bg-base-100 rounded-box w-56 my-2">
               <li>
-                <a href={document.url ? document.url : '#'} download={`trial_balance_${year[0].value}`}>
+                <PDFDownloadLink
+                  document={<PDFDocument {...{ financialPosition, activities }} />}
+                  fileName={`trial_balance_${year[0].value}`}
+                >
                   <GrDocumentPdf className="mr-2" /> Download as PDF
-                </a>
+                </PDFDownloadLink>
               </li>
               <li>
                 <a onClick={() => exportAsXlsx()}>

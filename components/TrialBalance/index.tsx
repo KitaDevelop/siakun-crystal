@@ -11,6 +11,8 @@ import {
 import { useTrialBalance } from '@hooks/useTrialBalance'
 import React, { useState } from 'react'
 import { IoAdd } from 'react-icons/io5'
+import dynamic from 'next/dynamic'
+
 import { Controls } from './Controls'
 import { DropdownRowType } from './DropdownRowType'
 import { TableEditable } from './TableEditable'
@@ -72,9 +74,10 @@ export const Index = (props: Props) => {
     return flatJson
   }
 
-  const exportAsPdf = () => {}
-
   const exportAsXlsx = () => {
+    console.log(financialPosition)
+    console.log(activities)
+
     var workbook = utils.book_new()
     var financialPositionSheet = utils.json_to_sheet(flattenJson(financialPosition))
     var activitiesSheet = utils.json_to_sheet(flattenJson(activities))
@@ -85,7 +88,7 @@ export const Index = (props: Props) => {
 
   return (
     <div>
-      <Controls {...{ year, years, setYear, isEditing, setIsEditing, exportAsPdf, exportAsXlsx }} position="top" />
+      <Controls {...{ year, years, setYear, isEditing, setIsEditing, exportAsXlsx }} position="top" />
       <div className="font-bold text-xl mb-2">I. Statement of Financial Position</div>
       <Table zebra>
         <TableHeader trialBalance />
@@ -121,7 +124,7 @@ export const Index = (props: Props) => {
           </div>
         </DropdownRowType>
       )}
-      <Controls {...{ isEditing, setIsEditing, exportAsPdf, exportAsXlsx }} position="bottom" />
+      <Controls {...{ isEditing, setIsEditing, year, exportAsXlsx }} position="bottom" />
     </div>
   )
 }
