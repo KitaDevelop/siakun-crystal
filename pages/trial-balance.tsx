@@ -1,8 +1,9 @@
 import Layout from '@components/Layout'
 import { NavbarProps } from '@components/Navbar'
-import TrialBalance from '@components/TrialBalance'
 import { Navigation, navigation } from '@constants/navigation'
 import React from 'react'
+import dynamic from 'next/dynamic'
+const TrialBalance = dynamic(() => import('@components/TrialBalance'), { ssr: false })
 
 interface Props {}
 
