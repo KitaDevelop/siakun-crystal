@@ -2,7 +2,7 @@ import axios from 'axios'
 import React from 'react'
 import { useMutation, useQuery } from 'react-query'
 import Cookies from 'js-cookie'
-import { loadUserProfile, login } from './api'
+import { loadUserProfile, login } from '@api/auth'
 import { AuthContextValue, UserProfile } from './types'
 import { useRouter } from 'next/router'
 
@@ -67,12 +67,4 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
 
-function useAuth() {
-  const context = React.useContext(AuthContext)
-  if (context === undefined) {
-    throw new Error('useAuth must be used within a AuthProvider')
-  }
-  return context
-}
-
-export { AuthProvider, useAuth }
+export { AuthContext, AuthProvider }

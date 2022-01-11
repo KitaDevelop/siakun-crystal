@@ -1,4 +1,3 @@
-// import axios from 'axios';
 import { useQuery } from 'react-query';
 import config from 'config';
 import axios from 'axios';
