@@ -1,6 +1,6 @@
 import React from 'react'
 import router, { useRouter } from 'next/router'
-import { useAuth } from '@context/AuthContext/AuthProvider'
+import useAuth from '@hooks/useAuth'
 
 interface Props {
   children?: React.ReactNode

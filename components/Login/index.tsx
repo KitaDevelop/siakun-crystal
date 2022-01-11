@@ -2,7 +2,7 @@
 import React, { useRef } from 'react'
 import Image from 'next/image'
 
-import { useAuth } from '@context/AuthContext/AuthProvider'
+import useAuth from '@hooks/useAuth'
 import router from 'next/router'
 
 interface Props {}

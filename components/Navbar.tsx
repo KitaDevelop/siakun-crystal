@@ -1,7 +1,7 @@
 import React from 'react'
 import { FaRegUser, FaSignOutAlt } from 'react-icons/fa'
 import Image from 'next/image'
-import { useAuth } from '@context/AuthContext/AuthProvider'
+import useAuth from '@hooks/useAuth'
 import { useSidebar } from '@context/SidebarContext'
 
 export interface NavbarProps {
