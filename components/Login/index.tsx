@@ -2,30 +2,30 @@
 import React, { useRef } from 'react'
 import Image from 'next/image'
 
-import useAxios from 'services/hooks/useAxios'
-import config from 'config'
+import useAuth from '@hooks/useAuth'
+import router from 'next/router'
 
 interface Props {}
 
 const Index = (props: Props) => {
-  const axios = useAxios();
   const usernameInputRef = useRef<HTMLInputElement>(null)
   const passwordInputRef = useRef<HTMLInputElement>(null)
 
-  console.log(process.env.API_ENV)
-  console.log(config.API_URL_CARBON)
+  const { useLoginMutation, isAuthenticated } = useAuth();
 
-  const onSignInButtonPressed = () => {
-    console.log('Sign in button pressed')
-    const username = usernameInputRef.current?.value
-    const password = passwordInputRef.current?.value
+  React.useEffect(() => {
+    if (useLoginMutation.isError) {
+      alert('Username atau password salah')
+    }
+  }, [useLoginMutation.isError])
 
-    axios?.post('/auth/login', {
-      username,
-      password,
-    }).then(res => {
-      console.log(res)
-    })
+  if (isAuthenticated) router.push('/')
+
+  const onSignInButtonPressed = async () => {
+    const username = usernameInputRef.current?.value || ''
+    const password = passwordInputRef.current?.value || ''
+
+    useLoginMutation.mutate({username, password})
   }
 
   return (

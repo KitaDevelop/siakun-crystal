@@ -10,7 +10,6 @@ import { HiOutlineSearch } from 'react-icons/hi'
 import { customStyles } from '@components/ChartOfAccounts/AddAccountModal/Select'
 import { SelectYearOption } from '@components/JournalEntries/FilterControls'
 import { CURRENT_YEAR } from '@constants/.'
-import { useSidebar } from '@context/SidebarContext'
 
 export default function Home() {
   const [year, setYear] = useState<SelectYearOption[]>(years.filter((option) => option.value === CURRENT_YEAR))
