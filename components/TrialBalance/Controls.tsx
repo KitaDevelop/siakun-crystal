@@ -49,7 +49,7 @@ export const Controls = ({ isEditing, setIsEditing, year, years, setYear, export
             <ul tabIndex={-1} className="p-2 shadow-lg menu dropdown-content bg-base-100 rounded-box w-56 my-2">
               <li>
                 <PDFDownloadLink
-                  document={<PDFDocument {...{ financialPosition, activities }} />}
+                  document={<PDFDocument {...{ financialPosition, activities, year: year[0].value }} />}
                   fileName={`trial_balance_${year[0].value}`}
                 >
                   <GrDocumentPdf className="mr-2" /> Download as PDF

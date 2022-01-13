@@ -1,7 +1,5 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Text, View, StyleSheet } from '@react-pdf/renderer'
-import { TrialBalanceRow } from '@context/TrialBalanceContext/types'
-import { CURRENT_YEAR } from '@constants/.'
 
 const styles = StyleSheet.create({
   row: {
@@ -21,12 +19,16 @@ const styles = StyleSheet.create({
   },
 })
 
-const TableHeader = () => {
+interface Props {
+  year: number
+}
+
+const TableHeader = ({ year }: Props) => {
   return (
     <View style={styles.row}>
       <Text style={styles.accountName}></Text>
-      <Text style={styles.balance}>{CURRENT_YEAR}</Text>
-      <Text style={styles.balance}>{CURRENT_YEAR - 1}</Text>
+      <Text style={styles.balance}>{year}</Text>
+      <Text style={styles.balance}>{year - 1}</Text>
     </View>
   )
 }

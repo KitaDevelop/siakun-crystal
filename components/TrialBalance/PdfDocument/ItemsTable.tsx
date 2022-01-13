@@ -13,11 +13,12 @@ const styles = StyleSheet.create({
 
 interface Props {
   data: TrialBalanceRow[]
+  year: number
 }
 
-const ItemsTable = ({ data }: Props) => (
+const ItemsTable = ({ data, year }: Props) => (
   <View style={styles.tableContainer}>
-    <TableHeader />
+    <TableHeader year={year} />
     <TableRow items={data} />
   </View>
 )

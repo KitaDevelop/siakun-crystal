@@ -6,6 +6,7 @@ import { TrialBalanceRow } from '@context/TrialBalanceContext/types'
 interface Props {
   financialPosition: TrialBalanceRow[]
   activities: TrialBalanceRow[]
+  year: number
 }
 
 Font.register({
@@ -33,14 +34,14 @@ const styles = StyleSheet.create({
   },
 })
 
-export const PDFDocument = ({ financialPosition, activities }: Props) => {
+export const PDFDocument = ({ financialPosition, activities, year }: Props) => {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
         <Text style={styles.section}>I. Statement of Financial Position</Text>
-        <ItemsTable data={financialPosition} />
+        <ItemsTable data={financialPosition} year={year} />
         <Text style={styles.section}>II. Statement of Activities</Text>
-        <ItemsTable data={activities} />
+        <ItemsTable data={activities} year={year} />
       </Page>
     </Document>
   )
