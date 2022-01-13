@@ -40,8 +40,8 @@ const TableRow = ({ items }: Props) => {
       return (
         <View style={styles.row} key={item.id}>
           <Text style={styles.accountName}>{balanceContent.accountName}</Text>
-          <Text style={styles.balance}>{numberToRupiah(balanceContent.startBalance)}</Text>
           <Text style={styles.balance}>{numberToRupiah(balanceContent.adjustedBalance)}</Text>
+          <Text style={styles.balance}>{numberToRupiah(balanceContent.startBalance)}</Text>
         </View>
       )
     }
