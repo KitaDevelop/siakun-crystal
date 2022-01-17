@@ -1,4 +1,4 @@
-import { JenisAccount } from '@context/AccountContext/types'
+import { AccountCategory } from '@context/AccountContext/types'
 import { CSSObjectWithLabel } from 'react-select'
 
 export const customStyles = {
@@ -7,13 +7,7 @@ export const customStyles = {
 }
 
 export const jenisAccount = [
-  { value: JenisAccount.HEADING, label: 'Heading' },
-  { value: JenisAccount.AKUN, label: 'Akun' },
-  { value: JenisAccount.JUMLAH, label: 'Jumlah' },
-]
-
-export const dummyAccounts = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' },
+  { value: AccountCategory.HEADING, label: 'Heading' },
+  { value: AccountCategory.AKUN, label: 'Akun' },
+  { value: AccountCategory.JUMLAH, label: 'Jumlah' },
 ]

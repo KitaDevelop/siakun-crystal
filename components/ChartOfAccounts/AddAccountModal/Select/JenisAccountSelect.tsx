@@ -1,4 +1,4 @@
-import { JenisAccount } from '@context/AccountContext/types'
+import { AccountCategory } from '@context/AccountContext/types'
 import { useAccount } from '@hooks/useAccount'
 import React from 'react'
 import Select from 'react-select'
@@ -6,7 +6,7 @@ import { customStyles, jenisAccount } from './index'
 
 type SelectJenisOption = {
   label: string
-  value: JenisAccount
+  value: AccountCategory
 }
 
 export const JenisAccountSelect: React.FC = () => {
