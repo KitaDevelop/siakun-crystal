@@ -1,21 +1,20 @@
 import React from 'react'
 import { AccountReducer } from './AccountReducer'
-import { AccountProviderProps, Dispatch, JenisAccount, State } from './types'
+import { AccountContextValue, AccountProviderProps, AccountCategory, State, EmptyAccount } from './types'
 
 const INITIAL_STATE: State = {
+  accounts: [],
   parentAccount: '',
-  accountNo: '',
-  accountName: '',
-  desc: '',
-  jenis: JenisAccount.NONE,
+  ...EmptyAccount,
 }
 
-const AccountContext = React.createContext<{ state: State; dispatch: Dispatch } | undefined>(undefined)
+const AccountContext = React.createContext<AccountContextValue | undefined>(undefined)
 
 const AccountProvider = ({ children }: AccountProviderProps) => {
   const [state, dispatch] = React.useReducer(AccountReducer, INITIAL_STATE)
+  const { accounts } = state
 
-  const value = { state, dispatch }
+  const value = { accounts, account: state, dispatch }
   return <AccountContext.Provider value={value}>{children}</AccountContext.Provider>
 }
 export { AccountContext, AccountProvider }

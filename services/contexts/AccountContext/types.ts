@@ -1,4 +1,15 @@
+export interface Account {
+  id?: number
+  accountNumber: string
+  name: string
+  description: string
+  category: AccountCategory
+  normalBalance?: NormalBalance
+  type?: AccountType
+}
 export type Action =
+  | { type: 'set_accounts'; payload: Account[] }
+  | { type: 'set_account'; account: Account }
   | { type: 'set_parent_acc'; parent: string }
   | { type: 'set_account_no'; accNo: string }
   | { type: 'set_account_name'; accName: string }
@@ -6,22 +17,21 @@ export type Action =
   | { type: 'set_normal_balance'; normalBalance: NormalBalance }
   | { type: 'set_account_type'; accType: AccountType }
   | { type: 'set_desc'; desc: string }
-  | { type: 'set_jenis'; jenis: JenisAccount }
-  | { type: 'set_sub_accounts'; subAccounts: SubAccount[] }
+  | { type: 'set_jenis'; jenis: AccountCategory }
+  | { type: 'set_sub_accounts'; subAccounts: Account[] }
 export type Dispatch = (action: Action) => void
-export type State = {
+export interface State extends Account {
+  accounts: Account[]
   parentAccount: string
-  accountNo: string
-  accountName: string
-  desc: string
-  jenis: JenisAccount
-  normalBalance?: NormalBalance
-  type?: AccountType
-  subAccounts?: SubAccount[]
+  subAccounts?: Account[]
+}
+export type AccountContextValue = {
+  accounts: Account[]
+  account: State
+  dispatch: Dispatch
 }
 export type AccountProviderProps = { children: React.ReactNode }
-export type SubAccount = { id: number; accountNumber: string; name: string }
-export enum JenisAccount {
+export enum AccountCategory {
   NONE,
   HEADING,
   AKUN,
@@ -34,4 +44,10 @@ export enum AccountType {
 export enum NormalBalance {
   DEBIT = 'debit',
   CREDIT = 'credit',
+}
+export const EmptyAccount: Account = {
+  accountNumber: '',
+  name: '',
+  description: '',
+  category: AccountCategory.NONE,
 }
