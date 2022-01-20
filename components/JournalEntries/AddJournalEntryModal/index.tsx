@@ -21,7 +21,7 @@ export const AddJournalEntryModal = ({ isOpen, setIsOpen }: Props) => {
     var receiptBase64
     if (receipt) receiptBase64 = await blobToBase64(receipt)
 
-    var payload = {
+    let payload = {
       date,
       description,
       receipt: receiptBase64,
@@ -30,8 +30,6 @@ export const AddJournalEntryModal = ({ isOpen, setIsOpen }: Props) => {
         return transaction
       }),
     }
-
-    console.log(payload)
   }
 
   return (
