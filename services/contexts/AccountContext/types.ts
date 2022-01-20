@@ -1,5 +1,5 @@
 export interface Account {
-  id?: number
+  id: number
   accountNumber: string
   name: string
   description: string
@@ -33,9 +33,9 @@ export type AccountContextValue = {
 export type AccountProviderProps = { children: React.ReactNode }
 export enum AccountCategory {
   NONE,
-  HEADING,
-  AKUN,
-  JUMLAH,
+  HEADING = 'heading',
+  AKUN = 'akun',
+  JUMLAH = 'jumlah',
 }
 export enum AccountType {
   NERACA = 'neraca',
@@ -46,6 +46,7 @@ export enum NormalBalance {
   CREDIT = 'credit',
 }
 export const EmptyAccount: Account = {
+  id: -1,
   accountNumber: '',
   name: '',
   description: '',

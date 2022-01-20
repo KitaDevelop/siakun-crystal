@@ -7,14 +7,20 @@ export const getAccounts = (year?: number) =>
     `${config.API_URL_CARBON}/accounts${!!year ? `?year=${year}` : ''}`
   )
 
-export const getAccount = (accountId: number) =>
-  axios.get<Account>(`${config.API_URL_CARBON}/accounts/${accountId}`)
+export const getAccount = (accountId: string, year?: number) =>
+  axios.get<Account>(
+    `${config.API_URL_CARBON}/accounts/${accountId}${
+      !!year ? `?year=${year}` : ''
+    }`
+  )
 
-export const createAccount = (account: Account) =>
-  axios.post<Account>(`${config.API_URL_CARBON}/accounts`, account)
+export const createAccount = (account: Account) => {
+  const { id, ...account_ } = account
+  return axios.post<Account>(`${config.API_URL_CARBON}/accounts`, account_)
+}
 
 export const updateAccount = (
-  accountId: number,
+  accountId: string,
   account: Partial<Account>,
   year?: number
 ) =>
@@ -25,9 +31,7 @@ export const updateAccount = (
     account
   )
 
-export const deleteAccount = (accountId: number, year?: number) =>
+export const deleteAccount = (id: number, year?: number) =>
   axios.delete(
-    `${config.API_URL_CARBON}/accounts/${accountId}${
-      !!year ? `?year=${year}` : ''
-    }`
+    `${config.API_URL_CARBON}/accounts/${id}${!!year ? `?year=${year}` : ''}`
   )

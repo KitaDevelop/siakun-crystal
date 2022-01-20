@@ -10,8 +10,19 @@ import {
   updateAccount,
 } from './endpoints'
 
+export interface UpdateAccountPayload {
+  accountNumber: string
+  account: Partial<Account>
+  year?: number
+}
+
+export interface DeleteAccountPayload {
+  id: number
+  year?: number
+}
+
 export const useFetchAccounts = (year?: number) => {
-  return useQuery('accounts', () => getAccounts(), {
+  return useQuery('accounts', () => getAccounts(year), {
     staleTime: 3600 * 1000,
     cacheTime: 3600 * 1000,
     retry: 2,
@@ -19,21 +30,22 @@ export const useFetchAccounts = (year?: number) => {
   })
 }
 
-export const useFetchAccount = (accountId: number) => {
-  return useQuery('accounts', () => getAccount(accountId))
+export const useFetchAccount = (accountNumber: string, year?: number) => {
+  return useQuery('accounts', () => getAccount(accountNumber, year))
 }
 
-export const useCreateAccount = (account: Account) => {
-  return useMutation(() => createAccount(account))
+export const useCreateAccount = () => {
+  return useMutation((account: Account) => createAccount(account))
 }
 
-export const useUpdateAccount = (
-  accountId: number,
-  account: Partial<Account>
-) => {
-  return useMutation(() => updateAccount(accountId, account))
+export const useUpdateAccount = () => {
+  return useMutation(({ accountNumber, account, year }: UpdateAccountPayload) =>
+    updateAccount(accountNumber, account, year)
+  )
 }
 
-export const useDeleteAccount = (accountId: number) => {
-  return useMutation(() => deleteAccount(accountId))
+export const useDeleteAccount = () => {
+  return useMutation(({ id, year }: DeleteAccountPayload) =>
+    deleteAccount(id, year)
+  )
 }

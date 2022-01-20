@@ -13,7 +13,7 @@ export const AccountReducer = (state: State, action: Action) => {
     case 'set_account_no':
       return { ...state, accountNumber: action.accNo }
     case 'set_desc':
-      return { ...state, desc: action.desc }
+      return { ...state, description: action.desc }
     case 'set_jenis':
       return { ...state, category: action.jenis }
     case 'set_account_type':

@@ -4,6 +4,9 @@ import { NavbarProps } from '@components/Navbar'
 import { Navigation, navigation } from '@constants/navigation'
 import React, { useEffect } from 'react'
 import ChartOfAccount from '@components/ChartOfAccounts'
+import { FaSpinner } from 'react-icons/fa'
+import { useAccount } from '@hooks/useAccount'
+import { CURRENT_YEAR } from '@constants/.'
 
 interface Props {}
 
@@ -14,16 +17,25 @@ const meta: NavbarProps = {
 }
 
 export const CoAPage = (props: Props) => {
-  const { isLoading, isError, data, error } = useFetchAccounts()
+  const { isLoading, isError, data, isSuccess } = useFetchAccounts(CURRENT_YEAR)
+  const { dispatch } = useAccount()
 
   useEffect(() => {
-    console.log(data, 'useFetchAccount data')
-  }, [data, isLoading])
+    if (isSuccess && data) {
+      dispatch({ type: 'set_accounts', payload: data.data })
+      console.log(data.data)
+    }
+  }, [data, isSuccess])
 
   return (
     <Layout navbarProps={meta}>
-      ini Chart of accounts
-      {isLoading ? <h1>Loading...</h1> : <ChartOfAccount data={data?.data} />}
+      {isLoading && !isSuccess ? (
+        <div className="w-full grid place-content-center h-80 text-accent">
+          <FaSpinner className="w-10 h-10 animate-spin" />
+        </div>
+      ) : (
+        <ChartOfAccount />
+      )}
     </Layout>
   )
 }
