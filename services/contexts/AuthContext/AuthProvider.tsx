@@ -14,21 +14,17 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter()
 
   const useLoadUserProfileQuery = (token_: string | null) => {
-    return useQuery(
-      `profile-${token_}`,
-      () => loadUserProfile({ token: token_ || '' }),
-      {
-        onSuccess: (data) => {
-          setUserProfile(data)
-          setToken(token_)
-          axios.defaults.headers.common['Authorization'] = `BEARER ${token_}`
-        },
-        staleTime: 3600 * 1000,
-        cacheTime: 3600 * 1000,
-        retry: 2,
-        refetchOnWindowFocus: false,
-      }
-    )
+    return useQuery(`profile-${token_}`, () => loadUserProfile({ token: token_ || '' }), {
+      onSuccess: (data) => {
+        setUserProfile(data)
+        setToken(token_)
+        axios.defaults.headers.common['Authorization'] = `BEARER ${token_}`
+      },
+      staleTime: 3600 * 1000,
+      cacheTime: 3600 * 1000,
+      retry: 2,
+      refetchOnWindowFocus: false,
+    })
   }
 
   const useLoginMutation = useMutation(login, {
@@ -41,7 +37,6 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
       axios.defaults.headers.common['Authorization'] = `BEARER ${token_}`
     },
   })
-  
 
   const logout = () => {
     setToken(null)
@@ -50,11 +45,10 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
     router.push('/login')
   }
 
-  const {
-    isLoading: isLoadingUserProfile,
-  } = useLoadUserProfileQuery(token)
+  const { isLoading: isLoadingUserProfile } = useLoadUserProfileQuery(token)
   const isLoadingLogin = useLoginMutation.isLoading
-  const isAuthenticated = !!token && !!userProfile
+  // const isAuthenticated = !!token && !!userProfile
+  const isAuthenticated = !!token
 
   const value = {
     userProfile,
