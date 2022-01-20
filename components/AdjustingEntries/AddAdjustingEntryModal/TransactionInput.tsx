@@ -1,8 +1,9 @@
-import { customStyles, dummyAccounts } from '@components/ChartOfAccounts/AddAccountModal/Select'
+import { customStyles } from '@components/ChartOfAccounts/AddAccountModal/Select'
 import React, { useEffect, useState } from 'react'
 import Select from 'react-select'
 import { IoTrashOutline } from 'react-icons/io5'
 import { useAdjustingEntry } from '@hooks/useAdjustingEntry'
+import { useAccount } from '@hooks/useAccount'
 
 interface Props {
   isOnlyChild: boolean
@@ -14,6 +15,13 @@ export const TransactionInput = ({ isOnlyChild, idx }: Props) => {
     state: { transactions },
     dispatch,
   } = useAdjustingEntry()
+  const { accounts } = useAccount()
+
+  const accountOptions = accounts.map((account) => ({
+    value: account,
+    label: `${account.accountNumber} | ${account.name}`,
+  }))
+
   const [isDebit, setIsDebit] = useState(true)
   const [debit, setDebit] = useState(0)
   const [credit, setCredit] = useState(0)
@@ -37,7 +45,7 @@ export const TransactionInput = ({ isOnlyChild, idx }: Props) => {
     <tr>
       <td className="w-48 min-w-full">
         <Select
-          options={dummyAccounts}
+          options={accountOptions}
           placeholder="Select Account"
           styles={customStyles}
           closeMenuOnSelect
