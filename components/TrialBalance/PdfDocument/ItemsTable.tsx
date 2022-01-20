@@ -3,14 +3,6 @@ import { View, StyleSheet } from '@react-pdf/renderer'
 import TableRow from './TableRow'
 import { TrialBalanceRow } from '@context/TrialBalanceContext/types'
 import TableHeader from './TableHeader'
-
-const styles = StyleSheet.create({
-  tableContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
-})
-
 interface Props {
   data: TrialBalanceRow[]
   year: number
@@ -22,5 +14,12 @@ const ItemsTable = ({ data, year }: Props) => (
     <TableRow items={data} />
   </View>
 )
+
+const styles = StyleSheet.create({
+  tableContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+})
 
 export default ItemsTable
