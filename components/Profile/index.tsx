@@ -1,16 +1,16 @@
-import useAuth from '@hooks/useAuth'
-import React, { useEffect } from 'react'
+import React from 'react'
+import { ChangePassword } from './ChangePassword'
+import { DisplayPicture } from './DisplayPicture'
 
 interface Props {}
 
 export const Profile = (props: Props) => {
-  const { userProfile } = useAuth()
-
-  useEffect(() => {
-    console.log(userProfile)
-  }, [])
-
-  return <div>ini profildde</div>
+  return (
+    <div className="grid grid-cols-2 gap-8">
+      <DisplayPicture />
+      <ChangePassword />
+    </div>
+  )
 }
 
 export default Profile
