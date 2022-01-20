@@ -17,7 +17,7 @@ export const DisplayPicture = (props: Props) => {
         </div>
       </div>
       <div className="flex-1 flex flex-col ml-8">
-        <div className="text-2xl font-bold mb-2">{userProfile?.organization.name}</div>
+        <div className="text-2xl font-bold mb-2">{userProfile?.organization_name}</div>
         <div className="flex">
           <div className="btn btn-primary font-bold">Change Display Picture</div>
           <div className="btn btn-ghost text-primary font-bold">Remove Picture</div>
