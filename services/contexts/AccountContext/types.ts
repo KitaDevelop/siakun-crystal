@@ -6,6 +6,7 @@ export interface Account {
   category: AccountCategory
   normalBalance?: NormalBalance
   type?: AccountType
+  beginningBalance?: number
 }
 export type Action =
   | { type: 'set_accounts'; payload: Account[] }
@@ -17,6 +18,7 @@ export type Action =
   | { type: 'set_normal_balance'; normalBalance: NormalBalance }
   | { type: 'set_account_type'; accType: AccountType }
   | { type: 'set_desc'; desc: string }
+  | { type: 'set_beginning_balance'; beginningBalance: number }
   | { type: 'set_jenis'; jenis: AccountCategory }
   | { type: 'set_sub_accounts'; subAccounts: Account[] }
 export type Dispatch = (action: Action) => void

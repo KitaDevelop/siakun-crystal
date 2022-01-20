@@ -20,6 +20,8 @@ export const AccountReducer = (state: State, action: Action) => {
       return { ...state, type: action.accType }
     case 'set_normal_balance':
       return { ...state, normalBalance: action.normalBalance }
+    case 'set_beginning_balance':
+      return { ...state, beginningBalance: action.beginningBalance }
     case 'set_sub_accounts':
       return { ...state, subAccounts: action.subAccounts }
   }
