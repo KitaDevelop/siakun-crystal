@@ -12,9 +12,14 @@ export const Index = () => {
   const [isBlank, setBlank] = useState(true)
   const { accounts } = useAccount()
 
-  const createAccount = () => {
+  const openModalToCreate = () => {
     setOpen(true)
     setBlank(true)
+  }
+
+  const openModalToEdit = () => {
+    setOpen(true)
+    setBlank(false)
   }
 
   const cells = ['', 'acc no.', 'account name', 'description', 'jenis', 'tipe', 'saldo normal']
@@ -22,17 +27,20 @@ export const Index = () => {
     <div>
       <Table zebra>
         <TableHeader {...{ cells }} />
-        {accounts && accounts.map((d, i) => <AccountRow key={d.accountNumber} idx={i + 1} account={d} />)}
+        {accounts &&
+          accounts.map((d, i) => (
+            <AccountRow key={d.accountNumber} idx={i + 1} account={d} openModalToEdit={openModalToEdit} />
+          ))}
       </Table>
       {accounts && accounts.length == 0 && (
         <div className="card w-full bg-base-200 p-8 text-center items-center mt-2">
           No accounts registered yet.{' '}
-          <div className="btn btn-primary mt-3" onClick={createAccount}>
+          <div className="btn btn-primary mt-3" onClick={openModalToCreate}>
             create account
           </div>
         </div>
       )}
-      <button onClick={createAccount} className="btn btn-circle fixed bottom-6 right-6 btn-primary">
+      <button onClick={openModalToCreate} className="btn btn-circle fixed bottom-6 right-6 btn-primary">
         <IoAdd className="w-5 h-5" />
       </button>
       <AddAccountModal {...{ isBlank, isOpen, setIsOpen: setOpen }} />

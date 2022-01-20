@@ -20,7 +20,7 @@ export const createAccount = (account: Account) => {
 }
 
 export const updateAccount = (
-  accountId: string,
+  accountId: number,
   account: Partial<Account>,
   year?: number
 ) =>

@@ -1,5 +1,6 @@
-import { useCreateAccount, useFetchAccounts } from '@api/accounts'
+import { useCreateAccount, useFetchAccounts, useUpdateAccount } from '@api/accounts'
 import { Modal } from '@components/Modal'
+import { CURRENT_YEAR } from '@constants/.'
 import { AccountCategory, EmptyAccount } from '@context/AccountContext/types'
 import { useAccount } from '@hooks/useAccount'
 import React, { ChangeEvent, useEffect } from 'react'
@@ -20,25 +21,45 @@ interface Props {
 export const AddAccountModal = ({ isOpen, setIsOpen, isBlank }: Props) => {
   const { account, dispatch } = useAccount()
   const createAccount = useCreateAccount()
+  const updateAccount = useUpdateAccount()
 
   useEffect(() => {
     if (isBlank) dispatch({ type: 'set_account', account: EmptyAccount })
-  }, [])
+  }, [isBlank])
 
   const onSaveAccount = () => {
     const { accounts, parentAccount, subAccounts, ...account_ } = account
     console.log(account_)
-    createAccount.mutate(account_, {
-      onSuccess: () => {
-        const accounts_ = [...accounts, account_]
-        setIsOpen(false)
-        dispatch({ type: 'set_accounts', payload: accounts_ })
-        toast.success('Successfully created a new account.')
-      },
-      onError: () => {
-        toast.error('Oops, something wrong happened.')
-      },
-    })
+    if (isBlank)
+      createAccount.mutate(account_, {
+        onSuccess: () => {
+          const accounts_ = [...accounts, account_]
+          setIsOpen(false)
+          dispatch({ type: 'set_accounts', payload: accounts_ })
+          toast.success('Successfully created a new account.')
+        },
+        onError: () => {
+          toast.error('Oops, something wrong happened.')
+        },
+      })
+    else {
+      updateAccount.mutate(
+        { accountId: account_.id, account: account_, year: CURRENT_YEAR },
+        {
+          onSuccess: () => {
+            const accounts_ = [...accounts]
+            const index = accounts_.findIndex((x) => x.id === account_.id)
+            accounts_[index] = account_
+            dispatch({ type: 'set_accounts', payload: accounts_ })
+            toast.success(`Account "${account_.name}" updated.`)
+            setIsOpen(false)
+          },
+          onError: () => {
+            toast.error('Oops, something wrong happened.')
+          },
+        }
+      )
+    }
   }
 
   return (

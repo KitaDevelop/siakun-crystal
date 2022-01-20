@@ -11,7 +11,7 @@ import {
 } from './endpoints'
 
 export interface UpdateAccountPayload {
-  accountNumber: string
+  accountId: number
   account: Partial<Account>
   year?: number
 }
@@ -39,8 +39,8 @@ export const useCreateAccount = () => {
 }
 
 export const useUpdateAccount = () => {
-  return useMutation(({ accountNumber, account, year }: UpdateAccountPayload) =>
-    updateAccount(accountNumber, account, year)
+  return useMutation(({ accountId, account, year }: UpdateAccountPayload) =>
+    updateAccount(accountId, account, year)
   )
 }
 

@@ -15,13 +15,15 @@ import toast from 'react-hot-toast'
 interface Props {
   idx: number
   account: Account
+  openModalToEdit: Function
 }
 
 export const AccountRow = ({
   idx,
+  openModalToEdit,
   account: { id, accountNumber, name, description, category, type, normalBalance },
 }: Props) => {
-  const { mutate, data } = useDeleteAccount()
+  const { mutate } = useDeleteAccount()
   const { accounts, dispatch } = useAccount()
 
   const onDeleteAccount = () => {
@@ -42,7 +44,21 @@ export const AccountRow = ({
     )
   }
 
-  const onEditAccount = () => {}
+  const onEditAccount = () => {
+    dispatch({
+      type: 'set_account',
+      account: {
+        id,
+        accountNumber,
+        name,
+        description,
+        category,
+        type,
+        normalBalance,
+      },
+    })
+    openModalToEdit()
+  }
 
   return (
     <TableBody className="relative group">
