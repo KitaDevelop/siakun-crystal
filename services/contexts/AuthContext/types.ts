@@ -1,8 +1,8 @@
-import { UseMutationResult } from "react-query";
+import { UseMutationResult } from 'react-query'
 
 export interface UserProfile {
-  name: string
-  img_url: string
+  organization_name: string
+  profilePicture: string
   role: string
 }
 
