@@ -6,8 +6,8 @@ export const JournalEntryReducer = (state: State, action: Action) => {
       return { ...state, date: action.date }
     case 'set_desc':
       return { ...state, description: action.description }
-    case 'set_receipts':
-      return { ...state, receipts: action.receipts }
+    case 'set_receipt':
+      return { ...state, receipt: action.receipt }
     case 'set_transactions':
       return { ...state, transactions: action.transactions }
   }

@@ -1,13 +1,13 @@
 export type Action =
   | { type: 'set_transactions'; transactions: Transaction[] }
-  | { type: 'set_receipts'; receipts: File[] }
+  | { type: 'set_receipt'; receipt: File }
   | { type: 'set_date'; date: string }
   | { type: 'set_desc'; description: string }
 export type Dispatch = (action: Action) => void
 export type State = {
   date: string
   description: string
-  receipts: File[]
+  receipt?: File
   transactions: Transaction[] // dummy
 }
 export type JournalEntryProviderProps = { children: React.ReactNode }
