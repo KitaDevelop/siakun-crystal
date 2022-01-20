@@ -5,6 +5,7 @@ import Image from 'next/image'
 import useAuth from '@hooks/useAuth'
 import router from 'next/router'
 import toast from 'react-hot-toast'
+import { PasswordInput } from './PasswordInput'
 
 interface Props {}
 
@@ -27,8 +28,15 @@ const Index = (props: Props) => {
     const username = usernameInputRef.current?.value || ''
     const password = passwordInputRef.current?.value || ''
 
-    useLoginMutation.mutate({ username, password })
-    if (isAuthenticated) router.push('/')
+    useLoginMutation.mutate(
+      { username, password },
+      {
+        onSuccess: (data) => {
+          console.log(data)
+          toast.success('Logged in')
+        },
+      }
+    )
   }
 
   return (
@@ -61,12 +69,7 @@ const Index = (props: Props) => {
                 Password <span className="text-error">*</span>
               </span>
             </label>
-            <input
-              type="password"
-              ref={passwordInputRef}
-              placeholder="Enter your password"
-              className="input input-bordered"
-            />
+            <PasswordInput ref={passwordInputRef} placeholder="Enter your password" />
           </div>
           <button type="submit" className={`btn btn-primary mt-4 ${isLoadingLogin && 'loading'}`}>
             Sign in
