@@ -2,12 +2,12 @@ import React from 'react'
 import { BiDownload, BiEdit, BiSave } from 'react-icons/bi'
 import { customStyles } from '@components/ChartOfAccounts/AddAccountModal/Select'
 import Select from 'react-select'
-import { SelectYearOption } from '@components/JournalEntries/FilterControls'
 import { BsTable } from 'react-icons/bs'
 import { GrDocumentPdf } from 'react-icons/gr'
 import ReactPDF, { PDFDownloadLink } from '@react-pdf/renderer'
 import PDFDocument from './PdfDocument'
 import { useTrialBalance } from '@hooks/useTrialBalance'
+import { SelectYearOption } from '@constants/years'
 
 interface Props {
   isEditing: Boolean

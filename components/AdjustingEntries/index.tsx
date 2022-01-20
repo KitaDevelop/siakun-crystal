@@ -1,4 +1,4 @@
-import FilterControls, { SelectYearOption } from '@components/JournalEntries/FilterControls'
+import FilterControls from '@components/JournalEntries/FilterControls'
 import TableRow from './TableRow'
 import { Table, TableHeader } from '@components/Table'
 import { AdjustingEntry } from '@context/AdjustingEntryContext/types'
@@ -10,6 +10,7 @@ import { numberToRupiah } from '@utils/numberToRupiah'
 import { sum } from '@utils/sum'
 
 import * as XLSX from 'xlsx'
+import { SelectYearOption } from '@constants/years'
 const { writeFile, utils } = XLSX
 
 interface Props {}

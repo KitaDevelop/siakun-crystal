@@ -1,4 +1,5 @@
 import React from 'react'
+import { Toaster } from 'react-hot-toast'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 
@@ -23,14 +24,13 @@ export const GlobalProvider: React.FC<Props> = ({ children }: Props) => {
           <JournalEntryProvider>
             <AdjustingEntryProvider>
               <AccountProvider>
-                <TrialBalanceProvider>
-                  {children}
-                </TrialBalanceProvider>
+                <TrialBalanceProvider>{children}</TrialBalanceProvider>
               </AccountProvider>
             </AdjustingEntryProvider>
           </JournalEntryProvider>
         </SidebarProvider>
         <ReactQueryDevtools initialIsOpen={false} />
+        <Toaster position="bottom-center" reverseOrder={false} />
       </AuthProvider>
     </QueryClientProvider>
   )

@@ -1,10 +1,10 @@
-import { Account } from '@api/accounts'
 import Layout from '@components/Layout'
 import { NavbarProps } from '@components/Navbar'
 import { navigation, Navigation } from '@constants/navigation'
 import { useRouter } from 'next/router'
 import React from 'react'
 import BukuBesar from '@components/BukuBesar'
+import { Account, AccountCategory, AccountType, NormalBalance } from '@context/AccountContext/types'
 
 interface Props {}
 
@@ -33,8 +33,8 @@ const data: Account = {
   accountNumber: '111',
   name: 'test name',
   description: 'test desc',
-  category: 'test categ',
-  type: 'test type',
-  normalBalance: 'kredit',
+  category: AccountCategory.AKUN,
+  type: AccountType.LABARUGI,
+  normalBalance: NormalBalance.CREDIT,
 }
 export default BukuBesarPage
