@@ -21,7 +21,7 @@ export default function Navbar({ title, icon }: NavbarProps) {
         <span className="font-bold uppercase">{title}</span>
       </div>
       <div className="flex-none font-medium">
-        <div>{userProfile?.organization_name}</div>
+        <div>{userProfile?.organization.name}</div>
         <div className="dropdown dropdown-hover dropdown-end">
           <button tabIndex={0} className="ml-2 btn btn-square btn-ghost">
             <div className="avatar">

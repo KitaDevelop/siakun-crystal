@@ -1,7 +1,10 @@
 import { UseMutationResult } from 'react-query'
 
 export interface UserProfile {
-  organization_name: string
+  organization: {
+    id: number
+    name: string
+  }
   profilePicture: string
   role: string
 }
