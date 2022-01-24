@@ -6,6 +6,8 @@ import useAuth from '@hooks/useAuth'
 import router from 'next/router'
 import toast from 'react-hot-toast'
 import { PasswordInput } from './PasswordInput'
+import { AxiosError } from 'axios'
+import { capitalize } from '@utils/capitalize'
 
 interface Props {}
 
@@ -14,12 +16,6 @@ const Index = (props: Props) => {
   const passwordInputRef = useRef<HTMLInputElement>(null)
 
   const { useLoginMutation, isLoadingLogin, isAuthenticated } = useAuth()
-
-  useEffect(() => {
-    if (useLoginMutation.isError) {
-      toast.error('Login gagal.\nUsername atau password salah.')
-    }
-  }, [useLoginMutation.isError])
 
   if (isAuthenticated) router.push('/')
 
@@ -34,6 +30,11 @@ const Index = (props: Props) => {
         onSuccess: (data) => {
           console.log(data)
           toast.success('Logged in')
+        },
+        onError: (error) => {
+          const error_ = error as AxiosError
+          const errorMsg = error_.response?.data.error
+          toast.error(`Login failed.\n${capitalize(errorMsg)}.`)
         },
       }
     )
