@@ -1,9 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useRef } from 'react'
+import React, { FormEvent, MouseEventHandler, useEffect, useRef } from 'react'
 import Image from 'next/image'
 
 import useAuth from '@hooks/useAuth'
 import router from 'next/router'
+import toast from 'react-hot-toast'
+import { PasswordInput } from './PasswordInput'
+import { AxiosError } from 'axios'
+import { capitalize } from '@utils/capitalize'
 
 interface Props {}
 
@@ -11,31 +15,39 @@ const Index = (props: Props) => {
   const usernameInputRef = useRef<HTMLInputElement>(null)
   const passwordInputRef = useRef<HTMLInputElement>(null)
 
-  const { useLoginMutation, isAuthenticated } = useAuth();
-
-  React.useEffect(() => {
-    if (useLoginMutation.isError) {
-      alert('Username atau password salah')
-    }
-  }, [useLoginMutation.isError])
+  const { useLoginMutation, isLoadingLogin, isAuthenticated } = useAuth()
 
   if (isAuthenticated) router.push('/')
 
-  const onSignInButtonPressed = async () => {
+  const onSignInButtonPressed = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     const username = usernameInputRef.current?.value || ''
     const password = passwordInputRef.current?.value || ''
 
-    useLoginMutation.mutate({username, password})
+    useLoginMutation.mutate(
+      { username, password },
+      {
+        onSuccess: (data) => {
+          console.log(data)
+          toast.success('Logged in')
+        },
+        onError: (error) => {
+          const error_ = error as AxiosError
+          const errorMsg = error_.response?.data.error
+          toast.error(`Login failed.\n${capitalize(errorMsg)}.`)
+        },
+      }
+    )
   }
 
   return (
     <div className="grid grid-cols-12 bg-primary max-h-screen overflow-hidden">
-      <div className="col-span-8 relative h-screen ">
+      <div className="hidden sm:block sm:col-span-4 md:col-span-8 relative">
         <Image src="/illust.svg" alt="illustration" className="object-cover object-center w-full" layout="fill" />
         <Image src="/komak.png" alt="illustration" className="absolute bottom-0 object-cover" layout="fill" />
       </div>
-      <div className="col-span-4 bg-white grid place-items-center">
-        <div className="flex flex-col w-full max-w-sm gap-4">
+      <div className="col-span-12 h-screen sm:col-span-8 md:col-span-4 bg-white grid place-items-center p-6">
+        <form onSubmit={onSignInButtonPressed} className="flex flex-col w-full max-w-sm gap-4">
           <div className="grid place-content-center">
             <Image width={183} height={104} src="/logo_lg.png" alt="logo" className="self-center mb-8" />
           </div>
@@ -45,7 +57,12 @@ const Index = (props: Props) => {
                 Username <span className="text-error">*</span>
               </span>
             </label>
-            <input type="text" ref={usernameInputRef} placeholder="Enter your username" className="input input-bordered" />
+            <input
+              type="text"
+              ref={usernameInputRef}
+              placeholder="Enter your username"
+              className="input input-bordered"
+            />
           </div>
           <div className="form-control">
             <label className="label font-bold">
@@ -53,10 +70,12 @@ const Index = (props: Props) => {
                 Password <span className="text-error">*</span>
               </span>
             </label>
-            <input type="password" ref={passwordInputRef} placeholder="Enter your password" className="input input-bordered" />
+            <PasswordInput ref={passwordInputRef} placeholder="Enter your password" />
           </div>
-          <div className="btn btn-primary mt-4" onClick={onSignInButtonPressed}>Sign in</div>
-        </div>
+          <button type="submit" className={`btn btn-primary mt-4 ${isLoadingLogin && 'loading'}`}>
+            Sign in
+          </button>
+        </form>
       </div>
     </div>
   )

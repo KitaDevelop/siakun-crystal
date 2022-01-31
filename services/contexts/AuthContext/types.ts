@@ -1,8 +1,11 @@
-import { UseMutationResult } from "react-query";
+import { UseMutationResult } from 'react-query'
 
 export interface UserProfile {
-  name: string
-  img_url: string
+  organization: {
+    id: number
+    name: string
+  }
+  profilePicture: string
   role: string
 }
 
@@ -13,6 +16,7 @@ export interface LoginRequestPayload {
 
 export interface LoginResponse {
   token: string
+  driveOAuth: string
   profile: UserProfile
 }
 
@@ -22,6 +26,8 @@ export interface LoadUserProfileRequestPayload {
 
 export interface AuthContextValue {
   userProfile: UserProfile | null
+  driveOAuth: string
+  setUserProfile: (payload: UserProfile) => void
   isAuthenticated: boolean
   useLoginMutation: UseMutationResult<
     LoginResponse,
@@ -32,4 +38,6 @@ export interface AuthContextValue {
   isLoadingUserProfile: boolean
   isLoadingLogin: boolean
   logout: () => void
+  setUserAvatar: (avatar: string) => void
+  setDriveOAuth: (url: string) => void
 }
