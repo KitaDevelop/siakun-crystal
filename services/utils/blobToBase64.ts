@@ -1,5 +1,5 @@
 export function blobToBase64(blob: Blob) {
-  return new Promise((resolve, _) => {
+  return new Promise<string | ArrayBuffer | null>((resolve, _) => {
     const reader = new FileReader()
     reader.onloadend = () => resolve(reader.result)
     reader.readAsDataURL(blob)

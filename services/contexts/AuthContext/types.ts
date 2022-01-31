@@ -16,6 +16,7 @@ export interface LoginRequestPayload {
 
 export interface LoginResponse {
   token: string
+  driveOAuth: string
   profile: UserProfile
 }
 
@@ -25,6 +26,8 @@ export interface LoadUserProfileRequestPayload {
 
 export interface AuthContextValue {
   userProfile: UserProfile | null
+  driveOAuth: string
+  setUserProfile: (payload: UserProfile) => void
   isAuthenticated: boolean
   useLoginMutation: UseMutationResult<
     LoginResponse,
@@ -35,4 +38,6 @@ export interface AuthContextValue {
   isLoadingUserProfile: boolean
   isLoadingLogin: boolean
   logout: () => void
+  setUserAvatar: (avatar: string) => void
+  setDriveOAuth: (url: string) => void
 }

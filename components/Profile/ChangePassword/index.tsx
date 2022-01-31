@@ -1,4 +1,9 @@
+import { useChangePassword } from '@api/profile'
+import { ChangePasswordPayload } from '@api/profile/endpoints'
+import { capitalize } from '@utils/capitalize'
+import { AxiosError } from 'axios'
 import React, { FormEvent, useState } from 'react'
+import toast from 'react-hot-toast'
 import { PasswordInput } from './PasswordInput'
 
 interface Props {}
@@ -8,8 +13,13 @@ export const ChangePassword = (props: Props) => {
   const [newPassword, setNewPassword] = useState<string>('')
   const [confirmPassword, setConfirmPassword] = useState<string>('')
 
+  const changePassword = useChangePassword()
+
   const onChangePassword = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+
+    const payload: ChangePasswordPayload = { oldPassword, newPassword, confirmPassword }
+    changePassword.mutate(payload)
   }
 
   return (

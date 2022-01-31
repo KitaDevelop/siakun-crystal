@@ -3,7 +3,7 @@ import axios from 'axios'
 import config from 'config'
 
 export interface UpdateDisplayPicturePayload {
-  profilePicture: string
+  imageUrl: string
 }
 
 export interface ChangePasswordPayload {
@@ -12,22 +12,14 @@ export interface ChangePasswordPayload {
   confirmPassword: string
 }
 
-export const removeDisplayPicture = () => {
-  const payload: UpdateDisplayPicturePayload = { profilePicture: '' }
-  return axios.put<UserProfile>(
-    `${config.API_URL_CARBON}/users/change-avatar`,
-    payload
-  )
-}
-
 export const changeDisplayPicture = (payload: UpdateDisplayPicturePayload) =>
-  axios.put<UserProfile>(
-    `${config.API_URL_CARBON}/users/change-avatar`,
+  axios.put<UpdateDisplayPicturePayload>(
+    `${config.API_URL_CARBON}/users/`,
     payload
   )
 
 export const changePassword = (payload: ChangePasswordPayload) =>
-  axios.put<UserProfile>(
-    `${config.API_URL_CARBON}/users/change-password`,
+  axios.put<ChangePasswordPayload>(
+    `${config.API_URL_CARBON}/auth/change-password`,
     payload
   )
