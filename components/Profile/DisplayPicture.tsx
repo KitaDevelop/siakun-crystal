@@ -33,7 +33,7 @@ export const DisplayPicture = (props: Props) => {
     if (files && file) {
       let dataUrl = (await blobToBase64(file)) as string
       console.log(`before ${dataUrl.length}`)
-      dataUrl = await downscaleImage(dataUrl, file.type, 150, 0.9)
+      dataUrl = await downscaleImage(dataUrl, file.type, 112, 0.9)
       console.log(`after ${dataUrl.length}`)
 
       const payload: UpdateDisplayPicturePayload = {

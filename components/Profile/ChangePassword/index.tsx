@@ -19,7 +19,13 @@ export const ChangePassword = (props: Props) => {
     e.preventDefault()
 
     const payload: ChangePasswordPayload = { oldPassword, newPassword, confirmPassword }
-    changePassword.mutate(payload)
+    changePassword.mutate(payload, {
+      onSuccess: () => {
+        setOldPassword('')
+        setConfirmPassword('')
+        setNewPassword('')
+      },
+    })
   }
 
   return (

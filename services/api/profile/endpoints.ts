@@ -19,7 +19,7 @@ export const changeDisplayPicture = (payload: UpdateDisplayPicturePayload) =>
   )
 
 export const changePassword = (payload: ChangePasswordPayload) =>
-  axios.put<ChangePasswordPayload>(
+  axios.post<ChangePasswordPayload>(
     `${config.API_URL_CARBON}/auth/change-password`,
     payload
   )
