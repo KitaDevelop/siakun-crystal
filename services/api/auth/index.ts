@@ -23,7 +23,8 @@ export const loadUserProfile = async (
 
   const res = await axios.post<UserProfile>(
     `${config.API_URL_CARBON}/auth/profile`,
-    payload
+    payload,
+    { headers: { Authorization: 'Bearer ' + payload.token } }
   )
   if (res.data) return res.data
   throw new Error('token tidak valid')

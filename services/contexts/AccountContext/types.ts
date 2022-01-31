@@ -1,6 +1,6 @@
 export interface Account {
   id: number
-  accountNumber: string
+  number: string
   name: string
   description: string
   category: AccountCategory
@@ -17,7 +17,6 @@ export type Action =
   | { type: 'set_desc'; desc: string }
   | { type: 'set_normal_balance'; normalBalance: NormalBalance }
   | { type: 'set_account_type'; accType: AccountType }
-  | { type: 'set_desc'; desc: string }
   | { type: 'set_beginning_balance'; beginningBalance: number }
   | { type: 'set_jenis'; jenis: AccountCategory }
   | { type: 'set_sub_accounts'; subAccounts: Account[] }
@@ -49,7 +48,7 @@ export enum NormalBalance {
 }
 export const EmptyAccount: Account = {
   id: -1,
-  accountNumber: '',
+  number: '',
   name: '',
   description: '',
   category: AccountCategory.NONE,

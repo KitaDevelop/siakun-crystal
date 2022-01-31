@@ -8,7 +8,7 @@ export const ParentAccountSelect = () => {
 
   const accountOptions = accounts.map((account) => ({
     value: account,
-    label: `${account.accountNumber} | ${account.name}`,
+    label: `${account.number} | ${account.name}`,
   }))
 
   return (

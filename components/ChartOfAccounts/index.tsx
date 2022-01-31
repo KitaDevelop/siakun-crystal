@@ -29,7 +29,7 @@ export const Index = () => {
         <TableHeader {...{ cells }} />
         {accounts &&
           accounts.map((d, i) => (
-            <AccountRow key={d.accountNumber} idx={i + 1} account={d} openModalToEdit={openModalToEdit} />
+            <AccountRow key={d.number} idx={i + 1} account={d} openModalToEdit={openModalToEdit} />
           ))}
       </Table>
       {accounts && accounts.length == 0 && (

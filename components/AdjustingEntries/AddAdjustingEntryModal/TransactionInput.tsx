@@ -19,7 +19,7 @@ export const TransactionInput = ({ isOnlyChild, idx }: Props) => {
 
   const accountOptions = accounts.map((account) => ({
     value: account,
-    label: `${account.accountNumber} | ${account.name}`,
+    label: `${account.number} | ${account.name}`,
   }))
 
   const [isDebit, setIsDebit] = useState(true)

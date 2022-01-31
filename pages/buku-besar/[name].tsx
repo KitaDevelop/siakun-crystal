@@ -30,7 +30,7 @@ export const BukuBesarPage = (props: Props) => {
 
 const data: Account = {
   id: 1,
-  accountNumber: '111',
+  number: '111',
   name: 'test name',
   description: 'test desc',
   category: AccountCategory.AKUN,

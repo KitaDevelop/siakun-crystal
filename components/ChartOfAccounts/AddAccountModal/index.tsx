@@ -7,7 +7,7 @@ import React, { ChangeEvent, useEffect } from 'react'
 import toast from 'react-hot-toast'
 import { AdditionalInfo } from './AdditionalInfo'
 import { AccountNameInput } from './Form/AccountNameInput'
-import { AccountNumberInput } from './Form/AccountNumberInput'
+import { numberInput } from './Form/numberInput'
 import { DescriptionInput } from './Form/DescriptionInput'
 import { JenisAccountSelect } from './Select/JenisAccountSelect'
 import { ParentAccountSelect } from './Select/ParentAccountSelect'
@@ -73,7 +73,7 @@ export const AddAccountModal = ({ isOpen, setIsOpen, isBlank }: Props) => {
       <div className="font-bold text-xl mb-4">Create New Account</div>
       <form className="w-full flex flex-col gap-2">
         <ParentAccountSelect />
-        <AccountNumberInput />
+        <numberInput />
         <AccountNameInput />
         <DescriptionInput />
         <JenisAccountSelect />

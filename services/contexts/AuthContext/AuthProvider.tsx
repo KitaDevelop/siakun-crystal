@@ -18,7 +18,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
       onSuccess: (data) => {
         setUserProfile(data)
         setToken(token_)
-        axios.defaults.headers.common['Authorization'] = `BEARER ${token_}`
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token_}`
       },
       staleTime: 3600 * 1000,
       cacheTime: 3600 * 1000,
@@ -34,7 +34,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
       setToken(token_)
       Cookies.set('token', token_)
 
-      axios.defaults.headers.common['Authorization'] = `BEARER ${token_}`
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token_}`
     },
   })
 

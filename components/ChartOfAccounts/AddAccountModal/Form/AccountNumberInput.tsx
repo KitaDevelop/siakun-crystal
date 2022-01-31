@@ -1,9 +1,9 @@
 import { useAccount } from '@hooks/useAccount'
 import React, { ChangeEvent } from 'react'
 
-export const AccountNumberInput = () => {
+export const numberInput = () => {
   const {
-    account: { accountNumber },
+    account: { number },
     dispatch,
   } = useAccount()
 
@@ -18,7 +18,7 @@ export const AccountNumberInput = () => {
         type="text"
         placeholder="Enter Account Number"
         className="input input-bordered"
-        value={accountNumber}
+        value={number}
         onChange={(e: ChangeEvent<HTMLInputElement>) => dispatch({ type: 'set_account_no', accNo: e.target.value })}
       />
     </div>

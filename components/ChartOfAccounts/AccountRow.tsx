@@ -21,7 +21,7 @@ interface Props {
 export const AccountRow = ({
   idx,
   openModalToEdit,
-  account: { id, accountNumber, name, description, category, type, normalBalance },
+  account: { id, number, name, description, category, type, normalBalance },
 }: Props) => {
   const { mutate } = useDeleteAccount()
   const { accounts, dispatch } = useAccount()
@@ -49,7 +49,7 @@ export const AccountRow = ({
       type: 'set_account',
       account: {
         id,
-        accountNumber,
+        number,
         name,
         description,
         category,
@@ -101,7 +101,7 @@ export const AccountRow = ({
       <Link href={`/buku-besar/${slugify(name)}`} passHref>
         <tr className="text-center cursor-pointer hover">
           <td>{idx}</td>
-          <td>{accountNumber}</td>
+          <td>{number}</td>
           <td className="whitespace-normal text-left">{name}</td>
           <td className="text-left">{description}</td>
           <td>{capitalize(category.toString())}</td>

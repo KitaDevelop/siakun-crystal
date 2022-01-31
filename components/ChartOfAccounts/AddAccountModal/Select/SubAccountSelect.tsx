@@ -28,7 +28,7 @@ export const SubAccountSelect = ({ idx }: Props) => {
       .filter((a) => !(subAccounts as Account[]).includes(a))
       .map((account) => ({
         value: account,
-        label: `${account.accountNumber} | ${account.name}`,
+        label: `${account.number} | ${account.name}`,
       }))
     setOptions(accountOptions)
   }, [accounts, subAccounts])
