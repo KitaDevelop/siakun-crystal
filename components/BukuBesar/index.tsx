@@ -1,10 +1,9 @@
-import FilterControls from '@components/JournalEntries/FilterControls'
+import FilterControls from '@components/FilterControls'
 import TableRow from '@components/JournalEntries/TableRow'
 import { Table, TableHeader } from '@components/Table'
-import { CURRENT_YEAR } from '@constants/.'
-import { SelectYearOption } from '@constants/years'
 import { Account } from '@context/AccountContext/types'
 import { JournalEntry } from '@context/JournalEntryContext/types'
+import { useYear } from '@hooks/useYear'
 import { formatDate } from '@utils/formatDate'
 import { numberToRupiah } from '@utils/numberToRupiah'
 import { sum } from '@utils/sum'
@@ -18,7 +17,8 @@ interface Props {
 }
 
 export const Index = ({ data }: Props) => {
-  const [year, setYear] = useState<SelectYearOption[]>(years.filter((option) => option.value === CURRENT_YEAR))
+  const { year } = useYear()
+  const [search, setSearch] = useState('')
 
   const dummyJournalEntries: JournalEntry[] = [
     {
@@ -96,13 +96,13 @@ export const Index = ({ data }: Props) => {
     var workbook = utils.book_new()
     var worksheet = utils.json_to_sheet(flattenJson(dummyJournalEntries))
     utils.book_append_sheet(workbook, worksheet, data.name)
-    return writeFile(workbook, `buku_besar_${data.name}_${year[0].value}.xlsx`)
+    return writeFile(workbook, `buku_besar_${data.name}_${year}.xlsx`)
   }
 
   return (
     <div className="flex flex-col gap-4">
       <h2 className="font-bold text-2xl">{data.name}</h2>
-      <FilterControls {...{ years, year, setYear, exportDocument }} />
+      <FilterControls {...{ exportDocument, search, setSearch }} />
       <Table zebra>
         <TableHeader cells={cells} />
         {dummyJournalEntries.map((entry, idx) => (
@@ -122,11 +122,5 @@ export const Index = ({ data }: Props) => {
 }
 
 const cells: string[] = ['date', 'acc no.', 'account name', 'debit', 'credit', 'description']
-
-const years: SelectYearOption[] = [
-  { value: 2021, label: '2021' },
-  { value: 2020, label: '2020' },
-  { value: 2019, label: '2019' },
-]
 
 export default Index

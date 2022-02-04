@@ -1,33 +1,25 @@
 import React from 'react'
 import { BiDownload, BiEdit, BiSave } from 'react-icons/bi'
-import { customStyles } from '@components/ChartOfAccounts/AddAccountModal/Select'
-import Select from 'react-select'
 import { BsTable } from 'react-icons/bs'
 import { GrDocumentPdf } from 'react-icons/gr'
-import ReactPDF, { PDFDownloadLink } from '@react-pdf/renderer'
+import { PDFDownloadLink } from '@react-pdf/renderer'
 import PDFDocument from './PdfDocument'
 import { useTrialBalance } from '@hooks/useTrialBalance'
-import { SelectYearOption } from '@constants/years'
+import { YearSelect } from '@components/YearSelect'
+import { useYear } from '@hooks/useYear'
 
 interface Props {
   isEditing: Boolean
-  years?: SelectYearOption[]
-  year: SelectYearOption[]
   position: 'top' | 'bottom'
   setIsEditing: (v: boolean) => void
-  setYear?: (v: SelectYearOption[]) => void
   exportAsXlsx: () => void
 }
 
-export const Controls = ({ isEditing, setIsEditing, year, years, setYear, exportAsXlsx, position = 'top' }: Props) => {
+export const Controls = ({ isEditing, setIsEditing, exportAsXlsx, position = 'top' }: Props) => {
+  const { year } = useYear()
   const {
     state: { financialPosition, activities },
   } = useTrialBalance()
-
-  const isSelectYearOption = (v: any): v is SelectYearOption => {
-    if ((v as SelectYearOption).value !== undefined) return v.value
-    return false
-  }
 
   return (
     <div className={`flex ${position === 'top' ? 'justify-between mb-4' : 'justify-end mt-4'} `}>
@@ -49,8 +41,8 @@ export const Controls = ({ isEditing, setIsEditing, year, years, setYear, export
             <ul tabIndex={-1} className="p-2 shadow-lg menu dropdown-content bg-base-100 rounded-box w-56 my-2">
               <li>
                 <PDFDownloadLink
-                  document={<PDFDocument {...{ financialPosition, activities, year: year[0].value }} />}
-                  fileName={`trial_balance_${year[0].value}`}
+                  document={<PDFDocument {...{ financialPosition, activities, year: year }} />}
+                  fileName={`trial_balance_${year}`}
                 >
                   <GrDocumentPdf className="mr-2" /> Download as PDF
                 </PDFDownloadLink>
@@ -68,21 +60,12 @@ export const Controls = ({ isEditing, setIsEditing, year, years, setYear, export
           </div>
         </div>
       )}
-      {position === 'top' && setYear && (
+      {position === 'top' && (
         <div className="flex items-center gap-2">
           <label className="label font-bold">
             <span className="label-text">Year:</span>
           </label>
-          <Select
-            options={years}
-            value={year}
-            styles={customStyles}
-            closeMenuOnSelect
-            isSearchable
-            onChange={(v) => {
-              if (isSelectYearOption(v)) setYear([v])
-            }}
-          />
+          <YearSelect />
         </div>
       )}
     </div>

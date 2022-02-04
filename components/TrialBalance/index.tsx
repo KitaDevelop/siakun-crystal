@@ -1,5 +1,4 @@
 import { Table, TableHeader } from '@components/Table'
-import { CURRENT_YEAR } from '@constants/.'
 import {
   BalanceRow,
   RowRelativePosition,
@@ -10,7 +9,7 @@ import {
 import { useTrialBalance } from '@hooks/useTrialBalance'
 import React, { useState } from 'react'
 import { IoAdd } from 'react-icons/io5'
-import dynamic from 'next/dynamic'
+import { useYear } from '@hooks/useYear'
 
 import { Controls } from './Controls'
 import { DropdownRowType } from './DropdownRowType'
@@ -18,14 +17,13 @@ import { TableEditable } from './TableEditable'
 import { TableReadOnly } from './TableReadOnly'
 
 import * as XLSX from 'xlsx'
-import { SelectYearOption } from '@constants/years'
 const { writeFile, utils } = XLSX
 
 interface Props {}
 
 export const Index = (props: Props) => {
   const [isEditing, setIsEditing] = useState<boolean>(false)
-  const [year, setYear] = useState<SelectYearOption[]>(years.filter((option) => option.value === CURRENT_YEAR))
+  const { year } = useYear()
 
   const {
     state: { financialPosition, activities },
@@ -83,12 +81,12 @@ export const Index = (props: Props) => {
     var activitiesSheet = utils.json_to_sheet(flattenJson(activities))
     utils.book_append_sheet(workbook, financialPositionSheet, 'Statement of Financial Position')
     utils.book_append_sheet(workbook, activitiesSheet, 'Statement of Activities')
-    return writeFile(workbook, `trial_balance_${year[0].value}.xlsx`)
+    return writeFile(workbook, `trial_balance_${year}.xlsx`)
   }
 
   return (
     <div>
-      <Controls {...{ year, years, setYear, isEditing, setIsEditing, exportAsXlsx }} position="top" />
+      <Controls {...{ isEditing, setIsEditing, exportAsXlsx }} position="top" />
       <div className="font-bold text-xl mb-2">I. Statement of Financial Position</div>
       <Table zebra>
         <TableHeader trialBalance />
@@ -128,12 +126,5 @@ export const Index = (props: Props) => {
     </div>
   )
 }
-
-const years: SelectYearOption[] = [
-  { value: 2022, label: '2022' },
-  { value: 2021, label: '2021' },
-  { value: 2020, label: '2020' },
-  { value: 2019, label: '2019' },
-]
 
 export default Index

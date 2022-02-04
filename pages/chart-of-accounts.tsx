@@ -6,7 +6,7 @@ import React, { useEffect } from 'react'
 import ChartOfAccount from '@components/ChartOfAccounts'
 import { FaSpinner } from 'react-icons/fa'
 import { useAccount } from '@hooks/useAccount'
-import { CURRENT_YEAR } from '@constants/.'
+import { useYear } from '@hooks/useYear'
 
 interface Props {}
 
@@ -17,13 +17,17 @@ const meta: NavbarProps = {
 }
 
 export const CoAPage = (props: Props) => {
-  const { isLoading, isError, data, isSuccess } = useFetchAccounts(CURRENT_YEAR)
+  const { year } = useYear()
+  const { isLoading, data, isSuccess, refetch } = useFetchAccounts(year)
   const { dispatch } = useAccount()
 
   useEffect(() => {
+    refetch()
+  }, [year])
+
+  useEffect(() => {
     if (isSuccess && data) {
-      dispatch({ type: 'set_accounts', payload: data.data })
-      console.log(data.data)
+      dispatch({ type: 'set_accounts', payload: data.data || [] })
     }
   }, [data, isSuccess])
 
