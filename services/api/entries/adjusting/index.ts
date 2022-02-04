@@ -1,4 +1,4 @@
-import { DeletePayload, handleError } from '@api/.'
+import { DeletePayload, handleError, OPTIONS } from '@api/.'
 import { AdjustingEntry } from '@context/AdjustingEntryContext/types'
 import { useMutation, useQuery } from 'react-query'
 import {
@@ -16,11 +16,15 @@ interface UpdateAdjustingEntryPayload {
 }
 
 export const useFetchAdjustingEntries = (year?: number) => {
-  return useQuery('adjusting-entries', () => getAdjustingEntries(year))
+  return useQuery('adjusting-entries', () => getAdjustingEntries(year), OPTIONS)
 }
 
 export const useFetchAdjustingEntry = (id: number, year?: number) => {
-  return useQuery(`adjusting-entry:${id}`, () => getAdjustingEntry(id, year))
+  return useQuery(
+    `adjusting-entry:${id}`,
+    () => getAdjustingEntry(id, year),
+    OPTIONS
+  )
 }
 
 export const useCreateAdjustingEntry = () => {

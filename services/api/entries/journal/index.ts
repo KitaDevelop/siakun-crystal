@@ -1,4 +1,4 @@
-import { DeletePayload, handleError } from '@api/.'
+import { DeletePayload, handleError, OPTIONS } from '@api/.'
 import { JournalEntry } from '@context/JournalEntryContext/types'
 import { useMutation, useQuery } from 'react-query'
 import {
@@ -16,11 +16,15 @@ interface UpdateJournalEntryPayload {
 }
 
 export const useFetchJournalEntries = (year?: number) => {
-  return useQuery('journal-entries', () => getJournalEntries(year))
+  return useQuery('journal-entries', () => getJournalEntries(year), OPTIONS)
 }
 
 export const useFetchJournalEntry = (id: number, year?: number) => {
-  return useQuery(`journal-entry:${id}`, () => getJournalEntry(id, year))
+  return useQuery(
+    `journal-entry:${id}`,
+    () => getJournalEntry(id, year),
+    OPTIONS
+  )
 }
 
 export const useCreateJournalEntry = () => {

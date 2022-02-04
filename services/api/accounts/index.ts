@@ -7,7 +7,7 @@ import {
   getAccounts,
   updateAccount,
 } from './endpoints'
-import { DeletePayload, handleError } from '..'
+import { DeletePayload, handleError, OPTIONS } from '..'
 
 export interface UpdateAccountPayload {
   accountId: number
@@ -16,16 +16,11 @@ export interface UpdateAccountPayload {
 }
 
 export const useFetchAccounts = (year?: number) => {
-  return useQuery('accounts', () => getAccounts(year), {
-    staleTime: 3600 * 1000,
-    cacheTime: 3600 * 1000,
-    retry: 2,
-    refetchOnWindowFocus: false,
-  })
+  return useQuery('accounts', () => getAccounts(year), OPTIONS)
 }
 
 export const useFetchAccount = (number: string, year?: number) => {
-  return useQuery('accounts', () => getAccount(number, year))
+  return useQuery('accounts', () => getAccount(number, year), OPTIONS)
 }
 
 export const useCreateAccount = () => {

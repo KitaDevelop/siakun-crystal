@@ -12,3 +12,10 @@ export interface DeletePayload {
   id: number
   year?: number
 }
+
+export const OPTIONS = {
+  staleTime: 3600 * 1000,
+  cacheTime: 3600 * 1000,
+  retry: 2,
+  refetchOnWindowFocus: false,
+}
