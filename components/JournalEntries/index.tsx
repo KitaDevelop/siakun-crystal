@@ -88,20 +88,36 @@ export const Index = (props: Props) => {
           <FaSpinner className="w-10 h-10 animate-spin" />
         </div>
       ) : (
-        <Table zebra>
-          <TableHeader cells={cells} />
-          {entries.map((entry, idx) => (
-            <EntryRow key={entry.id} idx={idx} entry={entry} />
-          ))}
-          <tr className="text-center font-bold">
-            <td colSpan={3} className="text-right">
-              Total
-            </td>
-            <td className="text-right">{numberToRupiah(currentCredit)}</td>
-            <td className="text-right">{numberToRupiah(currentDebit)}</td>
-            <td></td>
-          </tr>
-        </Table>
+        <>
+          <Table zebra>
+            <TableHeader cells={cells} />
+            {entries.map((entry, idx) => (
+              <EntryRow key={entry.id} idx={idx} entry={entry} />
+            ))}
+            {entries.length > 0 && (
+              <tr className="text-center font-bold">
+                <td colSpan={3} className="text-right uppercase">
+                  Total
+                </td>
+                <td className="text-right text-green-900 bg-success bg-opacity-10 rounded-l-lg">
+                  {numberToRupiah(currentDebit)}
+                </td>
+                <td className="text-right text-red-900 bg-error bg-opacity-10 rounded-r-lg">
+                  {numberToRupiah(currentCredit)}
+                </td>
+                <td></td>
+              </tr>
+            )}
+          </Table>
+          {entries && entries.length == 0 && (
+            <div className="card w-full bg-base-200 p-8 text-center items-center">
+              No entries registered yet.{' '}
+              <div className="btn btn-primary mt-3" onClick={() => setOpen(true)}>
+                create entry
+              </div>
+            </div>
+          )}
+        </>
       )}
 
       <button onClick={() => setOpen(true)} className="btn btn-circle fixed bottom-6 right-6 btn-primary">

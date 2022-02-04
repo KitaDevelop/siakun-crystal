@@ -1,3 +1,4 @@
+import { Table, TableHeader } from '@components/Table'
 import { SelectYearOption } from '@constants/years'
 import { Account } from '@context/AccountContext/types'
 import { JournalEntry } from '@context/JournalEntryContext/types'
