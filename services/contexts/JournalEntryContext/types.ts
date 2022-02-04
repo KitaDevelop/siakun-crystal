@@ -21,7 +21,6 @@ export type JournalEntry = {
 export type Transaction = {
   id: number
   accountNumber: string
-  accountName: string
   debit?: number
   credit?: number
 }
