@@ -1,6 +1,4 @@
 import { useMutation, useQuery } from 'react-query'
-import config from 'config'
-import axios, { AxiosError } from 'axios'
 import { Account } from '@context/AccountContext/types'
 import {
   createAccount,
@@ -9,17 +7,11 @@ import {
   getAccounts,
   updateAccount,
 } from './endpoints'
-import toast from 'react-hot-toast'
-import { capitalize } from '@utils/capitalize'
+import { DeletePayload, handleError } from '..'
 
 export interface UpdateAccountPayload {
   accountId: number
   account: Partial<Account>
-  year?: number
-}
-
-export interface DeleteAccountPayload {
-  id: number
   year?: number
 }
 
@@ -37,25 +29,21 @@ export const useFetchAccount = (number: string, year?: number) => {
 }
 
 export const useCreateAccount = () => {
-  return useMutation((account: Account) => createAccount(account))
+  return useMutation((account: Account) => createAccount(account), {
+    onError: handleError,
+  })
 }
 
 export const useUpdateAccount = () => {
   return useMutation(
     ({ accountId, account, year }: UpdateAccountPayload) =>
       updateAccount(accountId, account, year),
-    {
-      onError: (error) => {
-        const error_ = error as AxiosError
-        const errorMsg = error_.response?.data.error
-        toast.error(`${capitalize(errorMsg)}.`)
-      },
-    }
+    { onError: handleError }
   )
 }
 
 export const useDeleteAccount = () => {
-  return useMutation(({ id, year }: DeleteAccountPayload) =>
-    deleteAccount(id, year)
-  )
+  return useMutation(({ id, year }: DeletePayload) => deleteAccount(id, year), {
+    onError: handleError,
+  })
 }

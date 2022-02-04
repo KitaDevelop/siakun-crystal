@@ -15,12 +15,13 @@ export type JournalEntry = {
   id: number
   date: string
   description: string
+  receipt: string
   transactions: Transaction[]
 }
 export type Transaction = {
   id: number
-  accNumber: string
-  accName: string
+  accountNumber: string
+  accountName: string
   debit?: number
   credit?: number
 }
