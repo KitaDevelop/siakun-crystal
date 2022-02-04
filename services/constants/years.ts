@@ -1,4 +1,4 @@
-import { CURRENT_YEAR } from '.'
+export const CURRENT_YEAR = new Date().getFullYear()
 
 export type SelectYearOption = {
   label: string
