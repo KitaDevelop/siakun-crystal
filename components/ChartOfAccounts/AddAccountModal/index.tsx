@@ -28,7 +28,7 @@ export const AddAccountModal = ({ isOpen, setIsOpen, isBlank }: Props) => {
   }, [isBlank])
 
   const onSaveAccount = () => {
-    const { accounts, subAccounts, ...account_ } = account
+    const { accounts, ...account_ } = account
     console.log(account_)
     if (isBlank)
       createAccount.mutate(account_, {

@@ -3,7 +3,7 @@ import { useAccount } from '@hooks/useAccount'
 import React, { useEffect, useState } from 'react'
 import { IoTrashOutline } from 'react-icons/io5'
 import Select, { SingleValue } from 'react-select'
-import { customStyles } from './index'
+import { customStyles, isSelectAccountOption } from './index'
 
 interface Props {
   idx: number
@@ -21,26 +21,39 @@ export const SubAccountSelect = ({ idx }: Props) => {
     dispatch,
   } = useAccount()
 
-  const [options, setOptions] = useState<AccountSelectOptions[] | undefined>()
-
-  useEffect(() => {
-    const accountOptions = accounts
-      .filter((a) => !(subAccounts as Account[]).includes(a))
+  const filteredOptions = (): AccountSelectOptions[] => {
+    return accounts
+      .filter((a) => a.number === subAccounts?.[idx] || !(subAccounts as string[]).includes(a.number))
       .map((account) => ({
         value: account,
         label: `${account.number} | ${account.name}`,
       }))
+  }
+
+  const [options, setOptions] = useState<AccountSelectOptions[]>(filteredOptions())
+  const [chosen, setChosen] = useState<AccountSelectOptions | undefined>(
+    options.find((x) => x.value.number == subAccounts?.[idx])
+  )
+
+  useEffect(() => {
+    const accountOptions = filteredOptions()
     setOptions(accountOptions)
-  }, [accounts, subAccounts])
+  }, [accounts, subAccounts, chosen])
 
   const onSubAccountSelect = (val: SingleValue<AccountSelectOptions>) => {
-    const accounts = (subAccounts || []).splice(idx, 1, val?.value as Account)
-    dispatch({ type: 'set_sub_accounts', subAccounts: accounts })
+    if (isSelectAccountOption(val)) {
+      setChosen(val)
+      console.log(val)
+      const accounts_ = [...(subAccounts || [])]
+      accounts_.splice(idx, 1, val?.value?.number)
+      dispatch({ type: 'set_sub_accounts', subAccounts: accounts_ })
+    }
   }
 
   const onDeleteSubAccount = () => {
-    const accounts = (subAccounts || []).splice(idx, 1)
-    dispatch({ type: 'set_sub_accounts', subAccounts: accounts })
+    const accounts_ = [...(subAccounts || [])]
+    accounts_.splice(idx, 1)
+    dispatch({ type: 'set_sub_accounts', subAccounts: accounts_ })
   }
 
   return (
@@ -52,6 +65,7 @@ export const SubAccountSelect = ({ idx }: Props) => {
         styles={customStyles}
         closeMenuOnSelect
         isSearchable
+        value={chosen}
         onChange={(val) => onSubAccountSelect(val)}
       />
       <div onClick={onDeleteSubAccount} className="btn btn-circle btn-secondary btn-outline btn-sm">

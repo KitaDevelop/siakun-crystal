@@ -15,9 +15,7 @@ export const JumlahAdditionalInfo = () => {
   }, [])
 
   const addSubAccountHandler = () => {
-    const newAccount = { ...EmptyAccount }
-    const accounts = [...(subAccounts || [])]
-    accounts.push(newAccount as Account)
+    const accounts = [...(subAccounts || []), '']
     dispatch({ type: 'set_sub_accounts', subAccounts: accounts })
   }
 
@@ -27,7 +25,7 @@ export const JumlahAdditionalInfo = () => {
         <span className="label-text">Sub-Accounts</span>
       </label>
       <div className="flex flex-col gap-2">
-        {subAccounts && subAccounts.map((account, idx) => <SubAccountSelect key={account.id} idx={idx} />)}
+        {subAccounts && subAccounts.map((accNumber, idx) => <SubAccountSelect key={accNumber} idx={idx} />)}
       </div>
       <div onClick={addSubAccountHandler} className="btn btn-ghost text-primary self-start btn-sm">
         <IoAdd className="mr-2" /> Add More

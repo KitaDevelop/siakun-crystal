@@ -1,6 +1,6 @@
 export interface Account {
   id: number
-  parentNumber: string
+  parentNumber?: string
   number: string
   name: string
   description: string
@@ -8,6 +8,7 @@ export interface Account {
   normalBalance?: NormalBalance
   type?: AccountType
   beginningBalance?: number
+  subAccounts?: string[]
 }
 export type Action =
   | { type: 'set_accounts'; payload: Account[] }
@@ -20,11 +21,10 @@ export type Action =
   | { type: 'set_account_type'; accType: AccountType }
   | { type: 'set_beginning_balance'; beginningBalance: number }
   | { type: 'set_jenis'; jenis: AccountCategory }
-  | { type: 'set_sub_accounts'; subAccounts: Account[] }
+  | { type: 'set_sub_accounts'; subAccounts: string[] }
 export type Dispatch = (action: Action) => void
 export interface State extends Account {
   accounts: Account[]
-  subAccounts?: Account[]
 }
 export type AccountContextValue = {
   accounts: Account[]

@@ -15,7 +15,10 @@ export const getAccount = (accountId: string, year?: number) =>
   )
 
 export const createAccount = (account: Account) => {
-  const { id, ...account_ } = account
+  const { id, subAccounts, ...acc_ } = account
+  const account_ = { ...acc_, subAccountsNumber: subAccounts }
+  console.log(account_)
+
   return axios.post<Account>(`${config.API_URL_CARBON}/accounts`, account_)
 }
 

@@ -35,22 +35,22 @@ export default function Navbar({ title, icon }: NavbarProps) {
               </div>{' '}
             </div>
           </button>
-        </div>
-        <ul tabIndex={0} className="p-2 shadow menu dropdown-content bg-base-100 rounded-box w-52 text-base-content">
-          <li>
-            <Link href="/profile" passHref>
-              <a>
-                <FaRegUser className="w-5 h-5 mr-2" /> Manage Profile
+          <ul tabIndex={0} className="p-2 shadow menu dropdown-content bg-base-100 rounded-box w-52 text-base-content">
+            <li>
+              <Link href="/profile" passHref>
+                <a>
+                  <FaRegUser className="w-5 h-5 mr-2" /> Manage Profile
+                </a>
+              </Link>
+            </li>
+            <li className="text-error">
+              <a onClick={logout}>
+                <FaSignOutAlt className="w-5 h-5 mr-2" />
+                Logout
               </a>
-            </Link>
-          </li>
-          <li className="text-error">
-            <a onClick={logout}>
-              <FaSignOutAlt className="w-5 h-5 mr-2" />
-              Logout
-            </a>
-          </li>
-        </ul>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   )

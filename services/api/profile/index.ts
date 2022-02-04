@@ -1,7 +1,5 @@
-import { Account } from '@api/accounts'
 import { capitalize } from '@utils/capitalize'
 import axios, { AxiosError } from 'axios'
-import config from 'config'
 import toast from 'react-hot-toast'
 import { useMutation } from 'react-query'
 import {
@@ -32,7 +30,7 @@ export const useChangeDisplayPicture = () => {
     (payload: UpdateDisplayPicturePayload) => changeDisplayPicture(payload),
     {
       onSuccess: () => {
-        toast.success('Display picture sucessfully changed.')
+        toast.success('Display picture successfully changed.')
       },
       onError: (error) => {
         const error_ = error as AxiosError
@@ -48,7 +46,7 @@ export const useChangePassword = () => {
     (payload: ChangePasswordPayload) => changePassword(payload),
     {
       onSuccess: () => {
-        toast.success('Password sucessfully changed.')
+        toast.success('Password successfully changed.')
       },
       onError: (error) => {
         const error_ = error as AxiosError

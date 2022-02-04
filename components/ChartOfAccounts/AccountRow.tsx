@@ -21,7 +21,7 @@ interface Props {
 export const AccountRow = ({
   idx,
   openModalToEdit,
-  account: { id, number, name, description, category, type, normalBalance },
+  account: { id, parentNumber, number, name, description, category, type, normalBalance },
 }: Props) => {
   const { mutate } = useDeleteAccount()
   const { accounts, dispatch } = useAccount()
@@ -49,6 +49,7 @@ export const AccountRow = ({
       type: 'set_account',
       account: {
         id,
+        parentNumber,
         number,
         name,
         description,
