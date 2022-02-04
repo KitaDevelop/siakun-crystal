@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from 'react-query'
 import config from 'config'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { Account } from '@context/AccountContext/types'
 import {
   createAccount,
@@ -9,6 +9,8 @@ import {
   getAccounts,
   updateAccount,
 } from './endpoints'
+import toast from 'react-hot-toast'
+import { capitalize } from '@utils/capitalize'
 
 export interface UpdateAccountPayload {
   accountId: number
@@ -39,8 +41,16 @@ export const useCreateAccount = () => {
 }
 
 export const useUpdateAccount = () => {
-  return useMutation(({ accountId, account, year }: UpdateAccountPayload) =>
-    updateAccount(accountId, account, year)
+  return useMutation(
+    ({ accountId, account, year }: UpdateAccountPayload) =>
+      updateAccount(accountId, account, year),
+    {
+      onError: (error) => {
+        const error_ = error as AxiosError
+        const errorMsg = error_.response?.data.error
+        toast.error(`${capitalize(errorMsg)}.`)
+      },
+    }
   )
 }
 

@@ -1,5 +1,6 @@
 export interface Account {
   id: number
+  parentNumber: string
   number: string
   name: string
   description: string
@@ -11,7 +12,7 @@ export interface Account {
 export type Action =
   | { type: 'set_accounts'; payload: Account[] }
   | { type: 'set_account'; account: Account }
-  | { type: 'set_parent_acc'; parent: string }
+  | { type: 'set_parent_number'; parentNumber: string }
   | { type: 'set_account_no'; accNo: string }
   | { type: 'set_account_name'; accName: string }
   | { type: 'set_desc'; desc: string }
@@ -23,7 +24,6 @@ export type Action =
 export type Dispatch = (action: Action) => void
 export interface State extends Account {
   accounts: Account[]
-  parentAccount: string
   subAccounts?: Account[]
 }
 export type AccountContextValue = {
@@ -48,6 +48,7 @@ export enum NormalBalance {
 }
 export const EmptyAccount: Account = {
   id: -1,
+  parentNumber: '',
   number: '',
   name: '',
   description: '',

@@ -1,7 +1,7 @@
 import { useAccount } from '@hooks/useAccount'
 import React, { ChangeEvent } from 'react'
 
-export const numberInput = () => {
+export const AccountNumberInput = () => {
   const {
     account: { number },
     dispatch,

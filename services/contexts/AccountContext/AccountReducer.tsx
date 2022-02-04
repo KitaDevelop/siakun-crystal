@@ -6,8 +6,8 @@ export const AccountReducer = (state: State, action: Action) => {
       return { ...state, accounts: action.payload }
     case 'set_account':
       return { ...state, ...action.account }
-    case 'set_parent_acc':
-      return { ...state, parentAccount: action.parent }
+    case 'set_parent_number':
+      return { ...state, parentNumber: action.parentNumber }
     case 'set_account_name':
       return { ...state, name: action.accName }
     case 'set_account_no':

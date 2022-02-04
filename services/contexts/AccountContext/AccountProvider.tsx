@@ -4,7 +4,6 @@ import { AccountContextValue, AccountProviderProps, State, EmptyAccount } from '
 
 const INITIAL_STATE: State = {
   accounts: [],
-  parentAccount: '',
   ...EmptyAccount,
 }
 const AccountContext = React.createContext<AccountContextValue | undefined>(undefined)

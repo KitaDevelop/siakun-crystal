@@ -7,7 +7,7 @@ import React, { ChangeEvent, useEffect } from 'react'
 import toast from 'react-hot-toast'
 import { AdditionalInfo } from './AdditionalInfo'
 import { AccountNameInput } from './Form/AccountNameInput'
-import { numberInput } from './Form/numberInput'
+import { AccountNumberInput } from './Form/AccountNumberInput'
 import { DescriptionInput } from './Form/DescriptionInput'
 import { JenisAccountSelect } from './Select/JenisAccountSelect'
 import { ParentAccountSelect } from './Select/ParentAccountSelect'
@@ -28,7 +28,7 @@ export const AddAccountModal = ({ isOpen, setIsOpen, isBlank }: Props) => {
   }, [isBlank])
 
   const onSaveAccount = () => {
-    const { accounts, parentAccount, subAccounts, ...account_ } = account
+    const { accounts, subAccounts, ...account_ } = account
     console.log(account_)
     if (isBlank)
       createAccount.mutate(account_, {
@@ -37,9 +37,6 @@ export const AddAccountModal = ({ isOpen, setIsOpen, isBlank }: Props) => {
           setIsOpen(false)
           dispatch({ type: 'set_accounts', payload: accounts_ })
           toast.success('Successfully created a new account.')
-        },
-        onError: () => {
-          toast.error('Oops, something wrong happened.')
         },
       })
     else {
@@ -53,9 +50,6 @@ export const AddAccountModal = ({ isOpen, setIsOpen, isBlank }: Props) => {
             dispatch({ type: 'set_accounts', payload: accounts_ })
             toast.success(`Account "${account_.name}" updated.`)
             setIsOpen(false)
-          },
-          onError: () => {
-            toast.error('Oops, something wrong happened.')
           },
         }
       )
@@ -73,7 +67,7 @@ export const AddAccountModal = ({ isOpen, setIsOpen, isBlank }: Props) => {
       <div className="font-bold text-xl mb-4">Create New Account</div>
       <form className="w-full flex flex-col gap-2">
         <ParentAccountSelect />
-        <numberInput />
+        <AccountNumberInput />
         <AccountNameInput />
         <DescriptionInput />
         <JenisAccountSelect />
