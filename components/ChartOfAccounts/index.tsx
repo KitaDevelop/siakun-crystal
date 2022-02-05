@@ -11,7 +11,7 @@ interface Props {}
 export const Index = () => {
   const [isOpen, setOpen] = useState(false)
   const [isBlank, setBlank] = useState(true)
-  const [searchKeyword, setKeyword] = useState('')
+  const [searchKeyword, setSearchKeyword] = useState('')
 
   const { accounts: accounts_ } = useAccount()
   const [accounts, setAccounts] = useState(accounts_)
@@ -45,7 +45,7 @@ export const Index = () => {
   const cells = ['', 'acc no.', 'account name', 'description', 'jenis', 'tipe', 'saldo normal']
   return (
     <div className="flex flex-col gap-4">
-      <FilterControls isCanExport={false} {...{ searchKeyword, setKeyword }} />
+      <FilterControls isCanExport={false} {...{ searchKeyword, setSearchKeyword }} />
       <Table zebra>
         <TableHeader {...{ cells }} />
         {accounts &&

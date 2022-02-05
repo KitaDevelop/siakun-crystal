@@ -10,7 +10,7 @@ import { FirstLogin } from '@components/Login/FirstLogin'
 import FilterControls from '@components/FilterControls'
 
 export default function Home() {
-  const [searchKeyword, setKeyword] = useState('')
+  const [searchKeyword, setSearchKeyword] = useState('')
   const { driveOAuth } = useAuth()
   const meta: NavbarProps = {
     title: 'Home',
@@ -30,7 +30,7 @@ export default function Home() {
       ) : (
         <Layout navbarProps={meta}>
           <div className="mx-auto max-w-screen-xl mb-8">
-            <FilterControls isCanExport={false} {...{ searchKeyword, setKeyword }} />
+            <FilterControls isCanExport={false} {...{ searchKeyword, setSearchKeyword }} />
             <div className="grid grid-cols-3 gap-4 mt-6">
               {Array.from({ length: 12 })
                 .map((_, i) => i)

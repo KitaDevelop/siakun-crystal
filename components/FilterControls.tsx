@@ -5,7 +5,7 @@ import { YearSelector } from './YearSelect'
 
 interface Props {
   searchKeyword: string
-  setKeyword: (s: string) => void
+  setSearchKeyword: (s: string) => void
   isCanExport?: boolean
   exportDocument?: () => void
 }
@@ -14,7 +14,7 @@ export default function FilterControls({
   isCanExport = true,
   exportDocument,
   searchKeyword,
-  setKeyword,
+  setSearchKeyword,
 }: Props): ReactElement {
   return (
     <div className="flex justify-between">
@@ -28,7 +28,7 @@ export default function FilterControls({
               type="text"
               placeholder="Search"
               value={searchKeyword}
-              onChange={(e) => setKeyword(e.target.value)}
+              onChange={(e) => setSearchKeyword(e.target.value)}
               className="w-full pl-12 input input-bordered"
             />
           </div>
