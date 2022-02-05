@@ -29,18 +29,18 @@ export const TransactionInput = ({ transaction, isOnlyChild, idx }: Props) => {
   const [credit, setCredit] = useState(0)
 
   useEffect(() => {
-    const tmpTransactions = [...transactions]
-    tmpTransactions[idx] = {
-      ...tmpTransactions[idx],
+    const transactions_ = [...transactions]
+    transactions_[idx] = {
+      ...transactions_[idx],
       ...(isDebit ? { debit } : { credit }),
     }
-    dispatch({ type: 'set_transactions', transactions: tmpTransactions })
+    dispatch({ type: 'set_transactions', transactions: transactions_ })
   }, [debit, credit])
 
   const onTransactionDelete = () => {
-    const tmpTransactions = [...transactions]
-    tmpTransactions.splice(idx, 1)
-    dispatch({ type: 'set_transactions', transactions: tmpTransactions })
+    const transactions_ = [...transactions]
+    transactions_.splice(idx, 1)
+    dispatch({ type: 'set_transactions', transactions: transactions_ })
   }
 
   return (
