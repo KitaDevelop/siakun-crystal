@@ -16,7 +16,7 @@ interface Props {}
 
 export const Index = (props: Props) => {
   const [isOpen, setOpen] = useState(false)
-  const [search, setSearch] = useState('')
+  const [searchQuery, setSearch] = useState('')
   const { year } = useYear()
 
   const currentCredit = sum(
@@ -56,7 +56,7 @@ export const Index = (props: Props) => {
 
   return (
     <div className="flex flex-col gap-4">
-      <FilterControls {...{ exportDocument, search, setSearch }} />
+      <FilterControls {...{ exportDocument, search: searchQuery, setSearch }} />
       <Table zebra>
         <TableHeader cells={cells} />
         {dummyAdjustingEntries.map((entry, idx) => (

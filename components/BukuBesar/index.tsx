@@ -18,7 +18,7 @@ interface Props {
 
 export const Index = ({ data }: Props) => {
   const { year } = useYear()
-  const [search, setSearch] = useState('')
+  const [searchQuery, setSearch] = useState('')
 
   const dummyJournalEntries: JournalEntry[] = [
     {
@@ -102,7 +102,7 @@ export const Index = ({ data }: Props) => {
   return (
     <div className="flex flex-col gap-4">
       <h2 className="font-bold text-2xl">{data.name}</h2>
-      <FilterControls {...{ exportDocument, search, setSearch }} />
+      <FilterControls {...{ exportDocument, search: searchQuery, setSearch }} />
       <Table zebra>
         <TableHeader cells={cells} />
         {dummyJournalEntries.map((entry, idx) => (

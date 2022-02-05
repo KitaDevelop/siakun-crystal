@@ -11,26 +11,26 @@ interface Props {}
 export const Index = () => {
   const [isOpen, setOpen] = useState(false)
   const [isBlank, setBlank] = useState(true)
-  const [search, setSearch] = useState('')
+  const [searchQuery, setSearch] = useState('')
 
   const { accounts: accounts_ } = useAccount()
   const [accounts, setAccounts] = useState(accounts_)
 
   useEffect(() => {
-    if (search != '')
+    if (searchQuery != '')
       setAccounts(
         accounts_.filter(
           (a) =>
-            a.name.includes(search) ||
-            a.description.includes(search) ||
-            a.number.includes(search) ||
-            a.category.toString().includes(search) ||
-            a.type?.includes(search) ||
-            a.normalBalance?.includes(search)
+            a.name.includes(searchQuery) ||
+            a.description.includes(searchQuery) ||
+            a.number.includes(searchQuery) ||
+            a.category.toString().includes(searchQuery) ||
+            a.type?.includes(searchQuery) ||
+            a.normalBalance?.includes(searchQuery)
         )
       )
     else setAccounts(accounts_)
-  }, [search, accounts_])
+  }, [searchQuery, accounts_])
 
   const openModalToCreate = () => {
     setOpen(true)
@@ -45,7 +45,7 @@ export const Index = () => {
   const cells = ['', 'acc no.', 'account name', 'description', 'jenis', 'tipe', 'saldo normal']
   return (
     <div className="flex flex-col gap-4">
-      <FilterControls isCanExport={false} {...{ search, setSearch }} />
+      <FilterControls isCanExport={false} {...{ search: searchQuery, setSearch }} />
       <Table zebra>
         <TableHeader {...{ cells }} />
         {accounts &&

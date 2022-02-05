@@ -3,7 +3,7 @@ import { JournalEntry } from '@context/JournalEntryContext/types'
 import React, { useState } from 'react'
 import { IoAdd } from 'react-icons/io5'
 import { AddJournalEntryModal } from './AddJournalEntryModal'
-import FilterControls from '../FilterControls'
+import FilterControls from '@components/FilterControls'
 import TableRow from './TableRow'
 import { numberToRupiah } from '@utils//numberToRupiah'
 
@@ -17,7 +17,7 @@ interface Props {}
 
 export const Index = (props: Props) => {
   const [isOpen, setOpen] = useState(false)
-  const [search, setSearch] = useState('')
+  const [searchQuery, setSearch] = useState('')
   const { year } = useYear()
 
   const sum = (arr: number[]): number => arr.reduce((a, b) => a + b, 0)
@@ -60,7 +60,7 @@ export const Index = (props: Props) => {
 
   return (
     <div className="flex flex-col gap-4">
-      <FilterControls {...{ exportDocument, search, setSearch }} />
+      <FilterControls {...{ exportDocument, search: searchQuery, setSearch }} />
       <Table zebra>
         <TableHeader cells={cells} />
         {dummyJournalEntries.map((entry, idx) => (
