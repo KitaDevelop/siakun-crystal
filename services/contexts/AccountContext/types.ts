@@ -54,3 +54,11 @@ export const EmptyAccount: Account = {
   description: '',
   category: AccountCategory.NONE,
 }
+export type SelectJenisOption = {
+  label: string
+  value: AccountCategory
+}
+export type SelectAccountOption = {
+  label: string
+  value: Account
+}
