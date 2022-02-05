@@ -1,9 +1,10 @@
 import { Account } from '@context/AccountContext/types'
 import { useAccount } from '@hooks/useAccount'
+import { isSelectAccountOption } from '@utils/isSelectOptionValid'
 import React, { useEffect, useState } from 'react'
 import { IoTrashOutline } from 'react-icons/io5'
 import Select, { SingleValue } from 'react-select'
-import { customStyles, isSelectAccountOption } from './index'
+import { customStyles } from './index'
 
 interface Props {
   idx: number

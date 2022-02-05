@@ -1,7 +1,8 @@
 import { useAccount } from '@hooks/useAccount'
+import { isSelectAccountOption } from '@utils/isSelectOptionValid'
 import React from 'react'
 import Select from 'react-select'
-import { customStyles, isSelectAccountOption } from './index'
+import { customStyles } from './index'
 
 export const ParentAccountSelect = () => {
   const {

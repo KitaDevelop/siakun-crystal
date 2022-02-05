@@ -1,7 +1,9 @@
+import { jenisAccount } from '@constants/categories'
 import { useAccount } from '@hooks/useAccount'
+import { isSelectJenisOption } from '@utils/isSelectOptionValid'
 import React from 'react'
 import Select from 'react-select'
-import { customStyles, isSelectJenisOption, jenisAccount } from './index'
+import { customStyles } from './index'
 
 export const JenisAccountSelect: React.FC = () => {
   const {
