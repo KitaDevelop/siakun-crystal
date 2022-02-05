@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react'
 import { BiDownload } from 'react-icons/bi'
 import { HiOutlineSearch } from 'react-icons/hi'
-import { YearSelect } from './YearSelect'
+import { YearSelector } from './YearSelect'
 
 interface Props {
   search: string
@@ -39,7 +39,7 @@ export default function FilterControls({ isCanExport = true, exportDocument, sea
         <label className="label font-bold">
           <span className="label-text">Year:</span>
         </label>
-        <YearSelect />
+        <YearSelector />
       </div>
     </div>
   )

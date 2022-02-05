@@ -5,7 +5,7 @@ import { GrDocumentPdf } from 'react-icons/gr'
 import { PDFDownloadLink } from '@react-pdf/renderer'
 import PDFDocument from './PdfDocument'
 import { useTrialBalance } from '@hooks/useTrialBalance'
-import { YearSelect } from '@components/YearSelect'
+import { YearSelector } from '@components/YearSelect'
 import { useYear } from '@hooks/useYear'
 
 interface Props {
@@ -65,7 +65,7 @@ export const Controls = ({ isEditing, setIsEditing, exportAsXlsx, position = 'to
           <label className="label font-bold">
             <span className="label-text">Year:</span>
           </label>
-          <YearSelect />
+          <YearSelector />
         </div>
       )}
     </div>

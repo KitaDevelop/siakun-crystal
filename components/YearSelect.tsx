@@ -4,7 +4,7 @@ import React from 'react'
 import Select from 'react-select'
 import { customStyles } from './ChartOfAccounts/AddAccountModal/Select'
 
-export const YearSelect = () => {
+export const YearSelector = () => {
   const { year, setYear } = useYear()
   const chosenYear = years.find((x) => x.value === year)
 
