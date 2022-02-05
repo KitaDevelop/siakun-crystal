@@ -4,13 +4,18 @@ import { HiOutlineSearch } from 'react-icons/hi'
 import { YearSelector } from './YearSelect'
 
 interface Props {
-  search: string
-  setSearch: (s: string) => void
+  searchKeyword: string
+  setKeyword: (s: string) => void
   isCanExport?: boolean
   exportDocument?: () => void
 }
 
-export default function FilterControls({ isCanExport = true, exportDocument, search, setSearch }: Props): ReactElement {
+export default function FilterControls({
+  isCanExport = true,
+  exportDocument,
+  searchKeyword,
+  setKeyword,
+}: Props): ReactElement {
   return (
     <div className="flex justify-between">
       <div className="flex gap-2">
@@ -22,8 +27,8 @@ export default function FilterControls({ isCanExport = true, exportDocument, sea
             <input
               type="text"
               placeholder="Search"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              value={searchKeyword}
+              onChange={(e) => setKeyword(e.target.value)}
               className="w-full pl-12 input input-bordered"
             />
           </div>
