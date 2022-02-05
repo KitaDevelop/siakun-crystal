@@ -30,8 +30,8 @@ export const GlobalProvider: React.FC<Props> = ({ children }: Props) => {
           </JournalEntryProvider>
         </SidebarProvider>
         <ReactQueryDevtools initialIsOpen={false} />
+        <Toaster position="bottom-center" reverseOrder={false} />
       </AuthProvider>
-      <Toaster position="bottom-right" reverseOrder={false} />
     </QueryClientProvider>
   )
 }

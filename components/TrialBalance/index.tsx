@@ -1,4 +1,3 @@
-import { SelectYearOption } from '@components/JournalEntries/FilterControls'
 import { Table, TableHeader } from '@components/Table'
 import { CURRENT_YEAR } from '@constants/.'
 import {
@@ -19,6 +18,7 @@ import { TableEditable } from './TableEditable'
 import { TableReadOnly } from './TableReadOnly'
 
 import * as XLSX from 'xlsx'
+import { SelectYearOption } from '@constants/years'
 const { writeFile, utils } = XLSX
 
 interface Props {}

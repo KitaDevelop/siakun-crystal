@@ -1,21 +1,17 @@
-import { JenisAccount } from '@context/AccountContext/types'
+import { jenisAccount } from '@constants/categories'
 import { useAccount } from '@hooks/useAccount'
+import { isSelectJenisOption } from '@utils/isSelectOptionValid'
 import React from 'react'
 import Select from 'react-select'
-import { customStyles, jenisAccount } from './index'
-
-type SelectJenisOption = {
-  label: string
-  value: JenisAccount
-}
+import { customStyles } from './index'
 
 export const JenisAccountSelect: React.FC = () => {
-  const { dispatch } = useAccount()
+  const {
+    account: { category },
+    dispatch,
+  } = useAccount()
 
-  const isSelectJenisOption = (v: any): v is SelectJenisOption => {
-    if ((v as SelectJenisOption).value !== undefined) return v.value
-    return false
-  }
+  const chosenCategory = jenisAccount.find((x) => x.label.toLowerCase() == category.toString().toLowerCase())
 
   return (
     <div className="form-control">
@@ -30,6 +26,7 @@ export const JenisAccountSelect: React.FC = () => {
         styles={customStyles}
         closeMenuOnSelect
         isSearchable
+        value={chosenCategory}
         onChange={(v) => {
           if (isSelectJenisOption(v)) {
             dispatch({ type: 'set_jenis', jenis: v.value })

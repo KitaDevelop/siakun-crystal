@@ -8,10 +8,10 @@ import { OrganisasiCard } from '@components/OrganisasiCard'
 import Select from 'react-select'
 import { HiOutlineSearch } from 'react-icons/hi'
 import { customStyles } from '@components/ChartOfAccounts/AddAccountModal/Select'
-import { SelectYearOption } from '@components/JournalEntries/FilterControls'
 import { CURRENT_YEAR } from '@constants/.'
 import useAuth from '@hooks/useAuth'
 import { FirstLogin } from '@components/Login/FirstLogin'
+import { isSelectYearOption, SelectYearOption } from '@constants/years'
 
 export default function Home() {
   const [year, setYear] = useState<SelectYearOption[]>(years.filter((option) => option.value === CURRENT_YEAR))
@@ -19,11 +19,6 @@ export default function Home() {
   const meta: NavbarProps = {
     title: 'Home',
     icon: <FiHome />,
-  }
-
-  const isSelectYearOption = (v: any): v is SelectYearOption => {
-    if ((v as SelectYearOption).value !== undefined) return v.value
-    return false
   }
 
   return (

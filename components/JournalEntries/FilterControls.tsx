@@ -1,4 +1,5 @@
 import { customStyles } from '@components/ChartOfAccounts/AddAccountModal/Select'
+import { SelectYearOption } from '@constants/years'
 import { JournalEntry } from '@context/JournalEntryContext/types'
 import React, { ReactElement } from 'react'
 import { BiDownload } from 'react-icons/bi'
@@ -10,11 +11,6 @@ interface Props {
   year: SelectYearOption[]
   setYear: (v: SelectYearOption[]) => void
   exportDocument: () => void
-}
-
-export type SelectYearOption = {
-  label: string
-  value: number
 }
 
 export default function FilterControls({ years, year, setYear, exportDocument }: Props): ReactElement {

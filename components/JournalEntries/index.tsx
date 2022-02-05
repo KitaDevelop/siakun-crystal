@@ -4,12 +4,13 @@ import { JournalEntry } from '@context/JournalEntryContext/types'
 import React, { useState } from 'react'
 import { IoAdd } from 'react-icons/io5'
 import { AddJournalEntryModal } from './AddJournalEntryModal'
-import FilterControls, { SelectYearOption } from './FilterControls'
+import FilterControls from './FilterControls'
 import TableRow from './TableRow'
 import { numberToRupiah } from '@utils//numberToRupiah'
 
 import * as XLSX from 'xlsx'
 import { formatDate } from '@utils/formatDate'
+import { SelectYearOption, years } from '@constants/years'
 const { writeFile, utils } = XLSX
 
 interface Props {}
@@ -82,12 +83,6 @@ export const Index = (props: Props) => {
 }
 
 const cells: string[] = ['date', 'acc no.', 'account name', 'debit', 'credit', 'description']
-
-const years: SelectYearOption[] = [
-  { value: 2021, label: '2021' },
-  { value: 2020, label: '2020' },
-  { value: 2019, label: '2019' },
-]
 
 const dummyJournalEntries: JournalEntry[] = [
   {

@@ -2,20 +2,26 @@ import { Action, State } from './types'
 
 export const AccountReducer = (state: State, action: Action) => {
   switch (action.type) {
-    case 'set_parent_acc':
-      return { ...state, parentAccount: action.parent }
+    case 'set_accounts':
+      return { ...state, accounts: action.payload }
+    case 'set_account':
+      return { ...state, ...action.account }
+    case 'set_parent_number':
+      return { ...state, parentNumber: action.parentNumber }
     case 'set_account_name':
-      return { ...state, accountName: action.accName }
+      return { ...state, name: action.accName }
     case 'set_account_no':
-      return { ...state, accountNo: action.accNo }
+      return { ...state, number: action.accNo }
     case 'set_desc':
-      return { ...state, desc: action.desc }
+      return { ...state, description: action.desc }
     case 'set_jenis':
-      return { ...state, jenis: action.jenis }
+      return { ...state, category: action.jenis }
     case 'set_account_type':
       return { ...state, type: action.accType }
     case 'set_normal_balance':
       return { ...state, normalBalance: action.normalBalance }
+    case 'set_beginning_balance':
+      return { ...state, beginningBalance: action.beginningBalance }
     case 'set_sub_accounts':
       return { ...state, subAccounts: action.subAccounts }
   }

@@ -32,7 +32,7 @@ export default function Navbar({ title, icon }: NavbarProps) {
                   width={40}
                   height={40}
                 />
-              </div>
+              </div>{' '}
             </div>
           </button>
           <ul tabIndex={0} className="p-2 shadow menu dropdown-content bg-base-100 rounded-box w-52 text-base-content">
