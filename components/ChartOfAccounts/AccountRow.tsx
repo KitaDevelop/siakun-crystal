@@ -8,9 +8,9 @@ import { IoBookOutline, IoTrashOutline } from 'react-icons/io5'
 import { MdOutlineEdit } from 'react-icons/md'
 import { slugify } from '@utils/slugify'
 import { useDeleteAccount } from '@api/accounts'
-import { CURRENT_YEAR } from '@constants/.'
 import { useAccount } from '@hooks/useAccount'
 import toast from 'react-hot-toast'
+import { useYear } from '@hooks/useYear'
 
 interface Props {
   idx: number
@@ -25,10 +25,11 @@ export const AccountRow = ({
 }: Props) => {
   const { mutate } = useDeleteAccount()
   const { accounts, dispatch } = useAccount()
+  const { year } = useYear()
 
   const onDeleteAccount = () => {
     mutate(
-      { id: id, year: CURRENT_YEAR },
+      { id: id, year: year },
       {
         onSuccess: () => {
           let accounts_ = [...accounts]

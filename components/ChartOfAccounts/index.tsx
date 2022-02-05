@@ -1,16 +1,36 @@
-import { Table, TableBody, TableHeader } from '@components/Table'
-import React, { useState } from 'react'
+import { Table, TableHeader } from '@components/Table'
+import React, { useEffect, useState } from 'react'
 import { AccountRow } from './AccountRow'
 import { IoAdd } from 'react-icons/io5'
 import { AddAccountModal } from './AddAccountModal'
 import { useAccount } from '@hooks/useAccount'
+import FilterControls from '@components/FilterControls'
 
 interface Props {}
 
 export const Index = () => {
   const [isOpen, setOpen] = useState(false)
   const [isBlank, setBlank] = useState(true)
-  const { accounts } = useAccount()
+  const [searchKeyword, setSearchKeyword] = useState('')
+
+  const { accounts: accounts_ } = useAccount()
+  const [accounts, setAccounts] = useState(accounts_)
+
+  useEffect(() => {
+    if (searchKeyword != '')
+      setAccounts(
+        accounts_.filter(
+          (a) =>
+            a.name.includes(searchKeyword) ||
+            a.description.includes(searchKeyword) ||
+            a.number.includes(searchKeyword) ||
+            a.category.toString().includes(searchKeyword) ||
+            a.type?.includes(searchKeyword) ||
+            a.normalBalance?.includes(searchKeyword)
+        )
+      )
+    else setAccounts(accounts_)
+  }, [searchKeyword, accounts_])
 
   const openModalToCreate = () => {
     setOpen(true)
@@ -24,7 +44,8 @@ export const Index = () => {
 
   const cells = ['', 'acc no.', 'account name', 'description', 'jenis', 'tipe', 'saldo normal']
   return (
-    <div>
+    <div className="flex flex-col gap-4">
+      <FilterControls isCanExport={false} {...{ searchKeyword, setSearchKeyword }} />
       <Table zebra>
         <TableHeader {...{ cells }} />
         {accounts &&

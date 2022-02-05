@@ -9,6 +9,7 @@ import { AuthProvider } from './AuthContext/AuthProvider'
 import { JournalEntryProvider } from './JournalEntryContext/JournalEntryProvider'
 import { SidebarProvider } from './SidebarContext'
 import { TrialBalanceProvider } from './TrialBalanceContext/TrialBalanceProvider'
+import { YearProvider } from './YearContext'
 
 const queryClient = new QueryClient()
 
@@ -20,15 +21,17 @@ export const GlobalProvider: React.FC<Props> = ({ children }: Props) => {
   return (
     <QueryClientProvider client={queryClient} contextSharing={true}>
       <AuthProvider>
-        <SidebarProvider>
-          <JournalEntryProvider>
-            <AdjustingEntryProvider>
-              <AccountProvider>
-                <TrialBalanceProvider>{children}</TrialBalanceProvider>
-              </AccountProvider>
-            </AdjustingEntryProvider>
-          </JournalEntryProvider>
-        </SidebarProvider>
+        <YearProvider>
+          <SidebarProvider>
+            <JournalEntryProvider>
+              <AdjustingEntryProvider>
+                <AccountProvider>
+                  <TrialBalanceProvider>{children}</TrialBalanceProvider>
+                </AccountProvider>
+              </AdjustingEntryProvider>
+            </JournalEntryProvider>
+          </SidebarProvider>
+        </YearProvider>
         <ReactQueryDevtools initialIsOpen={false} />
         <Toaster position="bottom-center" reverseOrder={false} />
       </AuthProvider>

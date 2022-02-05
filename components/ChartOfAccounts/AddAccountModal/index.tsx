@@ -1,8 +1,8 @@
 import { useCreateAccount, useFetchAccounts, useUpdateAccount } from '@api/accounts'
 import { Modal } from '@components/Modal'
-import { CURRENT_YEAR } from '@constants/.'
 import { AccountCategory, EmptyAccount } from '@context/AccountContext/types'
 import { useAccount } from '@hooks/useAccount'
+import { useYear } from '@hooks/useYear'
 import React, { ChangeEvent, useEffect } from 'react'
 import toast from 'react-hot-toast'
 import { AdditionalInfo } from './AdditionalInfo'
@@ -20,6 +20,7 @@ interface Props {
 
 export const AddAccountModal = ({ isOpen, setIsOpen, isBlank }: Props) => {
   const { account, dispatch } = useAccount()
+  const { year } = useYear()
   const createAccount = useCreateAccount()
   const updateAccount = useUpdateAccount()
 
@@ -41,7 +42,7 @@ export const AddAccountModal = ({ isOpen, setIsOpen, isBlank }: Props) => {
       })
     else {
       updateAccount.mutate(
-        { accountId: account_.id, account: account_, year: CURRENT_YEAR },
+        { accountId: account_.id, account: account_, year: year },
         {
           onSuccess: () => {
             const accounts_ = [...accounts]

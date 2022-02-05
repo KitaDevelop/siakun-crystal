@@ -1,23 +1,24 @@
-import { Table, TableBody, TableHeader } from '@components/Table'
-import { CURRENT_YEAR } from '@constants/.'
+import { Table, TableHeader } from '@components/Table'
 import { JournalEntry } from '@context/JournalEntryContext/types'
 import React, { useState } from 'react'
 import { IoAdd } from 'react-icons/io5'
 import { AddJournalEntryModal } from './AddJournalEntryModal'
-import FilterControls from './FilterControls'
+import FilterControls from '@components/FilterControls'
 import TableRow from './TableRow'
 import { numberToRupiah } from '@utils//numberToRupiah'
 
 import * as XLSX from 'xlsx'
 import { formatDate } from '@utils/formatDate'
 import { SelectYearOption, years } from '@constants/years'
+import { useYear } from '@hooks/useYear'
 const { writeFile, utils } = XLSX
 
 interface Props {}
 
 export const Index = (props: Props) => {
   const [isOpen, setOpen] = useState(false)
-  const [year, setYear] = useState<SelectYearOption[]>(years.filter((option) => option.value === CURRENT_YEAR))
+  const [searchKeyword, setSearchKeyword] = useState('')
+  const { year } = useYear()
 
   const sum = (arr: number[]): number => arr.reduce((a, b) => a + b, 0)
 
@@ -54,12 +55,12 @@ export const Index = (props: Props) => {
     var workbook = utils.book_new()
     var worksheet = utils.json_to_sheet(flattenJson(dummyJournalEntries))
     utils.book_append_sheet(workbook, worksheet, 'Journal Entries')
-    return writeFile(workbook, `journal_entries_${year[0].value}.xlsx`)
+    return writeFile(workbook, `journal_entries_${year}.xlsx`)
   }
 
   return (
     <div className="flex flex-col gap-4">
-      <FilterControls {...{ years, year, setYear, exportDocument }} />
+      <FilterControls {...{ exportDocument, searchKeyword, setSearchKeyword }} />
       <Table zebra>
         <TableHeader cells={cells} />
         {dummyJournalEntries.map((entry, idx) => (
