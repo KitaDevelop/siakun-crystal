@@ -9,13 +9,38 @@ import { TransactionRow } from './TransactionRow'
 import { FiMoreVertical } from 'react-icons/fi'
 import { MdOutlineEdit } from 'react-icons/md'
 import { IoTrashOutline } from 'react-icons/io5'
+import { useDeleteJournalEntry } from '@api/entries/journal'
+import { useYear } from '@hooks/useYear'
+import toast from 'react-hot-toast'
 
 interface Props {
   idx: number
   entry: JournalEntry
+  openModalToEdit: (id: number) => void
 }
-export default function EntryRow({ idx, entry: { date, description, transactions } }: Props): ReactElement {
+export default function EntryRow({
+  idx,
+  openModalToEdit,
+  entry: { id, date, description, transactions },
+}: Props): ReactElement {
   const { accounts } = useAccount()
+  const { year } = useYear()
+  const deleteEntry = useDeleteJournalEntry()
+
+  const onEditEntry = () => {
+    openModalToEdit(id)
+  }
+
+  const onDeleteEntry = () => {
+    deleteEntry.mutate(
+      { id, year },
+      {
+        onSuccess: () => {
+          toast.success(`Entry from ${date} has been deleted.`)
+        },
+      }
+    )
+  }
 
   return (
     <TableBody className="group hover multirow">
@@ -33,13 +58,13 @@ export default function EntryRow({ idx, entry: { date, description, transactions
             className="p-2 shadow menu compact bg-base-100 overflow-visible rounded-box w-52 dropdown-content"
           >
             <li>
-              <a onClick={() => onEditAccount()}>
+              <a onClick={() => onEditEntry()}>
                 <MdOutlineEdit className="w-5 h-5 mr-2" />
                 Edit Entry
               </a>
             </li>
             <li>
-              <a onClick={() => onDeleteAccount()}>
+              <a onClick={() => onDeleteEntry()}>
                 <IoTrashOutline className="w-5 h-5 mr-2" />
                 Delete Entry
               </a>

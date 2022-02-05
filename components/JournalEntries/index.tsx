@@ -13,8 +13,9 @@ import { sum } from '@utils/sum'
 import { useFetchJournalEntries } from '@api/entries/journal'
 import { FaSpinner } from 'react-icons/fa'
 import { findAccountNameByNumber } from '@utils/findAccountNameByNumber'
-import { useAccount } from '@hooks/useAccount'
 import EntryRow from './EntryRow'
+import { useJournalEntry } from '@hooks/useJournalEntry'
+import { useAccount } from '@hooks/useAccount'
 const { writeFile, utils } = XLSX
 
 interface Props {}
@@ -23,8 +24,10 @@ export const Index = (props: Props) => {
   const { year } = useYear()
   const { isLoading, isSuccess, data, refetch } = useFetchJournalEntries(year)
   const { accounts } = useAccount()
+  const { dispatch } = useJournalEntry()
 
   const [isOpen, setOpen] = useState<boolean>(false)
+  const [isBlank, setIsBlank] = useState(true)
   const [searchKeyword, setSearchKeyword] = useState('')
   const [entries, setEntries] = useState<JournalEntry[]>([])
 
@@ -80,6 +83,17 @@ export const Index = (props: Props) => {
     return writeFile(workbook, `journal_entries_${year}.xlsx`)
   }
 
+  const openModalToCreate = () => {
+    setIsBlank(true)
+    setOpen(true)
+  }
+
+  const openModalToEdit = (targetId: number) => {
+    dispatch({ type: 'set_id', id: targetId })
+    setIsBlank(false)
+    setOpen(true)
+  }
+
   return (
     <div className="flex flex-col gap-4">
       <FilterControls {...{ exportDocument, searchKeyword, setSearchKeyword }} />
@@ -92,7 +106,7 @@ export const Index = (props: Props) => {
           <Table zebra>
             <TableHeader cells={cells} />
             {entries.map((entry, idx) => (
-              <EntryRow key={entry.id} idx={idx} entry={entry} />
+              <EntryRow key={entry.id} {...{ idx, entry, openModalToEdit }} />
             ))}
             {entries.length > 0 && (
               <tr className="text-center font-bold">
@@ -120,10 +134,10 @@ export const Index = (props: Props) => {
         </>
       )}
 
-      <button onClick={() => setOpen(true)} className="btn btn-circle fixed bottom-6 right-6 btn-primary">
+      <button onClick={() => openModalToCreate()} className="btn btn-circle fixed bottom-6 right-6 btn-primary">
         <IoAdd className="w-5 h-5" />
       </button>
-      <AddJournalEntryModal {...{ isOpen, setIsOpen: setOpen }} />
+      <AddJournalEntryModal {...{ isBlank, isOpen, setIsOpen: setOpen }} />
     </div>
   )
 }

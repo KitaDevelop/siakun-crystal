@@ -1,6 +1,7 @@
 import { JournalEntry } from '@context/JournalEntryContext/types'
 import axios from 'axios'
 import config from 'config'
+import { JournalEntryPayload } from '.'
 
 export const getJournalEntries = (year?: number) =>
   axios.get<JournalEntry[]>(
@@ -14,7 +15,10 @@ export const getJournalEntry = (id: number, year?: number) =>
     }`
   )
 
-export const createJournalEntry = (entry: JournalEntry, year?: number) => {
+export const createJournalEntry = (
+  entry: JournalEntryPayload,
+  year?: number
+) => {
   return axios.post<JournalEntry>(
     `${config.API_URL_CARBON}/journal-entries${!!year ? '?year=' + year : ''}`,
     entry
@@ -23,10 +27,10 @@ export const createJournalEntry = (entry: JournalEntry, year?: number) => {
 
 export const updateJournalEntry = (
   id: number,
-  entry: JournalEntry,
+  entry: JournalEntryPayload,
   year?: number
 ) => {
-  return axios.put<JournalEntry>(
+  return axios.put(
     `${config.API_URL_CARBON}/journal-entries/${id}${
       !!year ? '?year=' + year : ''
     }`,

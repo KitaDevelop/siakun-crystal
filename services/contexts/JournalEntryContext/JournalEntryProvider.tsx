@@ -3,6 +3,8 @@ import { JournalEntryReducer } from './JournalEntryReducer'
 import { JournalEntryProviderProps, Dispatch, State } from './types'
 
 const INITIAL_STATE: State = {
+  entries: [],
+  id: -1,
   date: '',
   description: '',
   transactions: [{ id: Date.now(), accountNumber: '', accountName: '' }],

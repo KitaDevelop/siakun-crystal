@@ -9,10 +9,26 @@ import {
   updateJournalEntry,
 } from './endpoints'
 
-interface UpdateJournalEntryPayload {
+export interface UpdateJournalEntryPayload {
   id: number
-  entry: JournalEntry
+  entry: JournalEntryPayload
   year: number
+}
+
+export interface CreateJournalEntryPayload {
+  entry: JournalEntryPayload
+  year: number
+}
+
+export interface JournalEntryPayload {
+  date: string
+  description: string
+  receipt?: string
+  transactions: {
+    accountNumber: string
+    debit: number
+    credit: number
+  }[]
 }
 
 export const useFetchJournalEntries = (year?: number) => {
@@ -28,9 +44,13 @@ export const useFetchJournalEntry = (id: number, year?: number) => {
 }
 
 export const useCreateJournalEntry = () => {
-  return useMutation((entry: JournalEntry) => createJournalEntry(entry), {
-    onError: handleError,
-  })
+  return useMutation(
+    ({ entry, year }: CreateJournalEntryPayload) =>
+      createJournalEntry(entry, year),
+    {
+      onError: handleError,
+    }
+  )
 }
 
 export const useUpdateJournalEntry = () => {
