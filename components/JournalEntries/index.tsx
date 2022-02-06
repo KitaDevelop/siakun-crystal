@@ -3,19 +3,20 @@ import { JournalEntry } from '@context/JournalEntryContext/types'
 import React, { useEffect, useState } from 'react'
 import { IoAdd } from 'react-icons/io5'
 import { AddJournalEntryModal } from './AddJournalEntryModal'
-import FilterControls from '../FilterControls'
+import FilterControls from '@components/FilterControls'
 import { numberToRupiah } from '@utils//numberToRupiah'
 
 import * as XLSX from 'xlsx'
 import { formatDate } from '@utils/formatDate'
+import { SelectYearOption, years } from '@constants/years'
 import { useYear } from '@hooks/useYear'
-import { sum } from '@utils/sum'
 import { useFetchJournalEntries } from '@api/entries/journal'
-import { FaSpinner } from 'react-icons/fa'
-import { findAccountNameByNumber } from '@utils/findAccountNameByNumber'
-import EntryRow from './EntryRow'
-import { useJournalEntry } from '@hooks/useJournalEntry'
 import { useAccount } from '@hooks/useAccount'
+import { useJournalEntry } from '@hooks/useJournalEntry'
+import { sum } from '@utils/sum'
+import { findAccountNameByNumber } from '@utils/findAccountNameByNumber'
+import { FaSpinner } from 'react-icons/fa'
+import EntryRow from './EntryRow'
 const { writeFile, utils } = XLSX
 
 interface Props {}
@@ -28,7 +29,7 @@ export const Index = (props: Props) => {
 
   const [isOpen, setOpen] = useState<boolean>(false)
   const [isBlank, setIsBlank] = useState(true)
-  const [searchKeyword, setSearchKeyword] = useState('')
+  const [searchKeyword, setSearchKeyword] = useState<string>('')
   const [entries, setEntries] = useState<JournalEntry[]>([])
 
   useEffect(() => {

@@ -1,16 +1,30 @@
-import { CSSProperties, useEffect } from 'react'
-import Dropzone, { IFileWithMeta, IStyleCustomization, StatusValue } from '@tuttinator/react-dropzone-uploader'
+import { CSSProperties, useEffect, useState } from 'react'
+import Dropzone, {
+  IDropzoneProps,
+  IFileWithMeta,
+  IStyleCustomization,
+  StatusValue,
+} from '@tuttinator/react-dropzone-uploader'
 import { AiOutlineCloudUpload } from 'react-icons/ai'
 import { useJournalEntry } from '@hooks/useJournalEntry'
 import { blobToBase64 } from '@utils/blobToBase64'
 import { dataURLtoFile } from '@utils/dataUrlToFile'
 
 interface Props {
-  initialFiles: File[]
+  isBlank: boolean
 }
 
-export const ReceiptDropzone = ({ initialFiles }: Props) => {
-  const { dispatch } = useJournalEntry()
+export const ReceiptDropzone = ({ isBlank }: Props) => {
+  const {
+    state: { receipt },
+    dispatch,
+  } = useJournalEntry()
+  const [initialFiles, setInitialFiles] = useState<File[] | undefined>()
+
+  useEffect(() => {
+    if (isBlank) setInitialFiles(undefined)
+    else if (receipt && receipt != '') setInitialFiles([dataURLtoFile(receipt, 'receipt')])
+  }, [isBlank, receipt])
 
   const handleSubmit = ({ file, meta, remove }: IFileWithMeta, status: StatusValue) => {
     if (status == 'done') {

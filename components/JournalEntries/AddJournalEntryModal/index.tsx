@@ -22,7 +22,7 @@ export const AddJournalEntryModal = ({ isBlank, isOpen, setIsOpen }: Props) => {
     state: { id, date, description, receipt, transactions },
     dispatch,
   } = useJournalEntry()
-  const { isLoading, data, refetch } = useFetchJournalEntry(id, year)
+  const { isLoading, data, refetch, isRefetching } = useFetchJournalEntry(id, year)
   const createEntry = useCreateJournalEntry()
   const updateEntry = useUpdateJournalEntry()
 
@@ -32,7 +32,7 @@ export const AddJournalEntryModal = ({ isBlank, isOpen, setIsOpen }: Props) => {
     } else {
       refetch()
     }
-  }, [isBlank])
+  }, [isBlank, id])
 
   useEffect(() => {
     if (!isBlank && !isLoading && data) {
@@ -80,7 +80,7 @@ export const AddJournalEntryModal = ({ isBlank, isOpen, setIsOpen }: Props) => {
   return (
     <Modal {...{ isOpen, setIsOpen, size: 'lg', isOverflow: transactions.length > 2 }}>
       <div className="font-bold text-xl mb-4">Create New Entry</div>
-      {isLoading ? (
+      {!isBlank && (isLoading || isRefetching) ? (
         <div className="w-full grid place-content-center h-80 text-accent">
           <FaSpinner className="w-10 h-10 animate-spin" />
         </div>
@@ -89,7 +89,7 @@ export const AddJournalEntryModal = ({ isBlank, isOpen, setIsOpen }: Props) => {
           <form className="w-96 flex flex-col gap-2">
             <DateInput />
             <DescriptionTextarea />
-            <ReceiptInput />
+            <ReceiptInput {...{ isOpen, isBlank }} />
           </form>
           <div className="form-control mt-2">
             <label className="label font-bold">
