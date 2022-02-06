@@ -4,7 +4,7 @@ import { AdjustingEntryProviderProps, Dispatch, State } from './types'
 
 const INITIAL_STATE: State = {
   description: '',
-  transactions: [{ id: Date.now(), accNumber: '', accName: '' }],
+  transactions: [{ id: Date.now(), accountNumber: '', accountName: '' }],
 }
 
 const AdjustingEntryContext = React.createContext<{ state: State; dispatch: Dispatch } | undefined>(undefined)

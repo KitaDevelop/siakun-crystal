@@ -31,8 +31,8 @@ export const Index = (props: Props) => {
     for (let entry of data) {
       for (let transaction of entry.transactions) {
         flatJson.push({
-          'Nomor Akun': transaction.accNumber,
-          'Nama Akun': transaction.accName,
+          'Nomor Akun': transaction.accountNumber,
+          'Nama Akun': transaction.accountName,
           Debit: transaction?.debit,
           Kredit: transaction?.credit,
           Deskripsi: entry.description,
@@ -89,14 +89,14 @@ const dummyAdjustingEntries: AdjustingEntry[] = [
     transactions: [
       {
         id: 1,
-        accName: 'Akun Debit Satu',
-        accNumber: '1-1111',
+        accountName: 'Akun Debit Satu',
+        accountNumber: '1-1111',
         debit: 12000,
       },
       {
         id: 2,
-        accName: 'Akun Kredit Dua',
-        accNumber: '1-2222',
+        accountName: 'Akun Kredit Dua',
+        accountNumber: '1-2222',
         credit: 25000,
       },
     ],
@@ -108,14 +108,14 @@ const dummyAdjustingEntries: AdjustingEntry[] = [
     transactions: [
       {
         id: 4,
-        accName: 'Akun Debit Satu',
-        accNumber: '1-1111',
+        accountName: 'Akun Debit Satu',
+        accountNumber: '1-1111',
         debit: 9999999,
       },
       {
         id: 5,
-        accName: 'Akun Kredit Dua',
-        accNumber: '1-2222',
+        accountName: 'Akun Kredit Dua',
+        accountNumber: '1-2222',
         credit: 9999999,
       },
     ],

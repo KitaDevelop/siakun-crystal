@@ -15,9 +15,9 @@ export default function TableRow({ idx, entry: { description, transactions } }: 
         <td rowSpan={transactions.length * 2 - 1}></td>
         {transactions.length > 0 &&
           transactions.slice(0, 1).map((t) => (
-            <React.Fragment key={t.accNumber}>
-              <td>{t.accNumber}</td>
-              <td className="whitespace-nowrap">{t.accName}</td>
+            <React.Fragment key={t.accountNumber}>
+              <td>{t.accountNumber}</td>
+              <td className="whitespace-nowrap">{t.accountName}</td>
               <td>{numberToRupiah(t?.debit)}</td>
               <td>{numberToRupiah(t?.credit)}</td>
             </React.Fragment>
@@ -28,11 +28,11 @@ export default function TableRow({ idx, entry: { description, transactions } }: 
       </tr>
       {transactions.length > 1 &&
         transactions.slice(1).map((t) => (
-          <React.Fragment key={t.accNumber}>
+          <React.Fragment key={t.accountNumber}>
             <tr></tr>
             <tr className="text-center">
-              <td>{t.accNumber}</td>
-              <td className="whitespace-nowrap">{t.accName}</td>
+              <td>{t.accountNumber}</td>
+              <td className="whitespace-nowrap">{t.accountName}</td>
               <td>{numberToRupiah(t?.debit)}</td>
               <td>{numberToRupiah(t?.credit)}</td>
             </tr>
