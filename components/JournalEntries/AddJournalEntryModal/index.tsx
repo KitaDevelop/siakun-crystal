@@ -78,7 +78,7 @@ export const AddJournalEntryModal = ({ isBlank, isOpen, setIsOpen }: Props) => {
   }
 
   return (
-    <Modal {...{ isOpen, setIsOpen, size: 'lg', isOverflow: transactions.length > 2 }}>
+    <Modal {...{ isOpen, setIsOpen, size: 'lg', isOverflow: true }}>
       <div className="font-bold text-xl mb-4">Create New Entry</div>
       {!isBlank && (isLoading || isRefetching) ? (
         <div className="w-full grid place-content-center h-80 text-accent">
@@ -92,9 +92,12 @@ export const AddJournalEntryModal = ({ isBlank, isOpen, setIsOpen }: Props) => {
             <ReceiptInput {...{ isOpen, isBlank }} />
           </form>
           <div className="form-control mt-2">
-            <label className="label font-bold">
+            <label className="label font-bold pb-1">
               <span className="label-text">Transactions</span>
             </label>
+            <span className="text-xs text-gray-400 pb-2 ml-1">
+              Click the Rp button to switch between debit and credit.
+            </span>
             <TransactionInputTable />
           </div>
         </>
