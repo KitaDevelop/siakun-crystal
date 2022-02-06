@@ -2,6 +2,7 @@ import { Table, TableHeader } from '@components/Table'
 import { SelectYearOption } from '@constants/years'
 import { Account } from '@context/AccountContext/types'
 import { JournalEntry } from '@context/JournalEntryContext/types'
+import { useYear } from '@hooks/useYear'
 import { formatDate } from '@utils/formatDate'
 import { numberToRupiah } from '@utils/numberToRupiah'
 import { sum } from '@utils/sum'
@@ -120,11 +121,5 @@ export const Index = ({ data }: Props) => {
 }
 
 const cells: string[] = ['date', 'acc no.', 'account name', 'debit', 'credit', 'description']
-
-const years: SelectYearOption[] = [
-  { value: 2021, label: '2021' },
-  { value: 2020, label: '2020' },
-  { value: 2019, label: '2019' },
-]
 
 export default Index
