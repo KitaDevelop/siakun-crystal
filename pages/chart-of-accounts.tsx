@@ -2,10 +2,9 @@ import { useFetchAccounts } from '@api/accounts'
 import Layout from '@components/Layout'
 import { NavbarProps } from '@components/Navbar'
 import { Navigation, navigation } from '@constants/navigation'
-import React, { useEffect } from 'react'
+import React from 'react'
 import ChartOfAccount from '@components/ChartOfAccounts'
 import { FaSpinner } from 'react-icons/fa'
-import { useAccount } from '@hooks/useAccount'
 import { useYear } from '@hooks/useYear'
 
 interface Props {}
@@ -18,18 +17,7 @@ const meta: NavbarProps = {
 
 export const CoAPage = (props: Props) => {
   const { year } = useYear()
-  const { isLoading, data, isSuccess, refetch } = useFetchAccounts(year)
-  const { dispatch } = useAccount()
-
-  useEffect(() => {
-    refetch()
-  }, [year])
-
-  useEffect(() => {
-    if (isSuccess && data) {
-      dispatch({ type: 'set_accounts', payload: data.data || [] })
-    }
-  }, [data, isSuccess])
+  const { isLoading, isSuccess } = useFetchAccounts(year)
 
   return (
     <Layout navbarProps={meta}>
