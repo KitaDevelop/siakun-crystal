@@ -24,9 +24,10 @@ export const TransactionInput = ({ transaction, isOnlyChild, idx }: Props) => {
     label: `${account.number} | ${account.name}`,
   }))
 
-  const [isDebit, setIsDebit] = useState(true)
-  const [debit, setDebit] = useState(0)
-  const [credit, setCredit] = useState(0)
+  const [isDebit, setIsDebit] = useState<boolean>(!!transaction?.debit && transaction.debit > 0)
+  const [debit, setDebit] = useState(transaction?.debit || 0)
+  const [credit, setCredit] = useState(transaction?.credit || 0)
+  const chosenAccount = accountOptions.find((x) => x.value.number == transaction.accountNumber)
 
   useEffect(() => {
     const transactions_ = [...transactions]
@@ -48,6 +49,7 @@ export const TransactionInput = ({ transaction, isOnlyChild, idx }: Props) => {
       <td className="w-48 min-w-full">
         <Select
           options={accountOptions}
+          value={chosenAccount}
           placeholder="Select Account"
           styles={customStyles}
           closeMenuOnSelect

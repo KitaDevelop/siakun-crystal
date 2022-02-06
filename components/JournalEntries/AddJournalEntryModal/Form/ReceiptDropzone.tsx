@@ -1,15 +1,16 @@
-import { CSSProperties } from 'react'
+import { CSSProperties, useEffect } from 'react'
 import Dropzone, { IFileWithMeta, IStyleCustomization, StatusValue } from '@tuttinator/react-dropzone-uploader'
 import { AiOutlineCloudUpload } from 'react-icons/ai'
 import { useJournalEntry } from '@hooks/useJournalEntry'
 import { blobToBase64 } from '@utils/blobToBase64'
+import { dataURLtoFile } from '@utils/dataUrlToFile'
 
-export const ReceiptDropzone = () => {
-  const {
-    state: { receipt },
-    dispatch,
-  } = useJournalEntry()
-  const getUploadParams = () => ({ url: 'https://httpbin.org/post' })
+interface Props {
+  initialFiles: File[]
+}
+
+export const ReceiptDropzone = ({ initialFiles }: Props) => {
+  const { dispatch } = useJournalEntry()
 
   const handleSubmit = ({ file, meta, remove }: IFileWithMeta, status: StatusValue) => {
     if (status == 'done') {
@@ -21,12 +22,12 @@ export const ReceiptDropzone = () => {
 
   return (
     <Dropzone
-      getUploadParams={getUploadParams}
       onChangeStatus={handleSubmit}
       maxFiles={1}
       multiple={false}
       inputContent={InputPlaceholder}
       styles={dropzoneStyle}
+      initialFiles={initialFiles}
     />
   )
 }

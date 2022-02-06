@@ -4,6 +4,7 @@ import { useJournalEntry } from '@hooks/useJournalEntry'
 import { useYear } from '@hooks/useYear'
 import React, { useEffect } from 'react'
 import toast from 'react-hot-toast'
+import { FaSpinner } from 'react-icons/fa'
 import DateInput from './Form/DateInput'
 import DescriptionTextarea from './Form/DescriptionTextarea'
 import ReceiptInput from './Form/ReceiptInput'
@@ -79,23 +80,31 @@ export const AddJournalEntryModal = ({ isBlank, isOpen, setIsOpen }: Props) => {
   return (
     <Modal {...{ isOpen, setIsOpen, size: 'lg', isOverflow: transactions.length > 2 }}>
       <div className="font-bold text-xl mb-4">Create New Entry</div>
-      <form className="w-96 flex flex-col gap-2">
-        <DateInput />
-        <DescriptionTextarea />
-        <ReceiptInput />
-      </form>
-      <div className="form-control mt-2">
-        <label className="label font-bold">
-          <span className="label-text">Transactions</span>
-        </label>
-        <TransactionInputTable />
-      </div>
+      {isLoading ? (
+        <div className="w-full grid place-content-center h-80 text-accent">
+          <FaSpinner className="w-10 h-10 animate-spin" />
+        </div>
+      ) : (
+        <>
+          <form className="w-96 flex flex-col gap-2">
+            <DateInput />
+            <DescriptionTextarea />
+            <ReceiptInput />
+          </form>
+          <div className="form-control mt-2">
+            <label className="label font-bold">
+              <span className="label-text">Transactions</span>
+            </label>
+            <TransactionInputTable />
+          </div>
+        </>
+      )}
       <div className="modal-action">
-        <button className={`btn btn-ghost ${updateEntry.isLoading ? 'loading' : ''}`} onClick={() => setIsOpen(false)}>
+        <button className={`btn btn-ghost ${updateEntry.isLoading ? 'disabled' : ''}`} onClick={() => setIsOpen(false)}>
           cancel
         </button>
         <button className={`btn btn-primary ${updateEntry.isLoading ? 'loading' : ''}`} onClick={() => onSubmitEntry()}>
-          create
+          {isBlank ? 'create' : 'edit'}
         </button>
       </div>
     </Modal>

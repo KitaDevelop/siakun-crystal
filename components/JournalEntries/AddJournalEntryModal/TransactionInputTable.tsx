@@ -22,8 +22,8 @@ export const TransactionInputTable = () => {
   }
 
   useEffect(() => {
-    const calcCredit = transactions.map((tr) => tr?.credit || 0).reduce((a, b) => a + b)
-    const calcDebit = transactions.map((tr) => tr?.debit || 0).reduce((a, b) => a + b)
+    const calcCredit = transactions.map((tr) => tr?.credit || 0).reduce((a, b) => a + b, 0)
+    const calcDebit = transactions.map((tr) => tr?.debit || 0).reduce((a, b) => a + b, 0)
     setTotalCredit(calcCredit)
     setTotalDebit(calcDebit)
   }, [transactions])
@@ -35,7 +35,7 @@ export const TransactionInputTable = () => {
       <TableBody>
         {transactions.map((transaction, i) => (
           <TransactionInput
-            key={transaction.id}
+            key={transaction.accountNumber}
             idx={i}
             transaction={transaction}
             isOnlyChild={transactions.length === 1}
@@ -52,11 +52,11 @@ export const TransactionInputTable = () => {
           <td>{numberToRupiah(totalCredit)}</td>
           <td>
             {totalCredit == totalDebit ? (
-              <div data-tip="Debit and credit is equal" className="tooltip">
+              <div data-tip="Debit and credit are equal" className="tooltip">
                 <BsCheckCircleFill className="mx-auto w-5 h-5 text-success" />
               </div>
             ) : (
-              <div data-tip="Debit and credit is not equal" className="tooltip">
+              <div data-tip="Debit and credit are not equal" className="tooltip">
                 <BsFillExclamationCircleFill className="mx-auto w-5 h-5 text-error" />
               </div>
             )}
