@@ -35,7 +35,7 @@ export const TransactionInputTable = () => {
       <TableBody>
         {transactions.map((transaction, i) => (
           <TransactionInput
-            key={transaction.accountNumber}
+            key={transaction.id}
             idx={i}
             transaction={transaction}
             isOnlyChild={transactions.length === 1}

@@ -5,6 +5,8 @@ import { IoTrashOutline } from 'react-icons/io5'
 import { Transaction } from '@context/JournalEntryContext/types'
 import { useJournalEntry } from '@hooks/useJournalEntry'
 import { useAccount } from '@hooks/useAccount'
+import { isSelectAccountOption } from '@utils/isSelectOptionValid'
+import { Account } from '@context/AccountContext/types'
 
 interface Props {
   transaction: Transaction
@@ -24,19 +26,22 @@ export const TransactionInput = ({ transaction, isOnlyChild, idx }: Props) => {
     label: `${account.number} | ${account.name}`,
   }))
 
+  const chosenAccount = accountOptions.find((x) => x.value.number == transaction.accountNumber)
   const [isDebit, setIsDebit] = useState<boolean>(!!transaction?.debit && transaction.debit > 0)
   const [debit, setDebit] = useState(transaction?.debit || 0)
   const [credit, setCredit] = useState(transaction?.credit || 0)
-  const chosenAccount = accountOptions.find((x) => x.value.number == transaction.accountNumber)
+  const [account, setAccount] = useState<Account | undefined>(chosenAccount?.value)
 
   useEffect(() => {
     const transactions_ = [...transactions]
     transactions_[idx] = {
       ...transactions_[idx],
       ...(isDebit ? { debit } : { credit }),
+      accountNumber: account?.number || '',
+      accountName: account?.name || '',
     }
     dispatch({ type: 'set_transactions', transactions: transactions_ })
-  }, [debit, credit])
+  }, [debit, credit, account])
 
   const onTransactionDelete = () => {
     const transactions_ = [...transactions]
@@ -50,6 +55,9 @@ export const TransactionInput = ({ transaction, isOnlyChild, idx }: Props) => {
         <Select
           options={accountOptions}
           value={chosenAccount}
+          onChange={(v) => {
+            if (isSelectAccountOption(v)) setAccount(v.value)
+          }}
           placeholder="Select Account"
           styles={customStyles}
           closeMenuOnSelect
