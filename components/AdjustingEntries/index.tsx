@@ -1,8 +1,7 @@
 import FilterControls from '@components/FilterControls'
-import TableRow from './TableRow'
 import { Table, TableHeader } from '@components/Table'
 import { AdjustingEntry } from '@context/AdjustingEntryContext/types'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { IoAdd } from 'react-icons/io5'
 import { AddAdjustingEntryModal } from './AddAdjustingEntryModal'
 import { numberToRupiah } from '@utils/numberToRupiah'
@@ -10,21 +9,45 @@ import { sum } from '@utils/sum'
 
 import * as XLSX from 'xlsx'
 import { useYear } from '@hooks/useYear'
+import { useFetchAdjustingEntries } from '@api/entries/adjusting'
+import { useAdjustingEntry } from '@hooks/useAdjustingEntry'
+import { FaSpinner } from 'react-icons/fa'
+import EntryRow from './EntryRow'
 const { writeFile, utils } = XLSX
 
 interface Props {}
 
 export const Index = (props: Props) => {
-  const [isOpen, setOpen] = useState(false)
-  const [searchKeyword, setSearchKeyword] = useState('')
   const { year } = useYear()
+  const { isLoading, isSuccess, data, refetch } = useFetchAdjustingEntries(year)
+  const { dispatch } = useAdjustingEntry()
 
-  const currentCredit = sum(
-    dummyAdjustingEntries.map((x) => x.transactions.reduce((acc: number, t) => acc + (t?.credit || 0), 0))
-  )
-  const currentDebit = sum(
-    dummyAdjustingEntries.map((x) => x.transactions.reduce((acc: number, t) => acc + (t?.debit || 0), 0))
-  )
+  const [isOpen, setOpen] = useState(false)
+  const [isBlank, setIsBlank] = useState(true)
+  const [searchKeyword, setSearchKeyword] = useState('')
+  const [entries, setEntries] = useState<AdjustingEntry[]>([])
+
+  useEffect(() => {
+    refetch()
+  }, [year])
+
+  useEffect(() => {
+    if (isSuccess && data) {
+      const { data: entries_ } = data
+      if (searchKeyword != '') {
+        setEntries(
+          entries_.filter(
+            (e) =>
+              e.description.includes(searchKeyword) ||
+              e.transactions.reduce((a: boolean, b) => a || b.accountNumber.includes(searchKeyword), false)
+          )
+        )
+      } else setEntries(entries_)
+    }
+  }, [data, searchKeyword])
+
+  const currentCredit = sum(entries.map((x) => x.transactions.reduce((acc: number, t) => acc + (t?.credit || 0), 0)))
+  const currentDebit = sum(entries.map((x) => x.transactions.reduce((acc: number, t) => acc + (t?.debit || 0), 0)))
 
   const flattenJson = (data: AdjustingEntry[]) => {
     var flatJson = []
@@ -49,77 +72,70 @@ export const Index = (props: Props) => {
 
   const exportDocument = () => {
     var workbook = utils.book_new()
-    var worksheet = utils.json_to_sheet(flattenJson(dummyAdjustingEntries))
+    var worksheet = utils.json_to_sheet(flattenJson(entries))
     utils.book_append_sheet(workbook, worksheet, 'Adjusting Entries')
     return writeFile(workbook, `adjusting_entries_${year}.xlsx`)
+  }
+
+  const openModalToCreate = () => {
+    setIsBlank(true)
+    setOpen(true)
+  }
+
+  const openModalToEdit = (targetId: number) => {
+    dispatch({ type: 'set_id', id: targetId })
+    setIsBlank(false)
+    setOpen(true)
   }
 
   return (
     <div className="flex flex-col gap-4">
       <FilterControls {...{ exportDocument, searchKeyword, setSearchKeyword }} />
-      <Table zebra>
-        <TableHeader cells={cells} />
-        {dummyAdjustingEntries.map((entry, idx) => (
-          <TableRow key={entry.id} idx={idx} entry={entry} />
-        ))}
-        <tr className="text-center font-bold">
-          <td colSpan={3} className="text-right">
-            Total
-          </td>
-          <td>{numberToRupiah(currentCredit)}</td>
-          <td>{numberToRupiah(currentDebit)}</td>
-          <td></td>
-        </tr>
-      </Table>
-      <button onClick={() => setOpen(true)} className="btn btn-circle fixed bottom-6 right-6 btn-primary">
+      {isLoading && !isSuccess ? (
+        <div className="w-full grid place-content-center h-80 text-accent">
+          <FaSpinner className="w-10 h-10 animate-spin" />
+        </div>
+      ) : (
+        <>
+          <Table zebra>
+            <TableHeader cells={cells} />
+            {entries.map((entry, idx) => (
+              <EntryRow key={entry.id} {...{ idx, entry, openModalToEdit }} />
+            ))}
+            {entries.length > 0 && (
+              <tr className="text-center font-bold">
+                <td colSpan={3} className="text-right uppercase">
+                  Total
+                </td>
+                <td className="text-right text-green-900 bg-success bg-opacity-10 rounded-l-lg">
+                  {numberToRupiah(currentDebit)}
+                </td>
+                <td className="text-right text-red-900 bg-error bg-opacity-10 rounded-r-lg">
+                  {numberToRupiah(currentCredit)}
+                </td>
+                <td></td>
+              </tr>
+            )}
+          </Table>
+          {entries && entries.length == 0 && (
+            <div className="card w-full bg-base-200 p-8 text-center items-center">
+              No entries registered yet.{' '}
+              <div className="btn btn-primary mt-3" onClick={() => setOpen(true)}>
+                create entry
+              </div>
+            </div>
+          )}
+        </>
+      )}
+
+      <button onClick={() => openModalToCreate()} className="btn btn-circle fixed bottom-6 right-6 btn-primary">
         <IoAdd className="w-5 h-5" />
       </button>
-      <AddAdjustingEntryModal {...{ isOpen, setIsOpen: setOpen }} />
+      <AddAdjustingEntryModal {...{ isBlank, isOpen, reloadTable: refetch, setIsOpen: setOpen }} />
     </div>
   )
 }
 
 const cells: string[] = ['', 'acc no.', 'account name', 'debit', 'credit', 'description']
-
-const dummyAdjustingEntries: AdjustingEntry[] = [
-  {
-    id: 1,
-    description:
-      'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Distinctio dolor voluptatum dolore repudiandae! Numquam eos, eaque aut maiores fugiat fuga.',
-    transactions: [
-      {
-        id: 1,
-        accountName: 'Akun Debit Satu',
-        accountNumber: '1-1111',
-        debit: 12000,
-      },
-      {
-        id: 2,
-        accountName: 'Akun Kredit Dua',
-        accountNumber: '1-2222',
-        credit: 25000,
-      },
-    ],
-  },
-  {
-    id: 2,
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio voluptas quibusdam provident facere soluta reprehenderit?',
-    transactions: [
-      {
-        id: 4,
-        accountName: 'Akun Debit Satu',
-        accountNumber: '1-1111',
-        debit: 9999999,
-      },
-      {
-        id: 5,
-        accountName: 'Akun Kredit Dua',
-        accountNumber: '1-2222',
-        credit: 9999999,
-      },
-    ],
-  },
-]
 
 export default Index

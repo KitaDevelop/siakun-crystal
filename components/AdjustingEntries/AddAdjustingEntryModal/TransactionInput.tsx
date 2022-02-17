@@ -2,15 +2,19 @@ import { customStyles } from '@components/ChartOfAccounts/AddAccountModal/Select
 import React, { useEffect, useState } from 'react'
 import Select from 'react-select'
 import { IoTrashOutline } from 'react-icons/io5'
+import { Transaction } from '@context/JournalEntryContext/types'
 import { useAdjustingEntry } from '@hooks/useAdjustingEntry'
 import { useAccount } from '@hooks/useAccount'
+import { isSelectAccountOption } from '@utils/isSelectOptionValid'
+import { Account } from '@context/AccountContext/types'
 
 interface Props {
+  transaction: Transaction
   isOnlyChild: boolean
   idx: number
 }
 
-export const TransactionInput = ({ isOnlyChild, idx }: Props) => {
+export const TransactionInput = ({ transaction, isOnlyChild, idx }: Props) => {
   const {
     state: { transactions },
     dispatch,
@@ -22,23 +26,27 @@ export const TransactionInput = ({ isOnlyChild, idx }: Props) => {
     label: `${account.number} | ${account.name}`,
   }))
 
-  const [isDebit, setIsDebit] = useState(true)
-  const [debit, setDebit] = useState(0)
-  const [credit, setCredit] = useState(0)
+  const chosenAccount = accountOptions.find((x) => x.value.number == transaction.accountNumber)
+  const [isDebit, setIsDebit] = useState<boolean>(!!transaction?.debit && transaction.debit > 0)
+  const [debit, setDebit] = useState(transaction?.debit || 0)
+  const [credit, setCredit] = useState(transaction?.credit || 0)
+  const [account, setAccount] = useState<Account | undefined>(chosenAccount?.value)
 
   useEffect(() => {
-    const tmpTransactions = [...transactions]
-    tmpTransactions[idx] = {
-      ...tmpTransactions[idx],
+    const transactions_ = [...transactions]
+    transactions_[idx] = {
+      ...transactions_[idx],
       ...(isDebit ? { debit } : { credit }),
+      accountNumber: account?.number || '',
+      accountName: account?.name || '',
     }
-    dispatch({ type: 'set_transactions', transactions: tmpTransactions })
-  }, [debit, credit])
+    dispatch({ type: 'set_transactions', transactions: transactions_ })
+  }, [debit, credit, account])
 
   const onTransactionDelete = () => {
-    const tmpTransactions = [...transactions]
-    tmpTransactions.splice(idx, 1)
-    dispatch({ type: 'set_transactions', transactions: tmpTransactions })
+    const transactions_ = [...transactions]
+    transactions_.splice(idx, 1)
+    dispatch({ type: 'set_transactions', transactions: transactions_ })
   }
 
   return (
@@ -46,6 +54,10 @@ export const TransactionInput = ({ isOnlyChild, idx }: Props) => {
       <td className="w-48 min-w-full">
         <Select
           options={accountOptions}
+          value={chosenAccount}
+          onChange={(v) => {
+            if (isSelectAccountOption(v)) setAccount(v.value)
+          }}
           placeholder="Select Account"
           styles={customStyles}
           closeMenuOnSelect

@@ -3,6 +3,8 @@ import { AdjustingEntryReducer } from './AdjustingEntryReducer'
 import { AdjustingEntryProviderProps, Dispatch, State } from './types'
 
 const INITIAL_STATE: State = {
+  entries: [],
+  id: -1,
   description: '',
   transactions: [{ id: Date.now(), accountNumber: '', accountName: '' }],
 }
