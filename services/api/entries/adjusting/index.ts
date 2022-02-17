@@ -9,10 +9,24 @@ import {
   updateAdjustingEntry,
 } from './endpoints'
 
-interface UpdateAdjustingEntryPayload {
+export interface UpdateAdjustingEntryPayload {
   id: number
-  entry: AdjustingEntry
+  entry: AdjustingEntryPayload
   year: number
+}
+
+export interface CreateAdjustingEntryPayload {
+  entry: AdjustingEntryPayload
+  year: number
+}
+
+export interface AdjustingEntryPayload {
+  description: string
+  transactions: {
+    accountNumber: string
+    debit: number
+    credit: number
+  }[]
 }
 
 export const useFetchAdjustingEntries = (year?: number) => {
@@ -28,9 +42,13 @@ export const useFetchAdjustingEntry = (id: number, year?: number) => {
 }
 
 export const useCreateAdjustingEntry = () => {
-  return useMutation((entry: AdjustingEntry) => createAdjustingEntry(entry), {
-    onError: handleError,
-  })
+  return useMutation(
+    ({ entry, year }: CreateAdjustingEntryPayload) =>
+      createAdjustingEntry(entry, year),
+    {
+      onError: handleError,
+    }
+  )
 }
 
 export const useUpdateAdjustingEntry = () => {
