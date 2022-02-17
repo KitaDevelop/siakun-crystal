@@ -76,12 +76,12 @@ export default function EntryRow({
         <td rowSpan={transactions.length * 2 - 1}>{formatDate(date)}</td>
         {transactions.length > 0 &&
           transactions.slice(0, 1).map((t) => (
-            <React.Fragment key={t.accountNumber}>
+            <Fragment key={t.accountNumber}>
               <td>{t.accountNumber}</td>
               <td className="whitespace-nowrap">{findAccountNameByNumber(accounts, t.accountNumber)}</td>
               <td className="text-right">{(t?.debit || 0) > 0 && numberToRupiah(t?.debit)}</td>
               <td className="text-right">{(t?.credit || 0) > 0 && numberToRupiah(t?.credit)}</td>
-            </React.Fragment>
+            </Fragment>
           ))}
         <td rowSpan={transactions.length * 2 - 1} className="max-w-sm text-left">
           {description}

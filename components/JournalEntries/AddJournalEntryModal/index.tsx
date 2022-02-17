@@ -11,12 +11,13 @@ import ReceiptInput from './Form/ReceiptInput'
 import { TransactionInputTable } from './TransactionInputTable'
 
 interface Props {
-  isOpen: boolean
   isBlank: boolean
+  isOpen: boolean
   setIsOpen: Function
+  reloadTable: Function
 }
 
-export const AddJournalEntryModal = ({ isBlank, isOpen, setIsOpen }: Props) => {
+export const AddJournalEntryModal = ({ isBlank, isOpen, setIsOpen, reloadTable }: Props) => {
   const { year } = useYear()
   const {
     state: { id, date, description, receipt, transactions },
@@ -55,13 +56,13 @@ export const AddJournalEntryModal = ({ isBlank, isOpen, setIsOpen }: Props) => {
         }
       }),
     }
-    console.log(payload)
     if (isBlank) {
       createEntry.mutate(
         { year, entry: payload },
         {
           onSuccess: () => {
             toast.success(`Created entry from ${date}.`)
+            reloadTable()
           },
         }
       )
@@ -71,6 +72,7 @@ export const AddJournalEntryModal = ({ isBlank, isOpen, setIsOpen }: Props) => {
         {
           onSuccess: () => {
             toast.success(`Entry from ${date} has been updated.`)
+            reloadTable()
           },
         }
       )

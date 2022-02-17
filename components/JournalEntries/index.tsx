@@ -138,7 +138,7 @@ export const Index = (props: Props) => {
       <button onClick={() => openModalToCreate()} className="btn btn-circle fixed bottom-6 right-6 btn-primary">
         <IoAdd className="w-5 h-5" />
       </button>
-      <AddJournalEntryModal {...{ isBlank, isOpen, setIsOpen: setOpen }} />
+      <AddJournalEntryModal {...{ isBlank, isOpen, reloadTable: refetch, setIsOpen: setOpen }} />
     </div>
   )
 }
