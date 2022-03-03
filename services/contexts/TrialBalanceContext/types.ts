@@ -52,4 +52,29 @@ export type BalanceRow = {
   }
 }
 
+export type TrialBalancePayload = {
+  tableNumber: number
+  entries: TrialBalanceRowPayload[]
+}
+
+export type TrialBalanceRowPayload = {
+  id: number
+  beginningBalance: number
+  movementDebit: number
+  movementCredit: number
+  endingBalance: number
+  adjustmentDebit: number
+  AdjustmentCredit: number
+  adjustedTrialBalance: number
+  accountNumber: string
+}
+
+export interface CreateTrialBalancePayload extends TrialBalancePayload {
+  year: number
+}
+
+export interface UpdateTrialBalancePayload extends TrialBalancePayload {
+  year: number
+}
+
 export type TrialBalanceProviderProps = { children: React.ReactNode }
