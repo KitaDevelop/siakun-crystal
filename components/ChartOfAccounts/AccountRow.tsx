@@ -29,7 +29,7 @@ export const AccountRow = ({
 
   const onDeleteAccount = () => {
     mutate(
-      { id: id, year: year },
+      { accountNumber: number, year: year },
       {
         onSuccess: () => {
           let accounts_ = [...accounts]

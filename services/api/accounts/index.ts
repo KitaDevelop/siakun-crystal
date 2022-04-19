@@ -7,11 +7,16 @@ import {
   getAccounts,
   updateAccount,
 } from './endpoints'
-import { DeletePayload, handleError, OPTIONS } from '..'
+import { handleError, OPTIONS } from '..'
 
 export interface UpdateAccountPayload {
-  accountId: number
+  accountNumber: string
   account: Partial<Account>
+  year?: number
+}
+
+export interface DeleteAccountPayload {
+  accountNumber: string
   year?: number
 }
 
@@ -31,14 +36,18 @@ export const useCreateAccount = () => {
 
 export const useUpdateAccount = () => {
   return useMutation(
-    ({ accountId, account, year }: UpdateAccountPayload) =>
-      updateAccount(accountId, account, year),
+    ({ accountNumber, account, year }: UpdateAccountPayload) =>
+      updateAccount(accountNumber, account, year),
     { onError: handleError }
   )
 }
 
 export const useDeleteAccount = () => {
-  return useMutation(({ id, year }: DeletePayload) => deleteAccount(id, year), {
-    onError: handleError,
-  })
+  return useMutation(
+    ({ accountNumber, year }: DeleteAccountPayload) =>
+      deleteAccount(accountNumber, year),
+    {
+      onError: handleError,
+    }
+  )
 }

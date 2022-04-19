@@ -24,7 +24,7 @@ export const createAccount = (account: Account) => {
 }
 
 export const updateAccount = (
-  accountId: number,
+  accountNumber: string,
   account: Partial<Account>,
   year?: number
 ) => {
@@ -34,14 +34,16 @@ export const updateAccount = (
     subAccountsNumber: subAccounts?.filter((x) => x !== ''),
   }
   return axios.put<Account>(
-    `${config.API_URL_CARBON}/accounts/${accountId}${
+    `${config.API_URL_CARBON}/accounts/${accountNumber}${
       !!year ? '?year=' + year : ''
     }`,
     account_
   )
 }
 
-export const deleteAccount = (id: number, year?: number) =>
+export const deleteAccount = (accountNumber: string, year?: number) =>
   axios.delete(
-    `${config.API_URL_CARBON}/accounts/${id}${!!year ? '?year=' + year : ''}`
+    `${config.API_URL_CARBON}/accounts/${accountNumber}${
+      !!year ? '?year=' + year : ''
+    }`
   )
