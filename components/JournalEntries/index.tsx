@@ -19,11 +19,10 @@ import { FaSpinner } from 'react-icons/fa'
 import EntryRow from './EntryRow'
 const { writeFile, utils } = XLSX
 
-interface Props {}
 
-export const Index = (props: Props) => {
+export const Index = () => {
   const { year } = useYear()
-  const { isLoading, isSuccess, data, refetch } = useFetchJournalEntries(year)
+  const { isLoading, isFetching, isSuccess, data, refetch } = useFetchJournalEntries(year)
   const { accounts } = useAccount()
   const { dispatch } = useJournalEntry()
 
@@ -52,8 +51,8 @@ export const Index = (props: Props) => {
     }
   }, [data, searchKeyword])
 
-  const currentCredit = sum(entries.map((x) => x.transactions.reduce((acc: number, t) => acc + (t?.credit || 0), 0)))
-  const currentDebit = sum(entries.map((x) => x.transactions.reduce((acc: number, t) => acc + (t?.debit || 0), 0)))
+  const currentCredit = sum(entries?.map((x) => x.transactions.reduce((acc: number, t) => acc + (t?.credit || 0), 0)) || [])
+  const currentDebit = sum(entries?.map((x) => x.transactions.reduce((acc: number, t) => acc + (t?.debit || 0), 0)) || [])
 
   const flattenJson = (data: JournalEntry[]) => {
     var flatJson = []
@@ -98,7 +97,7 @@ export const Index = (props: Props) => {
   return (
     <div className="flex flex-col gap-4">
       <FilterControls {...{ exportDocument, searchKeyword, setSearchKeyword }} />
-      {isLoading && !isSuccess ? (
+      {isLoading || isFetching ? (
         <div className="w-full grid place-content-center h-80 text-accent">
           <FaSpinner className="w-10 h-10 animate-spin" />
         </div>
