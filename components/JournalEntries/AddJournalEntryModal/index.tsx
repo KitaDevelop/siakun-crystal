@@ -36,11 +36,11 @@ export const AddJournalEntryModal = ({ isBlank, isOpen, setIsOpen, reloadTable }
   }, [isBlank, id])
 
   useEffect(() => {
-    if (!isBlank && !isLoading && data) {
+    if (data) {
       const { data: entry } = data
       dispatch({ type: 'set_entry', entry: entry })
     }
-  }, [isLoading, data])
+  }, [data])
 
   const onSubmitEntry = async () => {
     let payload = {
@@ -50,7 +50,7 @@ export const AddJournalEntryModal = ({ isBlank, isOpen, setIsOpen, reloadTable }
       transactions: transactions.map((t) => {
         let { accountNumber, debit, credit } = t
         return {
-          accountNumber,
+          accountNumber: accountNumber!,
           debit: debit || 0,
           credit: credit || 0,
         }
@@ -61,8 +61,9 @@ export const AddJournalEntryModal = ({ isBlank, isOpen, setIsOpen, reloadTable }
         { year, entry: payload },
         {
           onSuccess: () => {
-            toast.success(`Created entry from ${date}.`)
             reloadTable()
+            setIsOpen(false)
+            toast.success(`Created entry from ${date}.`)
           },
         }
       )
@@ -71,8 +72,9 @@ export const AddJournalEntryModal = ({ isBlank, isOpen, setIsOpen, reloadTable }
         { id, year, entry: payload },
         {
           onSuccess: () => {
-            toast.success(`Entry from ${date} has been updated.`)
             reloadTable()
+            setIsOpen(false)
+            toast.success(`Entry from ${date} has been updated.`)
           },
         }
       )

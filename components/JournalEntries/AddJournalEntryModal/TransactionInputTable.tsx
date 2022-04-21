@@ -17,7 +17,7 @@ export const TransactionInputTable = () => {
   const onAddTransaction = () => {
     dispatch({
       type: 'set_transactions',
-      transactions: [...transactions, { id: Date.now(), accountNumber: '', accountName: '' }],
+      transactions: [...transactions, { id: Date.now(), accountNumber: '' }],
     })
   }
 

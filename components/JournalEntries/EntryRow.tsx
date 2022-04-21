@@ -10,6 +10,7 @@ import { IoTrashOutline } from 'react-icons/io5'
 import { useDeleteJournalEntry } from '@api/entries/journal'
 import { useYear } from '@hooks/useYear'
 import toast from 'react-hot-toast'
+import { downloadFile } from '@utils/downloadFile'
 
 interface Props {
   idx: number
@@ -54,12 +55,12 @@ export default function EntryRow({
             tabIndex={0}
             className="p-2 shadow menu compact bg-base-100 overflow-visible rounded-box w-52 dropdown-content"
           >
-            <li>
-              <a href={receipt} target="_blank" rel='noreferrer' >
+            {receipt && <li>
+              <a onClick={() => downloadFile(receipt)} >
                 <FiDownload className="w-5 h-5 mr-2" />
                 Download Receipt
               </a>
-            </li>
+            </li>}
             <li>
               <a onClick={() => onEditEntry()}>
                 <MdOutlineEdit className="w-5 h-5 mr-2" />

@@ -1,5 +1,3 @@
-import { useJournalEntry } from '@hooks/useJournalEntry'
-import { dataURLtoFile } from '@utils/dataUrlToFile'
 import React, { useEffect, useState } from 'react'
 import { ReceiptDropzone } from './ReceiptDropzone'
 

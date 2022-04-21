@@ -8,13 +8,10 @@ import { numberToRupiah } from '@utils//numberToRupiah'
 
 import * as XLSX from 'xlsx'
 import { formatDate } from '@utils/formatDate'
-import { SelectYearOption, years } from '@constants/years'
 import { useYear } from '@hooks/useYear'
 import { useFetchJournalEntries } from '@api/entries/journal'
-import { useAccount } from '@hooks/useAccount'
 import { useJournalEntry } from '@hooks/useJournalEntry'
 import { sum } from '@utils/sum'
-import { findAccountNameByNumber } from '@utils/findAccountNameByNumber'
 import { FaSpinner } from 'react-icons/fa'
 import EntryRow from './EntryRow'
 const { writeFile, utils } = XLSX
@@ -22,8 +19,7 @@ const { writeFile, utils } = XLSX
 
 export const Index = () => {
   const { year } = useYear()
-  const { isLoading, isFetching, isSuccess, data, refetch } = useFetchJournalEntries(year)
-  const { accounts } = useAccount()
+  const { isLoading, isFetching, data, refetch } = useFetchJournalEntries(year)
   const { dispatch } = useJournalEntry()
 
   const [isOpen, setOpen] = useState<boolean>(false)
@@ -36,18 +32,23 @@ export const Index = () => {
   }, [year])
 
   useEffect(() => {
-    if (isSuccess && data) {
+    if (data) {
       const { data: entries_ } = data
-      if (searchKeyword != '') {
-        setEntries(
-          entries_.filter(
-            (e) =>
-              e.date.includes(searchKeyword) ||
-              e.description.includes(searchKeyword) ||
-              e.transactions.reduce((a: boolean, b) => a || b.accountNumber.includes(searchKeyword), false)
-          )
+      setEntries(entries_)
+    }
+  }, [data])
+
+  useEffect(() => {
+    if (data && searchKeyword != '') {
+      const { data: entries_ } = data
+      setEntries(
+        entries_.filter(
+          (e) =>
+            e.date.includes(searchKeyword) ||
+            e.description.includes(searchKeyword) ||
+            e.transactions.reduce((a: boolean, b) => a || b.account!.number.includes(searchKeyword), false)
         )
-      } else setEntries(entries_)
+      )
     }
   }, [data, searchKeyword])
 
@@ -60,8 +61,8 @@ export const Index = () => {
       for (let t of entry.transactions) {
         flatJson.push({
           Tanggal: formatDate(entry.date),
-          'Nomor Akun': t.accountNumber,
-          'Nama Akun': findAccountNameByNumber(accounts, t.accountNumber),
+          'Nomor Akun': t.account?.number,
+          'Nama Akun': t.account?.name,
           Debit: t?.debit,
           Kredit: t?.credit,
           Deskripsi: entry.description,

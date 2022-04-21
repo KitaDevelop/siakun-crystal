@@ -8,6 +8,7 @@ import { AiOutlineCloudUpload } from 'react-icons/ai'
 import { useJournalEntry } from '@hooks/useJournalEntry'
 import { blobToBase64 } from '@utils/blobToBase64'
 import { FiDownload } from 'react-icons/fi'
+import { downloadFile } from '@utils/downloadFile'
 
 interface Props {
   isBlank: boolean
@@ -31,7 +32,7 @@ export const ReceiptDropzone = ({ isBlank }: Props) => {
     }
   }
 
-  return isBlank || receipt == "" ? (
+  return isBlank || !receipt?.startsWith('https') ? (
     <Dropzone
       onChangeStatus={handleSubmit}
       maxFiles={1}
@@ -41,10 +42,10 @@ export const ReceiptDropzone = ({ isBlank }: Props) => {
     />
   ) : (
     <div className="flex gap-1 items-center">
-      <a href={receipt} target="_blank" rel='noreferrer' className="btn lowercase">
+      <div onClick={() => downloadFile(receipt)} className="btn lowercase">
         <FiDownload className="w-5 h-5 mr-2" />
         {receipt!.split('/').pop()}
-      </a>
+      </div>
       <div onClick={replaceReceipt} className="btn btn-sm btn-ghost text-secondary">Replace</div>
     </div>
   )
