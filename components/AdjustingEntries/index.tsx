@@ -34,17 +34,23 @@ export const Index = (props: Props) => {
   useEffect(() => {
     if (isSuccess && data) {
       const { data: entries_ } = data
-      if (searchKeyword != '') {
-        setEntries(
-          entries_.filter(
-            (e) =>
-              e.description.includes(searchKeyword) ||
-              e.transactions.reduce((a: boolean, b) => a || b.account!.number.includes(searchKeyword), false)
-          )
-        )
-      } else setEntries(entries_)
+      setEntries(entries_)
     }
-  }, [data, searchKeyword])
+  }, [data])
+
+  useEffect(() => {
+    if (data && searchKeyword != '') {
+      const { data: entries_ } = data
+      setEntries(
+        entries_.filter(
+          (e) =>
+            e.description.includes(searchKeyword) ||
+            e.transactions.reduce((a: boolean, b) => a || b.account!.number.includes(searchKeyword), false)
+        )
+      )
+    }
+  }, [searchKeyword])
+
 
   const currentCredit = sum(entries.map((x) => x.transactions.reduce((acc: number, t) => acc + (t?.credit || 0), 0)))
   const currentDebit = sum(entries.map((x) => x.transactions.reduce((acc: number, t) => acc + (t?.debit || 0), 0)))
@@ -100,7 +106,7 @@ export const Index = (props: Props) => {
           <Table zebra>
             <TableHeader cells={cells} />
             {entries.map((entry, idx) => (
-              <EntryRow key={entry.id} {...{ idx, entry, openModalToEdit }} />
+              <EntryRow key={entry.id}  {...{ idx, entry, openModalToEdit, reloadTable: refetch }} />
             ))}
             {entries.length > 0 && (
               <tr className="text-center font-bold">

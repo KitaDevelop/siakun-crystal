@@ -21,7 +21,7 @@ export const AddAdjustingEntryModal = ({ isBlank, isOpen, setIsOpen, reloadTable
     state: { id, description, transactions },
     dispatch,
   } = useAdjustingEntry()
-  const { isLoading, data, refetch, isRefetching } = useFetchAdjustingEntry(id, year)
+  const { isLoading, data, refetch } = useFetchAdjustingEntry(id, year)
   const createEntry = useCreateAdjustingEntry()
   const updateEntry = useUpdateAdjustingEntry()
 
@@ -57,8 +57,9 @@ export const AddAdjustingEntryModal = ({ isBlank, isOpen, setIsOpen, reloadTable
         { year, entry: payload },
         {
           onSuccess: () => {
-            toast.success(`Created adjusting entry.`)
             reloadTable()
+            setIsOpen(false)
+            toast.success(`Created adjusting entry.`)
           },
         }
       )
@@ -67,8 +68,9 @@ export const AddAdjustingEntryModal = ({ isBlank, isOpen, setIsOpen, reloadTable
         { id, year, entry: payload },
         {
           onSuccess: () => {
-            toast.success(`Entry has been updated.`)
             reloadTable()
+            setIsOpen(false)
+            toast.success(`Entry has been updated.`)
           },
         }
       )
@@ -77,7 +79,7 @@ export const AddAdjustingEntryModal = ({ isBlank, isOpen, setIsOpen, reloadTable
   return (
     <Modal {...{ isOpen, setIsOpen, size: 'lg', isOverflow: transactions.length > 2 }}>
       <div className="font-bold text-xl mb-4">Create New Adjusting Entry</div>
-      {!isBlank && (isLoading || isRefetching) ? (
+      {!isBlank && isLoading ? (
         <div className="w-full grid place-content-center h-80 text-accent">
           <FaSpinner className="w-10 h-10 animate-spin" />
         </div>

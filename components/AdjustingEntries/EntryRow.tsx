@@ -8,18 +8,22 @@ import toast from 'react-hot-toast'
 import { FiMoreVertical } from 'react-icons/fi'
 import { MdOutlineEdit } from 'react-icons/md'
 import { IoTrashOutline } from 'react-icons/io5'
+import { useAdjustingEntry } from '@hooks/useAdjustingEntry'
 
 interface Props {
   idx: number
   entry: AdjustingEntry
   openModalToEdit: (id: number) => void
+  reloadTable: () => void
 }
 export default function EntryRow({
   idx,
   openModalToEdit,
+  reloadTable,
   entry: { id, description, transactions },
 }: Props): ReactElement {
   const { year } = useYear()
+  const { state: { entries }, dispatch } = useAdjustingEntry()
   const deleteEntry = useDeleteAdjustingEntry()
 
   const onEditEntry = () => {
@@ -31,7 +35,8 @@ export default function EntryRow({
       { id, year },
       {
         onSuccess: () => {
-          toast.success(`Entry from has been deleted.`)
+          reloadTable()
+          toast.success(`Entry has been deleted.`)
         },
       }
     )

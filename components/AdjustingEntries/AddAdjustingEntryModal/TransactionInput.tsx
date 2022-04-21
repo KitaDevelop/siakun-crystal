@@ -37,8 +37,10 @@ export const TransactionInput = ({ transaction, isOnlyChild, idx }: Props) => {
     transactions_[idx] = {
       ...transactions_[idx],
       ...(isDebit ? { debit } : { credit }),
-      accountNumber: account?.number || '',
-      accountName: account?.name || '',
+      account: {
+        name: account?.name || '',
+        number: account?.number || ''
+      }
     }
     dispatch({ type: 'set_transactions', transactions: transactions_ })
   }, [debit, credit, account])
