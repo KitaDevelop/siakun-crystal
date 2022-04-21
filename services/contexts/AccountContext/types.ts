@@ -1,6 +1,7 @@
 export interface Account {
   id: number
   parentNumber?: string
+  parent?: Account
   number: string
   name: string
   description: string
@@ -34,17 +35,17 @@ export type AccountContextValue = {
 export type AccountProviderProps = { children: React.ReactNode }
 export enum AccountCategory {
   NONE,
-  HEADING = 'heading',
-  AKUN = 'akun',
-  JUMLAH = 'jumlah',
+  HEADING = 'Heading',
+  AKUN = 'Akun',
+  JUMLAH = 'Jumlah',
 }
 export enum AccountType {
-  NERACA = 'neraca',
-  LABARUGI = 'labarugi',
+  NERACA = 'Neraca',
+  LABARUGI = 'Labarugi',
 }
 export enum NormalBalance {
-  DEBIT = 'debit',
-  CREDIT = 'credit',
+  DEBIT = 'Debit',
+  CREDIT = 'Credit',
 }
 export const EmptyAccount: Account = {
   id: -1,
