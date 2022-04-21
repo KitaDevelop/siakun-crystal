@@ -3,10 +3,8 @@ import { JournalEntry } from '@context/JournalEntryContext/types'
 import React, { Fragment, ReactElement } from 'react'
 import { numberToRupiah } from '@utils//numberToRupiah'
 import { formatDate } from '@utils/formatDate'
-import { useAccount } from '@hooks/useAccount'
-import { findAccountNameByNumber } from '@utils/findAccountNameByNumber'
 import { TransactionRow } from './TransactionRow'
-import { FiMoreVertical } from 'react-icons/fi'
+import { FiMoreVertical, FiDownload } from 'react-icons/fi'
 import { MdOutlineEdit } from 'react-icons/md'
 import { IoTrashOutline } from 'react-icons/io5'
 import { useDeleteJournalEntry } from '@api/entries/journal'
@@ -21,7 +19,7 @@ interface Props {
 export default function EntryRow({
   idx,
   openModalToEdit,
-  entry: { id, date, description, transactions },
+  entry: { id, date, description, receipt, transactions },
 }: Props): ReactElement {
   const { year } = useYear()
   const deleteEntry = useDeleteJournalEntry()
@@ -56,6 +54,12 @@ export default function EntryRow({
             tabIndex={0}
             className="p-2 shadow menu compact bg-base-100 overflow-visible rounded-box w-52 dropdown-content"
           >
+            <li>
+              <a href={receipt} target="_blank" rel='noreferrer' >
+                <FiDownload className="w-5 h-5 mr-2" />
+                Download Receipt
+              </a>
+            </li>
             <li>
               <a onClick={() => onEditEntry()}>
                 <MdOutlineEdit className="w-5 h-5 mr-2" />
