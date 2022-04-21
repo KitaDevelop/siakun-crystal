@@ -71,9 +71,9 @@ export default function EntryRow({
         <td rowSpan={transactions.length * 2 - 1}></td>
         {transactions.length > 0 &&
           transactions.slice(0, 1).map((t) => (
-            <Fragment key={t.accountNumber}>
-              <td>{t.accountNumber}</td>
-              <td className="whitespace-nowrap">{t.accountName}</td>
+            <Fragment key={t.account!.number}>
+              <td>{t.account!.number}</td>
+              <td className="whitespace-nowrap">{t.account!.name}</td>
               <td className="text-right">{(t?.debit || 0) > 0 && numberToRupiah(t?.debit)}</td>
               <td className="text-right">{(t?.credit || 0) > 0 && numberToRupiah(t?.credit)}</td>
             </Fragment>
@@ -84,11 +84,11 @@ export default function EntryRow({
       </tr>
       {transactions.length > 1 &&
         transactions.slice(1).map((t) => (
-          <Fragment key={t.accountNumber}>
+          <Fragment key={t.account!.number}>
             <tr></tr>
             <tr className="text-center">
-              <td>{t.accountNumber}</td>
-              <td className="whitespace-nowrap">{t.accountName}</td>
+              <td>{t.account!.number}</td>
+              <td className="whitespace-nowrap">{t.account!.name}</td>
               <td className="text-right">{(t?.debit || 0) > 0 && numberToRupiah(t?.debit)}</td>
               <td className="text-right">{(t?.credit || 0) > 0 && numberToRupiah(t?.credit)}</td>
             </tr>

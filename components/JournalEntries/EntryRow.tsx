@@ -23,7 +23,6 @@ export default function EntryRow({
   openModalToEdit,
   entry: { id, date, description, transactions },
 }: Props): ReactElement {
-  const { accounts } = useAccount()
   const { year } = useYear()
   const deleteEntry = useDeleteJournalEntry()
 
@@ -76,9 +75,9 @@ export default function EntryRow({
         <td rowSpan={transactions.length * 2 - 1}>{formatDate(date)}</td>
         {transactions.length > 0 &&
           transactions.slice(0, 1).map((t) => (
-            <Fragment key={t.accountNumber}>
-              <td>{t.accountNumber}</td>
-              <td className="whitespace-nowrap">{findAccountNameByNumber(accounts, t.accountNumber)}</td>
+            <Fragment key={t.account!.number}>
+              <td>{t.account!.number}</td>
+              <td className="whitespace-nowrap">{t.account!.name}</td>
               <td className="text-right">{(t?.debit || 0) > 0 && numberToRupiah(t?.debit)}</td>
               <td className="text-right">{(t?.credit || 0) > 0 && numberToRupiah(t?.credit)}</td>
             </Fragment>
@@ -89,7 +88,7 @@ export default function EntryRow({
       </tr>
       {transactions.length > 1 &&
         transactions.slice(1).map((t) => (
-          <Fragment key={t.accountNumber}>
+          <Fragment key={t.account!.number}>
             <tr></tr>
             <tr className="text-center">
               <TransactionRow transaction={t} />

@@ -9,14 +9,13 @@ type Props = {
 }
 
 export const TransactionRow = ({ transaction }: Props) => {
-  const { accounts } = useAccount()
-
+  const { account, debit, credit } = transaction
   return (
     <>
-      <td>{transaction.accountNumber}</td>
-      <td className="whitespace-nowrap">{findAccountNameByNumber(accounts, transaction.accountNumber)}</td>
-      <td className="text-right">{(transaction?.debit || 0) > 0 && numberToRupiah(transaction?.debit)}</td>
-      <td className="text-right">{(transaction?.credit || 0) > 0 && numberToRupiah(transaction?.credit)}</td>
+      <td>{account!.number}</td>
+      <td className="whitespace-nowrap">{account!.name}</td>
+      <td className="text-right">{(debit || 0) > 0 && numberToRupiah(debit)}</td>
+      <td className="text-right">{(credit || 0) > 0 && numberToRupiah(credit)}</td>
     </>
   )
 }

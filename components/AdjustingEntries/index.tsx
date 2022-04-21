@@ -15,7 +15,7 @@ import { FaSpinner } from 'react-icons/fa'
 import EntryRow from './EntryRow'
 const { writeFile, utils } = XLSX
 
-interface Props {}
+interface Props { }
 
 export const Index = (props: Props) => {
   const { year } = useYear()
@@ -39,7 +39,7 @@ export const Index = (props: Props) => {
           entries_.filter(
             (e) =>
               e.description.includes(searchKeyword) ||
-              e.transactions.reduce((a: boolean, b) => a || b.accountNumber.includes(searchKeyword), false)
+              e.transactions.reduce((a: boolean, b) => a || b.account!.number.includes(searchKeyword), false)
           )
         )
       } else setEntries(entries_)
@@ -54,8 +54,8 @@ export const Index = (props: Props) => {
     for (let entry of data) {
       for (let transaction of entry.transactions) {
         flatJson.push({
-          'Nomor Akun': transaction.accountNumber,
-          'Nama Akun': transaction.accountName,
+          'Nomor Akun': transaction.account!.name,
+          'Nama Akun': transaction.account!.number,
           Debit: transaction?.debit,
           Kredit: transaction?.credit,
           Deskripsi: entry.description,

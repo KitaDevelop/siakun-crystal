@@ -23,7 +23,7 @@ export interface CreateAdjustingEntryPayload {
 export interface AdjustingEntryPayload {
   description: string
   transactions: {
-    accountNumber: string
+    accountNumber?: string
     debit: number
     credit: number
   }[]
