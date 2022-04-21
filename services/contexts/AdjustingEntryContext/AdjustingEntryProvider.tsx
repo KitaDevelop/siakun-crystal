@@ -6,7 +6,7 @@ const INITIAL_STATE: State = {
   entries: [],
   id: -1,
   description: '',
-  transactions: [{ id: Date.now(), accountNumber: '', accountName: '' }],
+  transactions: [{ id: Date.now(), accountNumber: '' }],
 }
 
 const AdjustingEntryContext = React.createContext<{ state: State; dispatch: Dispatch } | undefined>(undefined)

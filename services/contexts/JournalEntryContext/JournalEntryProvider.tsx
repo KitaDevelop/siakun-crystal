@@ -7,7 +7,7 @@ const INITIAL_STATE: State = {
   id: -1,
   date: '',
   description: '',
-  transactions: [{ id: Date.now(), accountNumber: '', accountName: '' }],
+  transactions: [{ id: Date.now(), accountNumber: '' }],
 }
 
 const JournalEntryContext = React.createContext<{ state: State; dispatch: Dispatch } | undefined>(undefined)

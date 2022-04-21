@@ -19,3 +19,8 @@ export const OPTIONS = {
   retry: 2,
   refetchOnWindowFocus: false,
 }
+
+export const OPTIONS_NO_CACHE = {
+  retry: 2,
+  refetchOnWindowFocus: false,
+}
