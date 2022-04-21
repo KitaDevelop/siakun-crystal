@@ -1,6 +1,5 @@
-import { CSSProperties, useEffect, useState } from 'react'
+import { CSSProperties } from 'react'
 import Dropzone, {
-  IDropzoneProps,
   IFileWithMeta,
   IStyleCustomization,
   StatusValue,
@@ -8,7 +7,7 @@ import Dropzone, {
 import { AiOutlineCloudUpload } from 'react-icons/ai'
 import { useJournalEntry } from '@hooks/useJournalEntry'
 import { blobToBase64 } from '@utils/blobToBase64'
-import { dataURLtoFile } from '@utils/dataUrlToFile'
+import { FiDownload } from 'react-icons/fi'
 
 interface Props {
   isBlank: boolean
@@ -19,14 +18,12 @@ export const ReceiptDropzone = ({ isBlank }: Props) => {
     state: { receipt },
     dispatch,
   } = useJournalEntry()
-  const [initialFiles, setInitialFiles] = useState<File[] | undefined>()
 
-  useEffect(() => {
-    if (isBlank) setInitialFiles(undefined)
-    else if (receipt && receipt != '') setInitialFiles([dataURLtoFile(receipt, 'receipt')])
-  }, [isBlank, receipt])
+  const replaceReceipt = () => {
+    dispatch({ type: 'set_receipt', receipt: '' })
+  }
 
-  const handleSubmit = ({ file, meta, remove }: IFileWithMeta, status: StatusValue) => {
+  const handleSubmit = ({ file }: IFileWithMeta, status: StatusValue) => {
     if (status == 'done') {
       blobToBase64(file).then((receiptBase64) => {
         dispatch({ type: 'set_receipt', receipt: receiptBase64 as string })
@@ -34,15 +31,22 @@ export const ReceiptDropzone = ({ isBlank }: Props) => {
     }
   }
 
-  return (
+  return isBlank || receipt == "" ? (
     <Dropzone
       onChangeStatus={handleSubmit}
       maxFiles={1}
       multiple={false}
       inputContent={InputPlaceholder}
       styles={dropzoneStyle}
-      initialFiles={initialFiles}
     />
+  ) : (
+    <div className="flex gap-1 items-center">
+      <a href={receipt} target="_blank" rel='noreferrer' className="btn lowercase">
+        <FiDownload className="w-5 h-5 mr-2" />
+        {receipt!.split('/').pop()}
+      </a>
+      <div onClick={replaceReceipt} className="btn btn-sm btn-ghost text-secondary">Replace</div>
+    </div>
   )
 }
 
