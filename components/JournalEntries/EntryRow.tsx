@@ -16,11 +16,13 @@ import { ConfirmationDialog } from '@components/ConfirmationDialog'
 interface Props {
   idx: number
   entry: JournalEntry
+  reloadTable: Function
   openModalToEdit: (id: number) => void
 }
 export default function EntryRow({
   idx,
   openModalToEdit,
+  reloadTable,
   entry: { id, date, description, receipt, transactions },
 }: Props): ReactElement {
   const { year } = useYear()
@@ -36,6 +38,7 @@ export default function EntryRow({
       { id, year },
       {
         onSuccess: () => {
+          reloadTable()
           toast.success(`Entry from ${date} has been deleted.`)
         },
       }

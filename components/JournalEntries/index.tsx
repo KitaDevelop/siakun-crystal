@@ -107,7 +107,7 @@ export const Index = () => {
           <Table zebra>
             <TableHeader cells={cells} />
             {entries.map((entry, idx) => (
-              <EntryRow key={entry.id} {...{ idx, entry, openModalToEdit }} />
+              <EntryRow key={entry.id} {...{ idx, entry, openModalToEdit, reloadTable: refetch }} />
             ))}
             {entries.length > 0 && (
               <tr className="text-center font-bold">
