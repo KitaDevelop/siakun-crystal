@@ -42,9 +42,15 @@ export const TransactionInputTable = () => {
           />
         ))}
       </TableBody>
-      <div onClick={onAddTransaction} className="btn btn-ghost text-primary self-start btn-sm">
-        <IoAdd className="mr-2" /> Add More
-      </div>
+      <TableBody>
+        <tr>
+          <td>
+            <div onClick={onAddTransaction} className="btn btn-ghost text-primary self-start btn-sm">
+              <IoAdd className="mr-2" /> Add More
+            </div>
+          </td>
+        </tr>
+      </TableBody>
       <TableBody>
         <tr>
           <td className="font-bold text-right">Total:</td>

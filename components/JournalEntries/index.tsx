@@ -1,4 +1,4 @@
-import { Table, TableHeader } from '@components/Table'
+import { Table, TableBody, TableHeader } from '@components/Table'
 import { JournalEntry } from '@context/JournalEntryContext/types'
 import React, { useEffect, useState } from 'react'
 import { IoAdd } from 'react-icons/io5'
@@ -110,18 +110,20 @@ export const Index = () => {
               <EntryRow key={entry.id} {...{ idx, entry, openModalToEdit }} />
             ))}
             {entries.length > 0 && (
-              <tr className="text-center font-bold">
-                <td colSpan={3} className="text-right uppercase">
-                  Total
-                </td>
-                <td className="text-right text-green-900 bg-success bg-opacity-10 rounded-l-lg">
-                  {numberToRupiah(currentDebit)}
-                </td>
-                <td className="text-right text-red-900 bg-error bg-opacity-10 rounded-r-lg">
-                  {numberToRupiah(currentCredit)}
-                </td>
-                <td></td>
-              </tr>
+              <TableBody>
+                <tr className="text-center font-bold">
+                  <td colSpan={3} className="text-right uppercase">
+                    Total
+                  </td>
+                  <td className="text-right text-green-900 bg-success bg-opacity-10 rounded-l-lg">
+                    {numberToRupiah(currentDebit)}
+                  </td>
+                  <td className="text-right text-red-900 bg-error bg-opacity-10 rounded-r-lg">
+                    {numberToRupiah(currentCredit)}
+                  </td>
+                  <td></td>
+                </tr>
+              </TableBody>
             )}
           </Table>
           {entries && entries.length == 0 && (

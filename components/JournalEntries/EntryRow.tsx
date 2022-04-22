@@ -44,7 +44,7 @@ export default function EntryRow({
 
   return (
     <TableBody className="group hover multirow">
-      {idx % 2 === 0 && <div></div>}
+      {idx % 2 === 0 && <tr></tr>}
       <tr className="invisible group-hover:visible absolute -left-5">
         <td className="dropdown">
           <div className="relative">
