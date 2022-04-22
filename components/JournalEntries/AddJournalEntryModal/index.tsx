@@ -83,7 +83,7 @@ export const AddJournalEntryModal = ({ isBlank, isOpen, setIsOpen, reloadTable }
 
   return (
     <Modal {...{ isOpen, setIsOpen, size: 'lg', isOverflow: true }}>
-      <div className="font-bold text-xl mb-4">Create New Entry</div>
+      <div className="font-bold text-xl mb-4">{isBlank ? "Create New" : "Edit"} Entry</div>
       {!isBlank && (isLoading || isRefetching) ? (
         <div className="w-full grid place-content-center h-80 text-accent">
           <FaSpinner className="w-10 h-10 animate-spin" />
