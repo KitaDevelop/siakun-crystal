@@ -37,6 +37,7 @@ export const TransactionInput = ({ transaction, isOnlyChild, idx }: Props) => {
     transactions_[idx] = {
       ...transactions_[idx],
       ...(isDebit ? { debit } : { credit }),
+      accountNumber: account?.number,
       account: {
         name: account?.name || '',
         number: account?.number || ''

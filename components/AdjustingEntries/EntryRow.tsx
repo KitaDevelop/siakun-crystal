@@ -1,6 +1,6 @@
 import { TableBody } from '@components/Table'
 import { AdjustingEntry } from '@context/AdjustingEntryContext/types'
-import React, { Fragment, ReactElement } from 'react'
+import React, { Fragment, ReactElement, useState } from 'react'
 import { numberToRupiah } from '@utils//numberToRupiah'
 import { useDeleteAdjustingEntry } from '@api/entries/adjusting'
 import { useYear } from '@hooks/useYear'
@@ -9,6 +9,7 @@ import { FiMoreVertical } from 'react-icons/fi'
 import { MdOutlineEdit } from 'react-icons/md'
 import { IoTrashOutline } from 'react-icons/io5'
 import { useAdjustingEntry } from '@hooks/useAdjustingEntry'
+import { ConfirmationDialog } from '@components/ConfirmationDialog'
 
 interface Props {
   idx: number
@@ -23,7 +24,7 @@ export default function EntryRow({
   entry: { id, description, transactions },
 }: Props): ReactElement {
   const { year } = useYear()
-  const { state: { entries }, dispatch } = useAdjustingEntry()
+  const [isOpenDialog, setIsOpenDialog] = useState(false)
   const deleteEntry = useDeleteAdjustingEntry()
 
   const onEditEntry = () => {
@@ -45,9 +46,9 @@ export default function EntryRow({
   return (
     <TableBody className="group hover multirow">
       {idx % 2 === 0 && <tr></tr>}
-      <div className="invisible group-hover:visible absolute -left-5">
-        <div className="dropdown">
-          <div className="relative top-2">
+      <tr className="invisible group-hover:visible absolute -left-5">
+        <td className="dropdown">
+          <div className="relative">
             <div tabIndex={0} className="handle relative text-gray-400 hover:bg-gray-100 btn btn-xs btn-ghost">
               <FiMoreVertical className="absolute w-5 h-5" style={{ left: '-5px' }} />
               <FiMoreVertical className="absolute  w-5 h-5" style={{ left: '1px' }} />
@@ -64,14 +65,21 @@ export default function EntryRow({
               </a>
             </li>
             <li>
-              <a onClick={() => onDeleteEntry()}>
+              <a onClick={() => setIsOpenDialog(true)}>
                 <IoTrashOutline className="w-5 h-5 mr-2" />
                 Delete Entry
               </a>
             </li>
           </ul>
-        </div>
-      </div>
+          <ConfirmationDialog
+            isOpen={isOpenDialog}
+            setIsOpen={setIsOpenDialog}
+            onConfirm={() => onDeleteEntry()}
+            confirmMessage="Yes, delete">
+            <div className="font-medium text-stone-700 text-lg">Are you sure you want to delete this entry?</div>
+          </ConfirmationDialog>
+        </td>
+      </tr>
       <tr className="text-center">
         <td rowSpan={transactions.length * 2 - 1}></td>
         {transactions.length > 0 &&
