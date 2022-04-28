@@ -7,11 +7,15 @@ export interface Breadcrumb {
   href: string
 }
 
+interface BreadcrumbProps {
+  pageName?: string
+}
+
 const convertBreadcrumb = (string: string) => {
   return string.replace(/-/g, ' ').replace(/^(.)|\s+(.)/g, (c) => c.toUpperCase())
 }
 
-const Breadcrumbs = () => {
+const Breadcrumbs = ({ pageName }: BreadcrumbProps) => {
   const router = useRouter()
   const [breadcrumbs, setBreadcrumbs] = useState<Breadcrumb[]>()
 
@@ -19,6 +23,7 @@ const Breadcrumbs = () => {
     if (router) {
       const linkPath = router.asPath.split('/')
       linkPath.shift()
+      if (pageName) linkPath.splice(linkPath.length - 1, 1, pageName)
 
       let pathArray = linkPath.map((path, i) => {
         return { breadcrumb: path, href: '/' + linkPath.slice(0, i + 1).join('/') }
