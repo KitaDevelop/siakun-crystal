@@ -7,6 +7,11 @@
   @apply backdrop-filter backdrop-blur-sm;
 }
 
+.modal-box {
+  max-height: initial;
+  overflow-y: initial;
+}
+
 .table thead th {
   @apply bg-secondary text-secondary-content text-center;
 }

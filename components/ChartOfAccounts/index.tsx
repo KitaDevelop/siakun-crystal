@@ -5,15 +5,14 @@ import { IoAdd } from 'react-icons/io5'
 import { AddAccountModal } from './AddAccountModal'
 import { useAccount } from '@hooks/useAccount'
 import FilterControls from '@components/FilterControls'
-
-interface Props {}
+import { LockedAlert } from '@components/LockedAlert'
 
 export const Index = () => {
   const [isOpen, setOpen] = useState(false)
   const [isBlank, setBlank] = useState(true)
   const [searchKeyword, setSearchKeyword] = useState('')
 
-  const { accounts: accounts_ } = useAccount()
+  const { accounts: accounts_, isLocked } = useAccount()
   const [accounts, setAccounts] = useState(accounts_)
 
   useEffect(() => {
@@ -45,12 +44,13 @@ export const Index = () => {
   const cells = ['', 'acc no.', 'account name', 'description', 'jenis', 'tipe', 'saldo normal']
   return (
     <div className="flex flex-col gap-4">
+      {isLocked && <LockedAlert />}
       <FilterControls isCanExport={false} {...{ searchKeyword, setSearchKeyword }} />
       <Table zebra>
         <TableHeader {...{ cells }} />
         {accounts &&
           accounts.map((d, i) => (
-            <AccountRow key={d.number} idx={i + 1} account={d} openModalToEdit={openModalToEdit} />
+            <AccountRow key={d.number} idx={i + 1} account={d} isLocked={isLocked} openModalToEdit={openModalToEdit} />
           ))}
       </Table>
       {accounts && accounts.length == 0 && (
@@ -61,10 +61,12 @@ export const Index = () => {
           </div>
         </div>
       )}
-      <button onClick={openModalToCreate} className="btn btn-circle fixed bottom-6 right-6 btn-primary">
-        <IoAdd className="w-5 h-5" />
-      </button>
-      <AddAccountModal {...{ isBlank, isOpen, setIsOpen: setOpen }} />
+      {!isLocked && <>
+        <button onClick={openModalToCreate} className="btn btn-circle fixed bottom-6 right-6 btn-primary">
+          <IoAdd className="w-5 h-5" />
+        </button>
+        <AddAccountModal {...{ isBlank, isOpen, setIsOpen: setOpen }} />
+      </>}
     </div>
   )
 }

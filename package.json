@@ -14,7 +14,7 @@
     "@types/js-cookie": "^3.0.1",
     "@types/react-pdf": "^5.0.9",
     "axios": "^0.21.1",
-    "daisyui": "^1.10.0",
+    "daisyui": "^1.25.4",
     "js-cookie": "^3.0.1",
     "next": "11.1.2",
     "react": "17.0.2",

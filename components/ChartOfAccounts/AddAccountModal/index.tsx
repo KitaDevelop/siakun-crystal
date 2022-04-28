@@ -19,7 +19,7 @@ interface Props {
 }
 
 export const AddAccountModal = ({ isOpen, setIsOpen, isBlank }: Props) => {
-  const { account, dispatch } = useAccount()
+  const { accounts, account, dispatch } = useAccount()
   const { year } = useYear()
   const createAccount = useCreateAccount()
   const updateAccount = useUpdateAccount()
@@ -29,12 +29,10 @@ export const AddAccountModal = ({ isOpen, setIsOpen, isBlank }: Props) => {
   }, [isBlank])
 
   const onSaveAccount = () => {
-    const { accounts, ...account_ } = account
-    console.log(account_)
     if (isBlank)
-      createAccount.mutate(account_, {
+      createAccount.mutate(account, {
         onSuccess: () => {
-          const accounts_ = [...accounts, account_]
+          const accounts_ = [...accounts, account]
           setIsOpen(false)
           dispatch({ type: 'set_accounts', payload: accounts_ })
           toast.success('Successfully created a new account.')
@@ -42,14 +40,14 @@ export const AddAccountModal = ({ isOpen, setIsOpen, isBlank }: Props) => {
       })
     else {
       updateAccount.mutate(
-        { accountNumber: account_.number, account: account_, year: year },
+        { accountNumber: account.number, account: account, year: year },
         {
           onSuccess: () => {
             const accounts_ = [...accounts]
-            const index = accounts_.findIndex((x) => x.id === account_.id)
-            accounts_[index] = account_
+            const index = accounts_.findIndex((x) => x.id === account.id)
+            accounts_[index] = account
             dispatch({ type: 'set_accounts', payload: accounts_ })
-            toast.success(`Account "${account_.name}" updated.`)
+            toast.success(`Account "${account.name}" updated.`)
             setIsOpen(false)
           },
         }

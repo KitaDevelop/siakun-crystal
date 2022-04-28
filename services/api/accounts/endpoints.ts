@@ -1,14 +1,15 @@
 import { Account } from '@context/AccountContext/types'
 import axios from 'axios'
 import config from 'config'
+import { AccountResponse, SingleAccountResponse } from '.'
 
 export const getAccounts = (year?: number) =>
-  axios.get<Account[]>(
+  axios.get<AccountResponse>(
     `${config.API_URL_CARBON}/accounts${!!year ? '?year=' + year : ''}`
   )
 
 export const getAccount = (accountId: string, year?: number) =>
-  axios.get<Account>(
+  axios.get<SingleAccountResponse>(
     `${config.API_URL_CARBON}/accounts/${accountId}${
       !!year ? '?year=' + year : ''
     }`

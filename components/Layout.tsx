@@ -1,4 +1,5 @@
 import React from 'react'
+import Head from 'next/head'
 
 import Navbar, { NavbarProps } from './Navbar'
 import { Sidebar } from './Sidebar'
@@ -18,6 +19,10 @@ const Layout: React.FC<LayoutProps> = ({ navbarProps, children }: LayoutProps) =
 
   return (
     <div>
+      <Head>
+        <title>{navbarProps.title}</title>
+        <link rel="icon" href="/logo_icon_only.png" />
+      </Head>
       <div className="bg-base-100 drawer drawer-mobile min-h-screen">
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content p-6">

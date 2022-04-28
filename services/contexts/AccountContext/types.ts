@@ -23,13 +23,16 @@ export type Action =
   | { type: 'set_beginning_balance'; beginningBalance: number }
   | { type: 'set_jenis'; jenis: AccountCategory }
   | { type: 'set_sub_accounts'; subAccounts: string[] }
+  | { type: 'set_is_locked'; isLocked: boolean }
 export type Dispatch = (action: Action) => void
 export interface State extends Account {
+  isLocked: boolean
   accounts: Account[]
 }
 export type AccountContextValue = {
   accounts: Account[]
-  account: State
+  account: Account
+  isLocked: boolean
   dispatch: Dispatch
 }
 export type AccountProviderProps = { children: React.ReactNode }
@@ -45,7 +48,7 @@ export enum AccountType {
 }
 export enum NormalBalance {
   DEBIT = 'Debit',
-  CREDIT = 'Credit',
+  CREDIT = 'Kredit',
 }
 export const EmptyAccount: Account = {
   id: -1,
