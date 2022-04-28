@@ -12,6 +12,11 @@ export const getJournalEntries = (year?: number) =>
     `${config.API_URL_CARBON}/journal-entries${!!year ? '?year=' + year : ''}`
   )
 
+export const getJournalEntriesByAccount = (accountId: number) =>
+  axios.get<JournalEntryResponse>(
+    `${config.API_URL_CARBON}/journal-entries/by-account/${accountId}`
+  )
+
 export const getJournalEntry = (id: number, year?: number) =>
   axios.get<SingleJournalEntryResponse>(
     `${config.API_URL_CARBON}/journal-entries/${id}${
