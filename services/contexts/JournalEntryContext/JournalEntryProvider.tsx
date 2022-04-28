@@ -3,6 +3,7 @@ import { JournalEntryReducer } from './JournalEntryReducer'
 import { JournalEntryProviderProps, Dispatch, State } from './types'
 
 const INITIAL_STATE: State = {
+  isLocked: false,
   entries: [],
   id: -1,
   date: '',

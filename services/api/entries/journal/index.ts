@@ -31,6 +31,15 @@ export interface JournalEntryPayload {
   }[]
 }
 
+export interface JournalEntryResponse {
+  isLocked: boolean
+  data: JournalEntry[]
+}
+
+export interface SingleJournalEntryResponse {
+  data: JournalEntry
+}
+
 export const useFetchJournalEntries = (year?: number) => {
   return useQuery('journal-entries', () => getJournalEntries(year), OPTIONS)
 }
