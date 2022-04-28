@@ -13,6 +13,7 @@ import { useFetchAdjustingEntries } from '@api/entries/adjusting'
 import { useAdjustingEntry } from '@hooks/useAdjustingEntry'
 import { FaSpinner } from 'react-icons/fa'
 import EntryRow from './EntryRow'
+import { LockedAlert } from '@components/LockedAlert'
 const { writeFile, utils } = XLSX
 
 interface Props { }
@@ -20,7 +21,7 @@ interface Props { }
 export const Index = (props: Props) => {
   const { year } = useYear()
   const { isLoading, isSuccess, data, refetch } = useFetchAdjustingEntries(year)
-  const { dispatch } = useAdjustingEntry()
+  const { state: { isLocked }, dispatch } = useAdjustingEntry()
 
   const [isOpen, setOpen] = useState(false)
   const [isBlank, setIsBlank] = useState(true)
@@ -33,21 +34,23 @@ export const Index = (props: Props) => {
 
   useEffect(() => {
     if (isSuccess && data) {
-      const { data: entries_ } = data
+      const { isLocked: isLocked_, data: entries_ } = data.data
+      dispatch({ type: 'set_is_locked', isLocked: isLocked_ })
       setEntries(entries_)
     }
   }, [data])
 
   useEffect(() => {
-    if (data && searchKeyword != '') {
-      const { data: entries_ } = data
-      setEntries(
+    if (data) {
+      const { data: entries_ } = data.data
+      if (searchKeyword != '') setEntries(
         entries_.filter(
           (e) =>
             e.description.includes(searchKeyword) ||
             e.transactions.reduce((a: boolean, b) => a || b.account!.number.includes(searchKeyword), false)
         )
       )
+      else setEntries(entries_)
     }
   }, [searchKeyword])
 
@@ -96,6 +99,7 @@ export const Index = (props: Props) => {
 
   return (
     <div className="flex flex-col gap-4">
+      {isLocked && <LockedAlert />}
       <FilterControls {...{ exportDocument, searchKeyword, setSearchKeyword }} />
       {isLoading && !isSuccess ? (
         <div className="w-full grid place-content-center h-80 text-accent">
@@ -134,10 +138,14 @@ export const Index = (props: Props) => {
         </>
       )}
 
-      <button onClick={() => openModalToCreate()} className="btn btn-circle fixed bottom-6 right-6 btn-primary">
-        <IoAdd className="w-5 h-5" />
-      </button>
-      <AddAdjustingEntryModal {...{ isBlank, isOpen, reloadTable: refetch, setIsOpen: setOpen }} />
+      {!isLocked && (
+        <>
+          <button onClick={() => openModalToCreate()} className="btn btn-circle fixed bottom-6 right-6 btn-primary">
+            <IoAdd className="w-5 h-5" />
+          </button>
+          <AddAdjustingEntryModal {...{ isBlank, isOpen, reloadTable: refetch, setIsOpen: setOpen }} />
+        </>
+      )}
     </div>
   )
 }
