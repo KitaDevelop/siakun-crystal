@@ -41,9 +41,9 @@ export const Index = () => {
   }, [data])
 
   useEffect(() => {
-    if (data && searchKeyword != '') {
+    if (data) {
       const { data: entries_ } = data.data
-      setEntries(
+      if (searchKeyword != '') setEntries(
         entries_.filter(
           (e) =>
             e.date.includes(searchKeyword) ||
@@ -51,6 +51,7 @@ export const Index = () => {
             e.transactions.reduce((a: boolean, b) => a || b.account!.number.includes(searchKeyword), false)
         )
       )
+      else setEntries(entries_)
     }
   }, [data, searchKeyword])
 
