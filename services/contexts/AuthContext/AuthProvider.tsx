@@ -49,7 +49,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
   })
 
   const logout = () => {
-    setToken(null)
+    setToken('')
     setUserProfile(null)
     removeCookies('token')
     router.push('/login')
