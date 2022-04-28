@@ -7,7 +7,7 @@ import ChartOfAccount from '@components/ChartOfAccounts'
 import { FaSpinner } from 'react-icons/fa'
 import { useYear } from '@hooks/useYear'
 
-interface Props {}
+interface Props { }
 
 const navInfo: Navigation = navigation.find((n) => n.name == 'Chart of Accounts') || ({} as Navigation)
 const meta: NavbarProps = {
