@@ -4,10 +4,8 @@ import { AccountRow } from './AccountRow'
 import { IoAdd } from 'react-icons/io5'
 import { AddAccountModal } from './AddAccountModal'
 import { useAccount } from '@hooks/useAccount'
-import { ImInfo } from 'react-icons/im'
 import FilterControls from '@components/FilterControls'
-
-interface Props { }
+import { LockedAlert } from '@components/LockedAlert'
 
 export const Index = () => {
   const [isOpen, setOpen] = useState(false)
@@ -46,12 +44,7 @@ export const Index = () => {
   const cells = ['', 'acc no.', 'account name', 'description', 'jenis', 'tipe', 'saldo normal']
   return (
     <div className="flex flex-col gap-4">
-      {isLocked && <div className="alert alert-warning">
-        <div className="flex items-center gap-4">
-          <ImInfo className="w-5 h-5" />
-          <span>This page is read-only. Ask your auditor for permission to edit.</span>
-        </div>
-      </div>}
+      {isLocked && <LockedAlert />}
       <FilterControls isCanExport={false} {...{ searchKeyword, setSearchKeyword }} />
       <Table zebra>
         <TableHeader {...{ cells }} />
