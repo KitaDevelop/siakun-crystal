@@ -18,5 +18,7 @@ export const JournalEntryReducer = (state: State, action: Action): State => {
       return { ...state, receipt: action.receipt }
     case 'set_transactions':
       return { ...state, transactions: action.transactions }
+    case 'set_is_locked':
+      return { ...state, isLocked: action.isLocked }
   }
 }

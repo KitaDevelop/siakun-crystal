@@ -7,8 +7,10 @@ export type Action =
   | { type: 'set_receipt'; receipt: string }
   | { type: 'set_date'; date: string }
   | { type: 'set_desc'; description: string }
+  | { type: 'set_is_locked'; isLocked: boolean }
 export type Dispatch = (action: Action) => void
 export interface State extends JournalEntry {
+  isLocked: boolean
   entries: JournalEntry[]
 }
 export type JournalEntryProviderProps = { children: React.ReactNode }
