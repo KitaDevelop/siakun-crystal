@@ -1,86 +1,117 @@
+import { useCreateJournalEntry, useFetchJournalEntry, useUpdateJournalEntry } from '@api/entries/journal'
 import { Modal } from '@components/Modal'
-import { JournalEntry } from '@context/JournalEntryContext/types'
 import { useJournalEntry } from '@hooks/useJournalEntry'
-import { blobToBase64 } from '@utils/blobToBase64'
-import React, { ChangeEvent } from 'react'
-import { ReceiptDropzone } from './ReceiptDropzone'
+import { useYear } from '@hooks/useYear'
+import React, { useEffect } from 'react'
+import toast from 'react-hot-toast'
+import { FaSpinner } from 'react-icons/fa'
+import DateInput from './Form/DateInput'
+import DescriptionTextarea from './Form/DescriptionTextarea'
+import ReceiptInput from './Form/ReceiptInput'
 import { TransactionInputTable } from './TransactionInputTable'
 
 interface Props {
+  isBlank: boolean
   isOpen: boolean
   setIsOpen: Function
+  reloadTable: Function
 }
 
-export const AddJournalEntryModal = ({ isOpen, setIsOpen }: Props) => {
+export const AddJournalEntryModal = ({ isBlank, isOpen, setIsOpen, reloadTable }: Props) => {
+  const { year } = useYear()
   const {
-    state: { date, description, receipt, transactions },
+    state: { id, date, description, receipt, transactions },
     dispatch,
   } = useJournalEntry()
+  const { isLoading, data, refetch, isRefetching } = useFetchJournalEntry(id, year)
+  const createEntry = useCreateJournalEntry()
+  const updateEntry = useUpdateJournalEntry()
+
+  useEffect(() => {
+    if (isBlank) {
+      dispatch({ type: 'set_empty' })
+    } else {
+      refetch()
+    }
+  }, [isBlank, id])
+
+  useEffect(() => {
+    if (data) {
+      const { data: entry } = data
+      dispatch({ type: 'set_entry', entry: entry })
+    }
+  }, [data])
 
   const onSubmitEntry = async () => {
-    var receiptBase64
-    if (receipt) receiptBase64 = await blobToBase64(receipt)
-
     let payload = {
       date,
       description,
-      receipt: receiptBase64,
+      receipt,
       transactions: transactions.map((t) => {
-        let { id, ...transaction } = t
-        return transaction
+        let { accountNumber, debit, credit } = t
+        return {
+          accountNumber: accountNumber!,
+          debit: debit || 0,
+          credit: credit || 0,
+        }
       }),
+    }
+    if (isBlank) {
+      createEntry.mutate(
+        { year, entry: payload },
+        {
+          onSuccess: () => {
+            reloadTable()
+            setIsOpen(false)
+            toast.success(`Created entry from ${date}.`)
+          },
+        }
+      )
+    } else {
+      updateEntry.mutate(
+        { id, year, entry: payload },
+        {
+          onSuccess: () => {
+            reloadTable()
+            setIsOpen(false)
+            toast.success(`Entry from ${date} has been updated.`)
+          },
+        }
+      )
     }
   }
 
   return (
-    <Modal {...{ isOpen, setIsOpen, size: 'lg', isOverflow: transactions.length > 2 }}>
-      <div className="font-bold text-xl mb-4">Create New Entry</div>
-      <form className="w-96 flex flex-col gap-2">
-        <div className="form-control">
-          <label className="label font-bold">
-            <span className="label-text">
-              Date <span className="text-error">*</span>
+    <Modal {...{ isOpen, setIsOpen, size: 'lg', isOverflow: true }}>
+      <div className="font-bold text-xl mb-4">{isBlank ? "Create New" : "Edit"} Entry</div>
+      {!isBlank && (isLoading || isRefetching) ? (
+        <div className="w-full grid place-content-center h-80 text-accent">
+          <FaSpinner className="w-10 h-10 animate-spin" />
+        </div>
+      ) : (
+        <>
+          <form className="w-96 flex flex-col gap-2">
+            <DateInput />
+            <DescriptionTextarea />
+            <ReceiptInput {...{ isOpen, isBlank }} />
+          </form>
+          <div className="form-control mt-2">
+            <label className="label font-bold pb-1">
+              <span className="label-text">Transactions</span>
+            </label>
+            <span className="text-xs text-gray-400 pb-2 ml-1">
+              Click the Rp button to switch between debit and credit.
             </span>
-          </label>
-          <input
-            type="date"
-            className="input input-bordered"
-            value={date}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => dispatch({ type: 'set_date', date: e.target.value })}
-          />
-        </div>
-        <div className="form-control">
-          <label className="label font-bold">
-            <span className="label-text">Description</span>
-          </label>
-          <textarea
-            value={description}
-            onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
-              dispatch({ type: 'set_desc', description: e.target.value })
-            }
-            className="textarea textarea-bordered resize-none"
-            placeholder="Enter Description"
-          ></textarea>
-        </div>
-        <div className="form-control">
-          <label className="label font-bold">
-            <span className="label-text">Receipts</span>
-          </label>
-          <ReceiptDropzone />
-        </div>
-      </form>
-      <div className="form-control mt-2">
-        <label className="label font-bold">
-          <span className="label-text">Transactions</span>
-        </label>
-        <TransactionInputTable />
-      </div>
+            <TransactionInputTable />
+          </div>
+        </>
+      )}
       <div className="modal-action">
-        <button className="btn btn-ghost" onClick={() => setIsOpen(false)}>
+        <button className={`btn btn-ghost ${updateEntry.isLoading ? 'disabled' : ''}`} onClick={() => setIsOpen(false)}>
           cancel
         </button>
-        <button className="btn btn-primary" onClick={() => onSubmitEntry()}>
-          create
+        <button className={`btn btn-primary ${updateEntry.isLoading ? 'loading' : ''}`} onClick={() => onSubmitEntry()}>
+          {isBlank ? 'create' : 'edit'}
         </button>
       </div>
     </Modal>

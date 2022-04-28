@@ -42,7 +42,7 @@ export const AddAccountModal = ({ isOpen, setIsOpen, isBlank }: Props) => {
       })
     else {
       updateAccount.mutate(
-        { accountId: account_.id, account: account_, year: year },
+        { accountNumber: account_.number, account: account_, year: year },
         {
           onSuccess: () => {
             const accounts_ = [...accounts]

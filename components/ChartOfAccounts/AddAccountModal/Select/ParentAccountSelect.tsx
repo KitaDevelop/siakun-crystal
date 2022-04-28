@@ -7,7 +7,7 @@ import { customStyles } from './index'
 export const ParentAccountSelect = () => {
   const {
     accounts,
-    account: { parentNumber },
+    account: { parent },
     dispatch,
   } = useAccount()
 
@@ -15,7 +15,7 @@ export const ParentAccountSelect = () => {
     value: account,
     label: `${account.number} | ${account.name}`,
   }))
-  const chosenAccount = accountOptions.find((x) => x.value.number == parentNumber)
+  const chosenAccount = accountOptions.find((x) => x.value.number == parent?.number)
 
   return (
     <div className="form-control">

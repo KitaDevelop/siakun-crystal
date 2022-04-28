@@ -1,44 +1,70 @@
 import { Table, TableHeader } from '@components/Table'
 import { JournalEntry } from '@context/JournalEntryContext/types'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { IoAdd } from 'react-icons/io5'
 import { AddJournalEntryModal } from './AddJournalEntryModal'
 import FilterControls from '@components/FilterControls'
-import TableRow from './TableRow'
 import { numberToRupiah } from '@utils//numberToRupiah'
 
 import * as XLSX from 'xlsx'
 import { formatDate } from '@utils/formatDate'
-import { SelectYearOption, years } from '@constants/years'
 import { useYear } from '@hooks/useYear'
+import { useFetchJournalEntries } from '@api/entries/journal'
+import { useJournalEntry } from '@hooks/useJournalEntry'
+import { sum } from '@utils/sum'
+import { FaSpinner } from 'react-icons/fa'
+import EntryRow from './EntryRow'
 const { writeFile, utils } = XLSX
 
-interface Props {}
 
-export const Index = (props: Props) => {
-  const [isOpen, setOpen] = useState(false)
-  const [searchKeyword, setSearchKeyword] = useState('')
+export const Index = () => {
   const { year } = useYear()
+  const { isLoading, isFetching, data, refetch } = useFetchJournalEntries(year)
+  const { dispatch } = useJournalEntry()
 
-  const sum = (arr: number[]): number => arr.reduce((a, b) => a + b, 0)
+  const [isOpen, setOpen] = useState<boolean>(false)
+  const [isBlank, setIsBlank] = useState(true)
+  const [searchKeyword, setSearchKeyword] = useState<string>('')
+  const [entries, setEntries] = useState<JournalEntry[]>([])
 
-  const currentCredit = sum(
-    dummyJournalEntries.map((x) => x.transactions.reduce((acc: number, t) => acc + (t?.credit || 0), 0))
-  )
-  const currentDebit = sum(
-    dummyJournalEntries.map((x) => x.transactions.reduce((acc: number, t) => acc + (t?.debit || 0), 0))
-  )
+  useEffect(() => {
+    refetch()
+  }, [year])
+
+  useEffect(() => {
+    if (data) {
+      const { data: entries_ } = data
+      setEntries(entries_)
+    }
+  }, [data])
+
+  useEffect(() => {
+    if (data && searchKeyword != '') {
+      const { data: entries_ } = data
+      setEntries(
+        entries_.filter(
+          (e) =>
+            e.date.includes(searchKeyword) ||
+            e.description.includes(searchKeyword) ||
+            e.transactions.reduce((a: boolean, b) => a || b.account!.number.includes(searchKeyword), false)
+        )
+      )
+    }
+  }, [data, searchKeyword])
+
+  const currentCredit = sum(entries?.map((x) => x.transactions.reduce((acc: number, t) => acc + (t?.credit || 0), 0)) || [])
+  const currentDebit = sum(entries?.map((x) => x.transactions.reduce((acc: number, t) => acc + (t?.debit || 0), 0)) || [])
 
   const flattenJson = (data: JournalEntry[]) => {
     var flatJson = []
     for (let entry of data) {
-      for (let transaction of entry.transactions) {
+      for (let t of entry.transactions) {
         flatJson.push({
           Tanggal: formatDate(entry.date),
-          'Nomor Akun': transaction.accNumber,
-          'Nama Akun': transaction.accName,
-          Debit: transaction?.debit,
-          Kredit: transaction?.credit,
+          'Nomor Akun': t.account?.number,
+          'Nama Akun': t.account?.name,
+          Debit: t?.debit,
+          Kredit: t?.credit,
           Deskripsi: entry.description,
         })
       }
@@ -53,85 +79,70 @@ export const Index = (props: Props) => {
 
   const exportDocument = () => {
     var workbook = utils.book_new()
-    var worksheet = utils.json_to_sheet(flattenJson(dummyJournalEntries))
+    var worksheet = utils.json_to_sheet(flattenJson(entries))
     utils.book_append_sheet(workbook, worksheet, 'Journal Entries')
     return writeFile(workbook, `journal_entries_${year}.xlsx`)
+  }
+
+  const openModalToCreate = () => {
+    setIsBlank(true)
+    setOpen(true)
+  }
+
+  const openModalToEdit = (targetId: number) => {
+    dispatch({ type: 'set_id', id: targetId })
+    setIsBlank(false)
+    setOpen(true)
   }
 
   return (
     <div className="flex flex-col gap-4">
       <FilterControls {...{ exportDocument, searchKeyword, setSearchKeyword }} />
-      <Table zebra>
-        <TableHeader cells={cells} />
-        {dummyJournalEntries.map((entry, idx) => (
-          <TableRow key={entry.id} idx={idx} entry={entry} />
-        ))}
-        <tr className="text-center font-bold">
-          <td colSpan={3} className="text-right">
-            Total
-          </td>
-          <td>{numberToRupiah(currentCredit)}</td>
-          <td>{numberToRupiah(currentDebit)}</td>
-          <td></td>
-        </tr>
-      </Table>
-      <button onClick={() => setOpen(true)} className="btn btn-circle fixed bottom-6 right-6 btn-primary">
+      {isLoading || isFetching ? (
+        <div className="w-full grid place-content-center h-80 text-accent">
+          <FaSpinner className="w-10 h-10 animate-spin" />
+        </div>
+      ) : (
+        <>
+          <Table zebra>
+            <TableHeader cells={cells} />
+            {entries.map((entry, idx) => (
+              <EntryRow key={entry.id} {...{ idx, entry, openModalToEdit, reloadTable: refetch }} />
+            ))}
+            {entries.length > 0 && (
+              <tr className="text-center font-bold">
+                <td colSpan={3} className="text-right uppercase">
+                  Total
+                </td>
+                <td className="text-right text-green-900 bg-success bg-opacity-10 rounded-l-lg">
+                  {numberToRupiah(currentDebit)}
+                </td>
+                <td className="text-right text-red-900 bg-error bg-opacity-10 rounded-r-lg">
+                  {numberToRupiah(currentCredit)}
+                </td>
+                <td></td>
+              </tr>
+            )}
+          </Table>
+          {entries && entries.length == 0 && (
+            <div className="card w-full bg-base-200 p-8 text-center items-center">
+              No entries registered yet.{' '}
+              <div className="btn btn-primary mt-3" onClick={() => setOpen(true)}>
+                create entry
+              </div>
+            </div>
+          )}
+        </>
+      )}
+
+      <button onClick={() => openModalToCreate()} className="btn btn-circle fixed bottom-6 right-6 btn-primary">
         <IoAdd className="w-5 h-5" />
       </button>
-      <AddJournalEntryModal {...{ isOpen, setIsOpen: setOpen }} />
+      <AddJournalEntryModal {...{ isBlank, isOpen, reloadTable: refetch, setIsOpen: setOpen }} />
     </div>
   )
 }
 
 const cells: string[] = ['date', 'acc no.', 'account name', 'debit', 'credit', 'description']
-
-const dummyJournalEntries: JournalEntry[] = [
-  {
-    id: 1,
-    date: '11/14/2021', // mm/dd/yyyy
-    description:
-      'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Distinctio dolor voluptatum dolore repudiandae! Numquam eos, eaque aut maiores fugiat fuga.',
-    transactions: [
-      {
-        id: 1,
-        accName: 'Akun Debit Satu',
-        accNumber: '1-1111',
-        debit: 12000,
-      },
-      {
-        id: 2,
-        accName: 'Akun Kredit Dua',
-        accNumber: '1-2222',
-        credit: 25000,
-      },
-      {
-        id: 3,
-        accName: 'Akun Debit Tiga',
-        accNumber: '1-3333',
-        debit: 13000,
-      },
-    ],
-  },
-  {
-    id: 2,
-    date: new Date().toISOString(),
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio voluptas quibusdam provident facere soluta reprehenderit?',
-    transactions: [
-      {
-        id: 4,
-        accName: 'Akun Debit Satu',
-        accNumber: '1-1111',
-        debit: 9999999,
-      },
-      {
-        id: 5,
-        accName: 'Akun Kredit Dua',
-        accNumber: '1-2222',
-        credit: 9999999,
-      },
-    ],
-  },
-]
 
 export default Index

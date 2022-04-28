@@ -1,6 +1,4 @@
 import { useMutation, useQuery } from 'react-query'
-import config from 'config'
-import axios, { AxiosError } from 'axios'
 import { Account } from '@context/AccountContext/types'
 import {
   createAccount,
@@ -9,53 +7,47 @@ import {
   getAccounts,
   updateAccount,
 } from './endpoints'
-import toast from 'react-hot-toast'
-import { capitalize } from '@utils/capitalize'
+import { handleError, OPTIONS } from '..'
 
 export interface UpdateAccountPayload {
-  accountId: number
+  accountNumber: string
   account: Partial<Account>
   year?: number
 }
 
 export interface DeleteAccountPayload {
-  id: number
+  accountNumber: string
   year?: number
 }
 
 export const useFetchAccounts = (year?: number) => {
-  return useQuery('accounts', () => getAccounts(year), {
-    staleTime: 3600 * 1000,
-    cacheTime: 3600 * 1000,
-    retry: 2,
-    refetchOnWindowFocus: false,
-  })
+  return useQuery('accounts', () => getAccounts(year), OPTIONS)
 }
 
 export const useFetchAccount = (number: string, year?: number) => {
-  return useQuery('accounts', () => getAccount(number, year))
+  return useQuery('accounts', () => getAccount(number, year), OPTIONS)
 }
 
 export const useCreateAccount = () => {
-  return useMutation((account: Account) => createAccount(account))
+  return useMutation((account: Account) => createAccount(account), {
+    onError: handleError,
+  })
 }
 
 export const useUpdateAccount = () => {
   return useMutation(
-    ({ accountId, account, year }: UpdateAccountPayload) =>
-      updateAccount(accountId, account, year),
-    {
-      onError: (error) => {
-        const error_ = error as AxiosError
-        const errorMsg = error_.response?.data.error
-        toast.error(`${capitalize(errorMsg)}.`)
-      },
-    }
+    ({ accountNumber, account, year }: UpdateAccountPayload) =>
+      updateAccount(accountNumber, account, year),
+    { onError: handleError }
   )
 }
 
 export const useDeleteAccount = () => {
-  return useMutation(({ id, year }: DeleteAccountPayload) =>
-    deleteAccount(id, year)
+  return useMutation(
+    ({ accountNumber, year }: DeleteAccountPayload) =>
+      deleteAccount(accountNumber, year),
+    {
+      onError: handleError,
+    }
   )
 }

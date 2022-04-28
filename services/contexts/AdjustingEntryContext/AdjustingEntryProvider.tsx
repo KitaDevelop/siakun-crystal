@@ -3,8 +3,10 @@ import { AdjustingEntryReducer } from './AdjustingEntryReducer'
 import { AdjustingEntryProviderProps, Dispatch, State } from './types'
 
 const INITIAL_STATE: State = {
+  entries: [],
+  id: -1,
   description: '',
-  transactions: [{ id: Date.now(), accNumber: '', accName: '' }],
+  transactions: [{ id: Date.now(), accountNumber: '' }],
 }
 
 const AdjustingEntryContext = React.createContext<{ state: State; dispatch: Dispatch } | undefined>(undefined)
