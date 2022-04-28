@@ -9,6 +9,15 @@ import {
 } from './endpoints'
 import { handleError, OPTIONS } from '..'
 
+export interface AccountResponse {
+  isLocked: boolean
+  data: Account[]
+}
+
+export interface SingleAccountResponse {
+  data: Account
+}
+
 export interface UpdateAccountPayload {
   accountNumber: string
   account: Partial<Account>

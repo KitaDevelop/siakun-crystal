@@ -24,5 +24,7 @@ export const AccountReducer = (state: State, action: Action) => {
       return { ...state, beginningBalance: action.beginningBalance }
     case 'set_sub_accounts':
       return { ...state, subAccounts: action.subAccounts }
+    case 'set_is_locked':
+      return { ...state, isLocked: action.isLocked }
   }
 }

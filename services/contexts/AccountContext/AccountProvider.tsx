@@ -5,6 +5,7 @@ import { AccountReducer } from './AccountReducer'
 import { AccountContextValue, AccountProviderProps, State, EmptyAccount } from './types'
 
 const INITIAL_STATE: State = {
+  isLocked: false,
   accounts: [],
   ...EmptyAccount,
 }
@@ -12,20 +13,24 @@ const AccountContext = React.createContext<AccountContextValue | undefined>(unde
 
 const AccountProvider = ({ children }: AccountProviderProps) => {
   const [state, dispatch] = React.useReducer(AccountReducer, INITIAL_STATE)
-  const { accounts } = state
+  const { accounts, isLocked, ...account } = state
 
   const { year } = useYear()
   const { isLoading, data, refetch } = useFetchAccounts(year)
 
   useEffect(() => {
-    if (!isLoading && data) dispatch({ type: 'set_accounts', payload: data.data })
+    if (!isLoading && data) {
+      const { data: payload, isLocked } = data.data
+      dispatch({ type: 'set_accounts', payload: payload })
+      dispatch({ type: 'set_is_locked', isLocked: isLocked })
+    }
   }, [isLoading, data])
 
   useEffect(() => {
     refetch()
   }, [year])
 
-  const value = { accounts, account: state, dispatch }
+  const value = { accounts, account, isLocked, dispatch }
   return <AccountContext.Provider value={value}>{children}</AccountContext.Provider>
 }
 export { AccountContext, AccountProvider }
