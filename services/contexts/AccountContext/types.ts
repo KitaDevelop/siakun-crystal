@@ -48,7 +48,7 @@ export enum AccountType {
 }
 export enum NormalBalance {
   DEBIT = 'Debit',
-  CREDIT = 'Credit',
+  CREDIT = 'Kredit',
 }
 export const EmptyAccount: Account = {
   id: -1,
