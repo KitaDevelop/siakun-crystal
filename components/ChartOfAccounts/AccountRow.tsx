@@ -88,13 +88,13 @@ export const AccountRow = ({
             </li>
             {!isLocked && <>
               <li>
-                <a onClick={() => onEditAccount()}>
+                <a onClick={onEditAccount}>
                   <MdOutlineEdit className="w-5 h-5 mr-2" />
                   Edit Account
                 </a>
               </li>
               <li>
-                <a onClick={() => onDeleteAccount()}>
+                <a onClick={onDeleteAccount}>
                   <IoTrashOutline className="w-5 h-5 mr-2" />
                   Delete Account
                 </a>
