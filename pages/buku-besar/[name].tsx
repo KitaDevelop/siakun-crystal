@@ -1,12 +1,21 @@
+import { getJournalEntriesByAccount } from '@api/entries/journal/endpoints'
+import BukuBesar from '@components/BukuBesar'
 import Layout from '@components/Layout'
 import { NavbarProps } from '@components/Navbar'
 import { navigation, Navigation } from '@constants/navigation'
-import { useRouter } from 'next/router'
+import { JournalEntry } from '@context/JournalEntryContext/types'
+import { useAccount } from '@hooks/useAccount'
+import { extractAccountInfo } from '@utils/extractAccountInfo'
+import axios from 'axios'
+import { getCookie } from 'cookies-next'
+import { GetServerSideProps } from 'next'
 import React from 'react'
-import BukuBesar from '@components/BukuBesar'
-import { Account, AccountCategory, AccountType, NormalBalance } from '@context/AccountContext/types'
 
-interface Props {}
+interface Props {
+  name: string
+  accountId: number
+  entries: JournalEntry[]
+}
 
 const navInfo: Navigation = navigation.find((n) => n.name == 'Buku Besar') || ({} as Navigation)
 const meta: NavbarProps = {
@@ -14,27 +23,26 @@ const meta: NavbarProps = {
   icon: navInfo.icon,
 }
 
-export const BukuBesarPage = (props: Props) => {
-  const router = useRouter()
-  const { name } = router.query
-  const accountName = name instanceof Array ? name[0] : name
-  // TODO: fetch account info
-  // TODO: fetch entries
+export const BukuBesarPage = ({ name, accountId, entries }: Props) => {
+  const { accounts } = useAccount()
+  const account = accounts.find(x => x.id === accountId)!
 
   return (
-    <Layout navbarProps={meta}>
-      <BukuBesar {...{ data }} />
+    <Layout navbarProps={{ ...meta, pageName: name }}>
+      <BukuBesar {...{ account, entries }} />
     </Layout>
   )
 }
 
-const data: Account = {
-  id: 1,
-  number: '111',
-  name: 'test name',
-  description: 'test desc',
-  category: AccountCategory.AKUN,
-  type: AccountType.LABARUGI,
-  normalBalance: NormalBalance.CREDIT,
+export const getServerSideProps: GetServerSideProps = async ({ params, req, res }) => {
+  const accountParam = params?.name
+  const { name, accountId } = extractAccountInfo(accountParam)
+
+  const token = getCookie('token', { req, res }) as string
+  if (token) axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+  const { data: { data } } = await getJournalEntriesByAccount(accountId)
+
+  return { props: { name, accountId, entries: data } }
 }
+
 export default BukuBesarPage
