@@ -37,7 +37,7 @@ export const AddJournalEntryModal = ({ isBlank, isOpen, setIsOpen, reloadTable }
 
   useEffect(() => {
     if (data) {
-      const { data: entry } = data
+      const { data: entry } = data.data
       dispatch({ type: 'set_entry', entry: entry })
     }
   }, [data])

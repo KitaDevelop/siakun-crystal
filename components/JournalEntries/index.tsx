@@ -14,13 +14,14 @@ import { useJournalEntry } from '@hooks/useJournalEntry'
 import { sum } from '@utils/sum'
 import { FaSpinner } from 'react-icons/fa'
 import EntryRow from './EntryRow'
+import { LockedAlert } from '@components/LockedAlert'
 const { writeFile, utils } = XLSX
 
 
 export const Index = () => {
   const { year } = useYear()
   const { isLoading, isFetching, data, refetch } = useFetchJournalEntries(year)
-  const { dispatch } = useJournalEntry()
+  const { state: { isLocked }, dispatch } = useJournalEntry()
 
   const [isOpen, setOpen] = useState<boolean>(false)
   const [isBlank, setIsBlank] = useState(true)
@@ -33,14 +34,15 @@ export const Index = () => {
 
   useEffect(() => {
     if (data) {
-      const { data: entries_ } = data
+      const { isLocked, data: entries_ } = data.data
+      dispatch({ type: 'set_is_locked', isLocked: isLocked })
       setEntries(entries_)
     }
   }, [data])
 
   useEffect(() => {
     if (data && searchKeyword != '') {
-      const { data: entries_ } = data
+      const { data: entries_ } = data.data
       setEntries(
         entries_.filter(
           (e) =>
@@ -97,6 +99,7 @@ export const Index = () => {
 
   return (
     <div className="flex flex-col gap-4">
+      {isLocked && <LockedAlert />}
       <FilterControls {...{ exportDocument, searchKeyword, setSearchKeyword }} />
       {isLoading || isFetching ? (
         <div className="w-full grid place-content-center h-80 text-accent">
@@ -107,7 +110,7 @@ export const Index = () => {
           <Table zebra>
             <TableHeader cells={cells} />
             {entries.map((entry, idx) => (
-              <EntryRow key={entry.id} {...{ idx, entry, openModalToEdit, reloadTable: refetch }} />
+              <EntryRow key={entry.id} {...{ idx, entry, isLocked, openModalToEdit, reloadTable: refetch }} />
             ))}
             {entries.length > 0 && (
               <tr className="text-center font-bold">
@@ -135,10 +138,14 @@ export const Index = () => {
         </>
       )}
 
-      <button onClick={() => openModalToCreate()} className="btn btn-circle fixed bottom-6 right-6 btn-primary">
-        <IoAdd className="w-5 h-5" />
-      </button>
-      <AddJournalEntryModal {...{ isBlank, isOpen, reloadTable: refetch, setIsOpen: setOpen }} />
+      {!isLocked && (
+        <>
+          <button onClick={() => openModalToCreate()} className="btn btn-circle fixed bottom-6 right-6 btn-primary">
+            <IoAdd className="w-5 h-5" />
+          </button>
+          <AddJournalEntryModal {...{ isBlank, isOpen, reloadTable: refetch, setIsOpen: setOpen }} />
+        </>
+      )}
     </div>
   )
 }

@@ -16,11 +16,13 @@ import { ConfirmationDialog } from '@components/ConfirmationDialog'
 interface Props {
   idx: number
   entry: JournalEntry
+  isLocked: boolean
   reloadTable: Function
   openModalToEdit: (id: number) => void
 }
 export default function EntryRow({
   idx,
+  isLocked,
   openModalToEdit,
   reloadTable,
   entry: { id, date, description, receipt, transactions },
@@ -66,18 +68,20 @@ export default function EntryRow({
                 Download Receipt
               </a>
             </li>}
-            <li>
-              <a onClick={() => onEditEntry()}>
-                <MdOutlineEdit className="w-5 h-5 mr-2" />
-                Edit Entry
-              </a>
-            </li>
-            <li>
-              <a onClick={() => setIsOpenDialog(true)}>
-                <IoTrashOutline className="w-5 h-5 mr-2" />
-                Delete Entry
-              </a>
-            </li>
+            {!isLocked && <>
+              <li>
+                <a onClick={() => onEditEntry()}>
+                  <MdOutlineEdit className="w-5 h-5 mr-2" />
+                  Edit Entry
+                </a>
+              </li>
+              <li>
+                <a onClick={() => setIsOpenDialog(true)}>
+                  <IoTrashOutline className="w-5 h-5 mr-2" />
+                  Delete Entry
+                </a>
+              </li>
+            </>}
           </ul>
           <ConfirmationDialog
             isOpen={isOpenDialog}
