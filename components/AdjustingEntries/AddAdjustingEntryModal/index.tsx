@@ -35,7 +35,7 @@ export const AddAdjustingEntryModal = ({ isBlank, isOpen, setIsOpen, reloadTable
 
   useEffect(() => {
     if (!isBlank && !isLoading && data) {
-      const { data: entry } = data
+      const { data: entry } = data.data
       dispatch({ type: 'set_entry', entry: entry })
     }
   }, [isLoading, data])
