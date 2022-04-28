@@ -29,6 +29,15 @@ export interface AdjustingEntryPayload {
   }[]
 }
 
+export interface AdjustingEntryResponse {
+  isLocked: boolean
+  data: AdjustingEntry[]
+}
+
+export interface SingleAdjustingEntryResponse {
+  data: AdjustingEntry
+}
+
 export const useFetchAdjustingEntries = (year?: number) => {
   return useQuery('adjusting-entries', () => getAdjustingEntries(year), OPTIONS)
 }

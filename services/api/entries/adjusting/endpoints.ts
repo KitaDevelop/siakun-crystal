@@ -1,15 +1,19 @@
 import { AdjustingEntry } from '@context/AdjustingEntryContext/types'
 import axios from 'axios'
 import config from 'config'
-import { AdjustingEntryPayload } from '.'
+import {
+  AdjustingEntryPayload,
+  AdjustingEntryResponse,
+  SingleAdjustingEntryResponse,
+} from '.'
 
 export const getAdjustingEntries = (year?: number) =>
-  axios.get<AdjustingEntry[]>(
+  axios.get<AdjustingEntryResponse>(
     `${config.API_URL_CARBON}/adjusting-entries${!!year ? '?year=' + year : ''}`
   )
 
 export const getAdjustingEntry = (id: number, year?: number) =>
-  axios.get<AdjustingEntry>(
+  axios.get<SingleAdjustingEntryResponse>(
     `${config.API_URL_CARBON}/adjusting-entries/${id}${
       !!year ? '?year=' + year : ''
     }`

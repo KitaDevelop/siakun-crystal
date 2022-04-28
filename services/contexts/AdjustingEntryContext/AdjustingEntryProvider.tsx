@@ -3,6 +3,7 @@ import { AdjustingEntryReducer } from './AdjustingEntryReducer'
 import { AdjustingEntryProviderProps, Dispatch, State } from './types'
 
 const INITIAL_STATE: State = {
+  isLocked: false,
   entries: [],
   id: -1,
   description: '',

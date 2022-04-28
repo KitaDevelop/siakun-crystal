@@ -6,6 +6,8 @@ export const AdjustingEntryReducer = (state: State, action: Action) => {
       return { ...state, entries: action.entries }
     case 'set_id':
       return { ...state, id: action.id }
+    case 'set_is_locked':
+      return { ...state, isLocked: action.isLocked }
     case 'set_entry':
       return { ...state, ...action.entry }
     case 'set_empty':
