@@ -23,7 +23,7 @@ export const AddJournalEntryModal = ({ isBlank, isOpen, setIsOpen, reloadTable }
     state: { id, date, description, receipt, transactions },
     dispatch,
   } = useJournalEntry()
-  const { isLoading, data, refetch, isRefetching } = useFetchJournalEntry(id, year)
+  const { isLoading, data, refetch } = useFetchJournalEntry(id, year)
   const createEntry = useCreateJournalEntry()
   const updateEntry = useUpdateJournalEntry()
 
@@ -36,11 +36,14 @@ export const AddJournalEntryModal = ({ isBlank, isOpen, setIsOpen, reloadTable }
   }, [isBlank, id])
 
   useEffect(() => {
-    if (data) {
-      const { data: entry } = data.data
+    if (!isBlank && !isLoading && data) {
+      console.log("🚀 ~ file: index.tsx ~ line 40 ~ useEffect ~ data", data)
+      const { data: entry } = data
       dispatch({ type: 'set_entry', entry: entry })
+      console.log("🚀 ~ file: index.tsx ~ line 42 ~ useEffect ~ entry", entry)
+
     }
-  }, [data])
+  }, [isLoading, data])
 
   const onSubmitEntry = async () => {
     let payload = {
@@ -84,7 +87,7 @@ export const AddJournalEntryModal = ({ isBlank, isOpen, setIsOpen, reloadTable }
   return (
     <Modal {...{ isOpen, setIsOpen, size: 'lg', isOverflow: true }}>
       <div className="font-bold text-xl mb-4">{isBlank ? "Create New" : "Edit"} Entry</div>
-      {!isBlank && (isLoading || isRefetching) ? (
+      {!isBlank && isLoading ? (
         <div className="w-full grid place-content-center h-80 text-accent">
           <FaSpinner className="w-10 h-10 animate-spin" />
         </div>

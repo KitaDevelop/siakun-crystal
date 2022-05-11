@@ -1,11 +1,7 @@
 import { JournalEntry } from '@context/JournalEntryContext/types'
 import axios from 'axios'
 import config from 'config'
-import {
-  JournalEntryPayload,
-  JournalEntryResponse,
-  SingleJournalEntryResponse,
-} from '.'
+import { JournalEntryPayload, JournalEntryResponse } from '.'
 
 export const getJournalEntries = (year?: number) =>
   axios.get<JournalEntryResponse>(
@@ -13,7 +9,7 @@ export const getJournalEntries = (year?: number) =>
   )
 
 export const getJournalEntry = (id: number, year?: number) =>
-  axios.get<SingleJournalEntryResponse>(
+  axios.get<JournalEntry>(
     `${config.API_URL_CARBON}/journal-entries/${id}${
       !!year ? '?year=' + year : ''
     }`
