@@ -140,7 +140,7 @@ export const Index = (props: Props) => {
 
       {!isLocked && (
         <>
-          <button onClick={() => openModalToCreate()} className="btn btn-circle fixed bottom-6 right-6 btn-primary">
+          <button onClick={openModalToCreate} className="btn btn-circle fixed bottom-6 right-6 btn-primary">
             <IoAdd className="w-5 h-5" />
           </button>
           <AddAdjustingEntryModal {...{ isBlank, isOpen, reloadTable: refetch, setIsOpen: setOpen }} />

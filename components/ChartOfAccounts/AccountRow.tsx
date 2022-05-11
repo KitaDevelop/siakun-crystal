@@ -1,7 +1,7 @@
 import { TableBody } from '@components/Table'
 import { Account } from '@context/AccountContext/types'
 import { capitalize } from '@utils/capitalize'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { FiMoreVertical } from 'react-icons/fi'
 import { IoBookOutline, IoTrashOutline } from 'react-icons/io5'
@@ -11,6 +11,7 @@ import { useDeleteAccount } from '@api/accounts'
 import { useAccount } from '@hooks/useAccount'
 import toast from 'react-hot-toast'
 import { useYear } from '@hooks/useYear'
+import { ConfirmationDialog } from '@components/ConfirmationDialog'
 
 interface Props {
   idx: number
@@ -28,6 +29,7 @@ export const AccountRow = ({
   const { mutate } = useDeleteAccount()
   const { accounts, dispatch } = useAccount()
   const { year } = useYear()
+  const [isOpenDialog, setIsOpenDialog] = useState(false)
 
   const onDeleteAccount = () => {
     mutate(
@@ -94,13 +96,20 @@ export const AccountRow = ({
                 </a>
               </li>
               <li>
-                <a onClick={onDeleteAccount}>
+                <a onClick={() => setIsOpenDialog(true)}>
                   <IoTrashOutline className="w-5 h-5 mr-2" />
                   Delete Account
                 </a>
               </li>
             </>}
           </ul>
+          <ConfirmationDialog
+            isOpen={isOpenDialog}
+            setIsOpen={setIsOpenDialog}
+            onConfirm={onDeleteAccount}
+            confirmMessage="Yes, delete">
+            <div className="font-medium text-stone-700 text-lg">Are you sure you want to delete this account?</div>
+          </ConfirmationDialog>
         </td>
       </tr>
       {idx % 2 !== 0 && <tr></tr>}

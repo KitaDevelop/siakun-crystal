@@ -76,7 +76,7 @@ export default function EntryRow({
             <ConfirmationDialog
               isOpen={isOpenDialog}
               setIsOpen={setIsOpenDialog}
-              onConfirm={() => onDeleteEntry()}
+              onConfirm={onDeleteEntry}
               confirmMessage="Yes, delete">
               <div className="font-medium text-stone-700 text-lg">Are you sure you want to delete this entry?</div>
             </ConfirmationDialog>
