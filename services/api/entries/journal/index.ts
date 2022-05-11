@@ -36,10 +36,6 @@ export interface JournalEntryResponse {
   data: JournalEntry[]
 }
 
-export interface SingleJournalEntryResponse {
-  data: JournalEntry
-}
-
 export const useFetchJournalEntries = (year?: number) => {
   return useQuery('journal-entries', () => getJournalEntries(year), OPTIONS)
 }
