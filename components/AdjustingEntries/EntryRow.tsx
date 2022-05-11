@@ -25,6 +25,7 @@ export default function EntryRow({
 }: Props): ReactElement {
   const { year } = useYear()
   const [isOpenDialog, setIsOpenDialog] = useState(false)
+  const { state: { isLocked } } = useAdjustingEntry()
   const deleteEntry = useDeleteAdjustingEntry()
 
   const onEditEntry = () => {
@@ -46,40 +47,42 @@ export default function EntryRow({
   return (
     <TableBody className="group hover multirow">
       {idx % 2 === 0 && <tr></tr>}
-      <tr className="invisible group-hover:visible absolute -left-5">
-        <td className="dropdown">
-          <div className="relative">
-            <div tabIndex={0} className="handle relative text-gray-400 hover:bg-gray-100 btn btn-xs btn-ghost">
-              <FiMoreVertical className="absolute w-5 h-5" style={{ left: '-5px' }} />
-              <FiMoreVertical className="absolute  w-5 h-5" style={{ left: '1px' }} />
+      {!isLocked && (
+        <tr className="invisible group-hover:visible absolute -left-5">
+          <td className="dropdown">
+            <div className="relative">
+              <div tabIndex={0} className="handle relative text-gray-400 hover:bg-gray-100 btn btn-xs btn-ghost">
+                <FiMoreVertical className="absolute w-5 h-5" style={{ left: '-5px' }} />
+                <FiMoreVertical className="absolute  w-5 h-5" style={{ left: '1px' }} />
+              </div>
             </div>
-          </div>
-          <ul
-            tabIndex={0}
-            className="p-2 shadow menu compact bg-base-100 overflow-visible rounded-box w-52 dropdown-content"
-          >
-            <li>
-              <a onClick={() => onEditEntry()}>
-                <MdOutlineEdit className="w-5 h-5 mr-2" />
-                Edit Entry
-              </a>
-            </li>
-            <li>
-              <a onClick={() => setIsOpenDialog(true)}>
-                <IoTrashOutline className="w-5 h-5 mr-2" />
-                Delete Entry
-              </a>
-            </li>
-          </ul>
-          <ConfirmationDialog
-            isOpen={isOpenDialog}
-            setIsOpen={setIsOpenDialog}
-            onConfirm={() => onDeleteEntry()}
-            confirmMessage="Yes, delete">
-            <div className="font-medium text-stone-700 text-lg">Are you sure you want to delete this entry?</div>
-          </ConfirmationDialog>
-        </td>
-      </tr>
+            <ul
+              tabIndex={0}
+              className="p-2 shadow menu compact bg-base-100 overflow-visible rounded-box w-52 dropdown-content"
+            >
+              <li>
+                <a onClick={onEditEntry}>
+                  <MdOutlineEdit className="w-5 h-5 mr-2" />
+                  Edit Entry
+                </a>
+              </li>
+              <li>
+                <a onClick={() => setIsOpenDialog(true)}>
+                  <IoTrashOutline className="w-5 h-5 mr-2" />
+                  Delete Entry
+                </a>
+              </li>
+            </ul>
+            <ConfirmationDialog
+              isOpen={isOpenDialog}
+              setIsOpen={setIsOpenDialog}
+              onConfirm={onDeleteEntry}
+              confirmMessage="Yes, delete">
+              <div className="font-medium text-stone-700 text-lg">Are you sure you want to delete this entry?</div>
+            </ConfirmationDialog>
+          </td>
+        </tr>
+      )}
       <tr className="text-center">
         <td rowSpan={transactions.length * 2 - 1}></td>
         {transactions.length > 0 &&
