@@ -7,6 +7,7 @@ import useAuth from '@hooks/useAuth'
 export interface NavbarProps {
   title: String
   icon: React.ReactNode
+  pageName?: string
 }
 
 export default function Navbar({ title, icon }: NavbarProps) {

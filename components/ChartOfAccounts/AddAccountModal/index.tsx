@@ -3,7 +3,7 @@ import { Modal } from '@components/Modal'
 import { AccountCategory, EmptyAccount } from '@context/AccountContext/types'
 import { useAccount } from '@hooks/useAccount'
 import { useYear } from '@hooks/useYear'
-import React, { ChangeEvent, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import toast from 'react-hot-toast'
 import { AdditionalInfo } from './AdditionalInfo'
 import { AccountNameInput } from './Form/AccountNameInput'
@@ -25,7 +25,7 @@ export const AddAccountModal = ({ isOpen, setIsOpen, isBlank }: Props) => {
   const updateAccount = useUpdateAccount()
 
   useEffect(() => {
-    if (isBlank) dispatch({ type: 'set_account', account: EmptyAccount })
+    if (isBlank) dispatch({ type: 'set_account', account: { ...EmptyAccount, parent: undefined } })
   }, [isBlank])
 
   const onSaveAccount = () => {

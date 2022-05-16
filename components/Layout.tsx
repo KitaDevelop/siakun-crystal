@@ -27,7 +27,7 @@ const Layout: React.FC<LayoutProps> = ({ navbarProps, children }: LayoutProps) =
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content p-6">
           <Navbar {...navbarProps} />
-          <Breadcrumbs />
+          <Breadcrumbs pageName={navbarProps.pageName}/>
 
           <main>{children}</main>
         </div>
