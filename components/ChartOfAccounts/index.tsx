@@ -6,13 +6,14 @@ import { AddAccountModal } from './AddAccountModal'
 import { useAccount } from '@hooks/useAccount'
 import FilterControls from '@components/FilterControls'
 import { LockedAlert } from '@components/LockedAlert'
+import { Loader } from '@components/Loader'
 
 export const Index = () => {
   const [isOpen, setOpen] = useState(false)
   const [isBlank, setBlank] = useState(true)
   const [searchKeyword, setSearchKeyword] = useState('')
 
-  const { accounts: accounts_, isLocked } = useAccount()
+  const { accounts: accounts_, isLocked, isRefetching } = useAccount()
   const [accounts, setAccounts] = useState(accounts_)
 
   useEffect(() => {
@@ -46,21 +47,24 @@ export const Index = () => {
     <div className="flex flex-col gap-4">
       {isLocked && <LockedAlert />}
       <FilterControls isCanExport={false} {...{ searchKeyword, setSearchKeyword }} />
-      <Table zebra>
-        <TableHeader {...{ cells }} />
-        {accounts &&
-          accounts.map((d, i) => (
+      {isRefetching ? (
+        <div className="w-full grid place-items-center"><Loader /></div>
+      ) : <>
+        <Table zebra>
+          <TableHeader {...{ cells }} />
+          {accounts.map((d, i) => (
             <AccountRow key={d.number} idx={i + 1} account={d} isLocked={isLocked} openModalToEdit={openModalToEdit} />
           ))}
-      </Table>
-      {accounts && accounts.length == 0 && (
-        <div className="card w-full bg-base-200 p-8 text-center items-center mt-2">
-          No accounts registered yet.{' '}
-          <div className="btn btn-primary mt-3" onClick={openModalToCreate}>
-            create account
+        </Table>
+        {accounts.length == 0 && (
+          <div className="card w-full bg-base-200 p-8 text-center items-center mt-2">
+            No accounts registered yet.{' '}
+            <div className="btn btn-primary mt-3" onClick={openModalToCreate}>
+              create account
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </>}
       {!isLocked && <>
         <button onClick={openModalToCreate} className="btn btn-circle fixed bottom-6 right-6 btn-primary">
           <IoAdd className="w-5 h-5" />

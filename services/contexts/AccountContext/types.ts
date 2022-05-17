@@ -33,6 +33,7 @@ export type AccountContextValue = {
   accounts: Account[]
   account: Account
   isLocked: boolean
+  isRefetching: boolean
   dispatch: Dispatch
 }
 export type AccountProviderProps = { children: React.ReactNode }
