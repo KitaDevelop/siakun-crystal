@@ -1,9 +1,9 @@
 import Layout from '@components/Layout'
+import { Loader } from '@components/Loader'
 import { NavbarProps } from '@components/Navbar'
 import { Navigation, navigation } from '@constants/navigation'
 import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
-import { FaSpinner } from 'react-icons/fa'
 
 interface Props { }
 
@@ -24,7 +24,7 @@ export const BBPage = (props: Props) => {
 
   return <Layout navbarProps={meta}>
     <div className="w-full h-96 grid place-items-center">
-      <FaSpinner className="w-10 h-10 animate-spin" />
+      <Loader />
     </div>
   </Layout>
 }

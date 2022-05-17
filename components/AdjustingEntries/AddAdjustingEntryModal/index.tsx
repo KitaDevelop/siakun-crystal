@@ -1,10 +1,10 @@
 import { useCreateAdjustingEntry, useFetchAdjustingEntry, useUpdateAdjustingEntry } from '@api/entries/adjusting'
+import { Loader } from '@components/Loader'
 import { Modal } from '@components/Modal'
 import { useAdjustingEntry } from '@hooks/useAdjustingEntry'
 import { useYear } from '@hooks/useYear'
 import React, { useEffect } from 'react'
 import toast from 'react-hot-toast'
-import { FaSpinner } from 'react-icons/fa'
 import DescriptionTextarea from './DescriptionTextarea'
 import { TransactionInputTable } from './TransactionInputTable'
 
@@ -81,7 +81,7 @@ export const AddAdjustingEntryModal = ({ isBlank, isOpen, setIsOpen, reloadTable
       <div className="font-bold text-xl mb-4">{isBlank ? "Create New" : "Edit"} Adjusting Entry</div>
       {!isBlank && isLoading ? (
         <div className="w-full grid place-content-center h-80 text-accent">
-          <FaSpinner className="w-10 h-10 animate-spin" />
+          <Loader />
         </div>
       ) : (
         <>

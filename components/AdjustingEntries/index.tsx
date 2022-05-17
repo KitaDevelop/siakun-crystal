@@ -11,9 +11,9 @@ import * as XLSX from 'xlsx'
 import { useYear } from '@hooks/useYear'
 import { useFetchAdjustingEntries } from '@api/entries/adjusting'
 import { useAdjustingEntry } from '@hooks/useAdjustingEntry'
-import { FaSpinner } from 'react-icons/fa'
 import EntryRow from './EntryRow'
 import { LockedAlert } from '@components/LockedAlert'
+import { Loader } from '@components/Loader'
 const { writeFile, utils } = XLSX
 
 interface Props { }
@@ -103,7 +103,7 @@ export const Index = (props: Props) => {
       <FilterControls {...{ exportDocument, searchKeyword, setSearchKeyword }} />
       {isLoading && !isSuccess ? (
         <div className="w-full grid place-content-center h-80 text-accent">
-          <FaSpinner className="w-10 h-10 animate-spin" />
+          <Loader />
         </div>
       ) : (
         <>
