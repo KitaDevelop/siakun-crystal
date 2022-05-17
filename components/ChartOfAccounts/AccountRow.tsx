@@ -24,7 +24,7 @@ export const AccountRow = ({
   idx,
   openModalToEdit,
   isLocked,
-  account: { id, parentNumber, number, name, description, category, type, normalBalance },
+  account: { id, parentNumber, number, name, description, category, type, parent, normalBalance },
 }: Props) => {
   const { mutate } = useDeleteAccount()
   const { accounts, dispatch } = useAccount()
@@ -55,6 +55,7 @@ export const AccountRow = ({
       account: {
         id,
         parentNumber,
+        parent,
         number,
         name,
         description,
@@ -81,7 +82,7 @@ export const AccountRow = ({
             className="p-2 shadow menu compact bg-base-100 overflow-visible rounded-box w-52 dropdown-content"
           >
             <li>
-              <Link href={`/buku-besar/${slugify(name)}`} passHref>
+              <Link href={`/buku-besar/${slugify(id + "-" + name)}`} passHref>
                 <a>
                   <IoBookOutline className="w-5 h-5 mr-2" />
                   Buku Besar
@@ -113,7 +114,7 @@ export const AccountRow = ({
         </td>
       </tr>
       {idx % 2 !== 0 && <tr></tr>}
-      <Link href={`/buku-besar/${slugify(name)}`} passHref>
+      <Link href={`/buku-besar/${slugify(id + "-" + name)}`} passHref>
         <tr className="text-center cursor-pointer hover">
           <td>{idx}</td>
           <td>{number}</td>

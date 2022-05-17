@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { createContext, ReactNode, useEffect, useRef, useState } from 'react'
 import { useMutation, useQuery } from 'react-query'
-import Cookies from 'js-cookie'
+import { getCookie, setCookies, removeCookies, checkCookies } from 'cookies-next';
 import { loadUserProfile, login } from '@api/auth'
 import { AuthContextValue, UserProfile } from './types'
 import { useRouter } from 'next/router'
@@ -10,11 +10,19 @@ const AuthContext = createContext<AuthContextValue | undefined>(undefined)
 
 function AuthProvider({ children }: { children: ReactNode }) {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null)
-  const [token, setToken] = useState(Cookies.get('token') || null)
+  const [token, setToken] = useState('')
   const [driveOAuth, setDriveOAuth] = useState<string>('')
   const isLoadingLogin_ = useRef<boolean>()
   const isAuthenticated_ = useRef<boolean>()
   const router = useRouter()
+
+  useEffect(() => {
+    if (checkCookies('token')) {
+      const token_ = getCookie('token') as string
+      setToken(token_)
+    }
+  }, [])
+
 
   useEffect(() => {
     if (token) axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
@@ -34,16 +42,16 @@ function AuthProvider({ children }: { children: ReactNode }) {
       setUserProfile(userProfile_)
       setToken(token_)
       setDriveOAuth(driveOAuth_)
-      Cookies.set('token', token_)
+      setCookies('token', token_)
 
       axios.defaults.headers.common['Authorization'] = `Bearer ${token_}`
     },
   })
 
   const logout = () => {
-    setToken(null)
+    setToken('')
     setUserProfile(null)
-    Cookies.remove('token')
+    removeCookies('token')
     router.push('/login')
   }
 

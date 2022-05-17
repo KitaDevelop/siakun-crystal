@@ -1,3 +1,4 @@
+import EntryRow from '@components/JournalEntries/EntryRow'
 import { Table, TableHeader } from '@components/Table'
 import { SelectYearOption } from '@constants/years'
 import { Account } from '@context/AccountContext/types'
@@ -6,116 +7,108 @@ import { useYear } from '@hooks/useYear'
 import { formatDate } from '@utils/formatDate'
 import { numberToRupiah } from '@utils/numberToRupiah'
 import { sum } from '@utils/sum'
+import Link from 'next/link'
 import React, { useState } from 'react'
+import { BiDownload } from 'react-icons/bi'
+import { HiOutlineSearch } from 'react-icons/hi'
 
 import * as XLSX from 'xlsx'
+import { EntryRowReadonly } from './EntryRowReadonly'
 const { writeFile, utils } = XLSX
 
 interface Props {
-  data: Account
+  account: Account
+  entries: JournalEntry[]
 }
 
-export const Index = ({ data }: Props) => {
-  // const { year } = useYear()
-  // const [searchKeyword, setSearchKeyword] = useState('')
+export const Index = ({ account, entries }: Props) => {
+  const [searchKeyword, setSearchKeyword] = useState<string>('')
 
-  // const dummyJournalEntries: JournalEntry[] = [
-  //   {
-  //     id: 1,
-  //     date: '11/14/2021', // mm/dd/yyyy
-  //     description:
-  //       'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Distinctio dolor voluptatum dolore repudiandae! Numquam eos, eaque aut maiores fugiat fuga.',
-  //     transactions: [
-  //       {
-  //         id: 1,
-  //         accName: data.name,
-  //         accNumber: '1-1111',
-  //         debit: 12000,
-  //       },
-  //       {
-  //         id: 3,
-  //         accName: 'Akun Debit Tiga',
-  //         accNumber: '1-3333',
-  //         credit: 12000,
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     id: 2,
-  //     date: new Date().toISOString(),
-  //     description:
-  //       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio voluptas quibusdam provident facere soluta reprehenderit?',
-  //     transactions: [
-  //       {
-  //         id: 4,
-  //         accName: data.name,
-  //         accNumber: '1-1111',
-  //         debit: 9999999,
-  //       },
-  //       {
-  //         id: 5,
-  //         accName: 'Akun Kredit Dua',
-  //         accNumber: '1-2222',
-  //         credit: 9999999,
-  //       },
-  //     ],
-  //   },
-  // ]
+  const currentCredit = sum(entries?.map((x) => x.transactions.reduce((acc: number, t) => acc + (t?.credit || 0), 0)) || [])
+  const currentDebit = sum(entries?.map((x) => x.transactions.reduce((acc: number, t) => acc + (t?.debit || 0), 0)) || [])
 
-  // const currentCredit = sum(
-  //   dummyJournalEntries.map((x) => x.transactions.reduce((acc: number, t) => acc + (t?.credit || 0), 0))
-  // )
-  // const currentDebit = sum(
-  //   dummyJournalEntries.map((x) => x.transactions.reduce((acc: number, t) => acc + (t?.debit || 0), 0))
-  // )
 
-  // const flattenJson = (data: JournalEntry[]) => {
-  //   var flatJson = []
-  //   for (let entry of data) {
-  //     for (let transaction of entry.transactions) {
-  //       flatJson.push({
-  //         Tanggal: formatDate(entry.date),
-  //         'Nomor Akun': transaction.accNumber,
-  //         'Nama Akun': transaction.accName,
-  //         Debit: transaction?.debit,
-  //         Kredit: transaction?.credit,
-  //         Deskripsi: entry.description,
-  //       })
-  //     }
-  //   }
-  //   flatJson.push({
-  //     'Nama Akun': 'TOTAL',
-  //     Debit: currentDebit,
-  //     Kredit: currentCredit,
-  //   })
-  //   return flatJson
-  // }
+  const flattenJson = (data: JournalEntry[]) => {
+    var flatJson = []
+    for (let entry of data) {
+      for (let t of entry.transactions) {
+        flatJson.push({
+          Tanggal: formatDate(entry.date),
+          'Nomor Akun': t.account?.number,
+          'Nama Akun': t.account?.name,
+          Debit: t?.debit,
+          Kredit: t?.credit,
+          Deskripsi: entry.description,
+        })
+      }
+    }
+    flatJson.push({
+      'Nama Akun': 'TOTAL',
+      Debit: currentDebit,
+      Kredit: currentCredit,
+    })
+    return flatJson
+  }
 
-  // const exportDocument = () => {
-  //   var workbook = utils.book_new()
-  //   var worksheet = utils.json_to_sheet(flattenJson(dummyJournalEntries))
-  //   utils.book_append_sheet(workbook, worksheet, data.name)
-  //   return writeFile(workbook, `buku_besar_${data.name}_${year[0].value}.xlsx`)
-  // }
+  const exportDocument = () => {
+    var workbook = utils.book_new()
+    var worksheet = utils.json_to_sheet(flattenJson(entries))
+    utils.book_append_sheet(workbook, worksheet, 'Journal Entries')
+    return writeFile(workbook, `${account.name}.xlsx`)
+  }
 
   return (
     <div className="flex flex-col gap-4">
-      {/* <h2 className="font-bold text-2xl">{data.name}</h2>
-      <FilterControls {...{ exportDocument, searchKeyword, setSearchKeyword }} />
+      <h2 className="font-bold text-2xl">{account.name}</h2>
+      <div className="flex gap-2">
+        <div className="form-control w-96">
+          <div className="relative">
+            <div className="absolute top-0 left-0 rounded-r-none btn btn-ghost hover:bg-transparent">
+              <HiOutlineSearch className="h-5 w-5" />
+            </div>
+            <input
+              type="text"
+              placeholder="Search"
+              value={searchKeyword}
+              onChange={(e) => setSearchKeyword(e.target.value)}
+              className="w-full pl-12 input input-bordered"
+            />
+          </div>
+        </div>
+        <div className="btn btn-outline" onClick={() => exportDocument()}>
+          <BiDownload className="w-5 h-5 mr-2" />
+          Export
+        </div>
+      </div>
       <Table zebra>
         <TableHeader cells={cells} />
-        {dummyJournalEntries.map((entry, idx) => (
-          <TableRow key={entry.id} idx={idx} entry={entry} />
+        {entries && entries.map((entry, idx) => (
+          <EntryRowReadonly key={entry.id} idx={idx} entry={entry} />
         ))}
-        <tr className="text-center font-bold">
-          <td colSpan={3} className="text-right">
-            Total
-          </td>
-          <td>{numberToRupiah(currentCredit)}</td>
-          <td>{numberToRupiah(currentDebit)}</td>
-          <td></td>
-        </tr>
-      </Table> */}
+        {entries && entries.length > 0 && (
+          <tr className="text-center font-bold">
+            <td colSpan={3} className="text-right uppercase">
+              Total
+            </td>
+            <td className="text-right text-green-900 bg-success bg-opacity-10 rounded-l-lg">
+              {numberToRupiah(currentDebit)}
+            </td>
+            <td className="text-right text-red-900 bg-error bg-opacity-10 rounded-r-lg">
+              {numberToRupiah(currentCredit)}
+            </td>
+            <td></td>
+          </tr>
+        )}
+      </Table>
+      {!entries && (
+        <div className="card w-full bg-base-200 p-8 text-center items-center">
+          <span>No entries registered yet.</span>
+          <span>You can create a new entry from the Journal Entry page.</span>
+          <Link href="/journal-entries">
+            <a className="btn btn-primary mt-3">go to journal entry</a>
+          </Link>
+        </div>
+      )}
     </div>
   )
 }
