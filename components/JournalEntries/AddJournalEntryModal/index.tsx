@@ -1,10 +1,10 @@
 import { useCreateJournalEntry, useFetchJournalEntry, useUpdateJournalEntry } from '@api/entries/journal'
+import { Loader } from '@components/Loader'
 import { Modal } from '@components/Modal'
 import { useJournalEntry } from '@hooks/useJournalEntry'
 import { useYear } from '@hooks/useYear'
 import React, { useEffect } from 'react'
 import toast from 'react-hot-toast'
-import { FaSpinner } from 'react-icons/fa'
 import DateInput from './Form/DateInput'
 import DescriptionTextarea from './Form/DescriptionTextarea'
 import ReceiptInput from './Form/ReceiptInput'
@@ -89,7 +89,7 @@ export const AddJournalEntryModal = ({ isBlank, isOpen, setIsOpen, reloadTable }
       <div className="font-bold text-xl mb-4">{isBlank ? "Create New" : "Edit"} Entry</div>
       {!isBlank && isLoading ? (
         <div className="w-full grid place-content-center h-80 text-accent">
-          <FaSpinner className="w-10 h-10 animate-spin" />
+          <Loader />
         </div>
       ) : (
         <>

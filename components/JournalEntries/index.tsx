@@ -12,9 +12,9 @@ import { useYear } from '@hooks/useYear'
 import { useFetchJournalEntries } from '@api/entries/journal'
 import { useJournalEntry } from '@hooks/useJournalEntry'
 import { sum } from '@utils/sum'
-import { FaSpinner } from 'react-icons/fa'
 import EntryRow from './EntryRow'
 import { LockedAlert } from '@components/LockedAlert'
+import { Loader } from '@components/Loader'
 const { writeFile, utils } = XLSX
 
 
@@ -104,7 +104,7 @@ export const Index = () => {
       <FilterControls {...{ exportDocument, searchKeyword, setSearchKeyword }} />
       {isLoading || isFetching ? (
         <div className="w-full grid place-content-center h-80 text-accent">
-          <FaSpinner className="w-10 h-10 animate-spin" />
+          <Loader />
         </div>
       ) : (
         <>
