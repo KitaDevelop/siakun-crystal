@@ -5,8 +5,9 @@ import { useRouter } from 'next/router'
 import { navigation } from '@constants/navigation'
 import { FiChevronsLeft, FiChevronsRight } from 'react-icons/fi'
 import { useSidebar } from '@context/SidebarContext'
-import Select from 'react-select'
-import { customStyles } from './ChartOfAccounts/AddAccountModal/Select'
+import useAuth from '@hooks/useAuth'
+import { ROLE } from '@context/AuthContext/types'
+import { OrganizationSelect } from './OrganizationSelect'
 
 export const Sidebar: React.FC = () => {
   return (
@@ -19,16 +20,16 @@ export const Sidebar: React.FC = () => {
 
 const SidebarExpanded: React.FC = () => {
   const { pathname } = useRouter()
+  const { userProfile } = useAuth()
   const {
-    state: { isCollapsed, role },
+    state: { isCollapsed },
     dispatch,
   } = useSidebar()
 
   return (
     <div
-      className={`drawer-side p-2 overflow-y-auto bg-base-200 z-10 text-base-content overflow-hidden transition-all ease-in-out ${
-        isCollapsed ? '-translate-x-full w-0 h-0' : 'w-72'
-      }`}
+      className={`drawer-side p-2 overflow-y-auto bg-base-200 z-10 text-base-content overflow-hidden transition-all ease-in-out ${isCollapsed ? '-translate-x-full w-0 h-0' : 'w-72'
+        }`}
     >
       <div className="flex flex-col items-start">
         <div className="object-none p-4 pb-2 cursor-pointer">
@@ -38,7 +39,7 @@ const SidebarExpanded: React.FC = () => {
             </a>
           </Link>
         </div>
-        {role == 'auditor' && (
+        {userProfile?.role == ROLE.AUDITOR && (
           <div className="px-2 mb-4 w-full">
             <div className="text-sm font-bold text-gray-400 mb-1">You are viewing:</div>
             <div className="flex gap-2">
@@ -47,14 +48,7 @@ const SidebarExpanded: React.FC = () => {
                   <Image alt="organisasi" src="/avatar-placeholder.png" width={36} height={36} />
                 </div>
               </div>
-              <Select
-                className="flex-1"
-                options={organizations}
-                value={organizations[0]}
-                styles={customStyles}
-                closeMenuOnSelect
-                isSearchable
-              />
+              <OrganizationSelect />
             </div>
           </div>
         )}
@@ -83,11 +77,10 @@ const SidebarExpanded: React.FC = () => {
 }
 
 const SidebarCollapsed: React.FC = () => {
+  const { userProfile } = useAuth()
   const { pathname } = useRouter()
-  const {
-    state: { role },
-    dispatch,
-  } = useSidebar()
+  const { dispatch } = useSidebar()
+
   return (
     <div className="drawer-side w-16 bg-base-200 text-base-content z-10" style={{ overflow: 'visible' }}>
       <div className="flex flex-col items-center">
@@ -98,7 +91,7 @@ const SidebarCollapsed: React.FC = () => {
             </a>
           </Link>
         </div>
-        {role == 'auditor' && (
+        {userProfile?.role == ROLE.AUDITOR && (
           <div className="dropdown dropdown-right mb-3">
             <div tabIndex={-1} className="avatar mx-2 cursor-pointer">
               <div className="w-9 h-9 rounded-full">
@@ -107,14 +100,7 @@ const SidebarCollapsed: React.FC = () => {
             </div>
             <div tabIndex={-1} className="dropdown-content bg-base-100 w-72 card p-4 shadow-lg overflow-visible">
               <div className="text-sm font-bold text-gray-400 mb-1">You are viewing:</div>
-              <Select
-                className="flex-1"
-                options={organizations}
-                value={organizations[0]}
-                styles={customStyles}
-                closeMenuOnSelect
-                isSearchable
-              />
+              <OrganizationSelect />
             </div>
           </div>
         )}
@@ -136,10 +122,3 @@ const SidebarCollapsed: React.FC = () => {
     </div>
   )
 }
-
-// dummy
-type SelectOrganizationOption = { value: string; label: string }
-const organizations: SelectOrganizationOption[] = [
-  { value: 'no', label: 'Nama Organisasi' },
-  { value: 'bem', label: 'Bukan Elite Manga' },
-]

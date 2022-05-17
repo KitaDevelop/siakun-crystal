@@ -1,14 +1,28 @@
 import React from 'react'
 import Image from 'next/image'
+import { Organization } from '@context/OrganizationContext/types'
+import { useRouter } from 'next/router'
+import { useOrganization } from '@hooks/useOrganization'
 
 interface Props {
   id: number
+  organization: Organization
 }
 
-export const OrganisasiCard = ({ id }: Props) => {
+export const OrganisasiCard = ({ id, organization }: Props) => {
+  const { name } = organization
+  const { setOrganizationView } = useOrganization()
+  const router = useRouter()
   const colors = gradients[id % gradients.length]
+
+  const onCardClick = () => {
+    setOrganizationView(organization)
+    router.push('/chart-of-accounts')
+  }
+
   return (
     <div
+      onClick={onCardClick}
       className="card p-6 grid place-items-center"
       style={{ background: `linear-gradient(109.27deg, ${colors[0]} 0.74%, ${colors[1]} 100%)` }}
     >
@@ -17,7 +31,7 @@ export const OrganisasiCard = ({ id }: Props) => {
           <Image alt="organisasi" src="/avatar-placeholder.png" width={96} height={96} />
         </div>
       </div>
-      <div className="uppercase font-bold text-white">nama organisasi</div>
+      <div className="uppercase font-bold text-white">{name}</div>
     </div>
   )
 }
