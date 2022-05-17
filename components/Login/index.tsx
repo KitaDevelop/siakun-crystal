@@ -9,7 +9,7 @@ import { PasswordInput } from './PasswordInput'
 import { AxiosError } from 'axios'
 import { capitalize } from '@utils/capitalize'
 
-interface Props {}
+interface Props { }
 
 const Index = (props: Props) => {
   const usernameInputRef = useRef<HTMLInputElement>(null)
@@ -49,7 +49,7 @@ const Index = (props: Props) => {
       <div className="col-span-12 h-screen sm:col-span-8 md:col-span-4 bg-white grid place-items-center p-6">
         <form onSubmit={onSignInButtonPressed} className="flex flex-col w-full max-w-sm gap-4">
           <div className="grid place-content-center">
-            <Image width={183} height={104} src="/logo_lg.png" alt="logo" className="self-center mb-8" />
+            <Image width={183} height={100} src="/logo_lg.png" alt="logo" className="self-center mb-8" />
           </div>
           <div className="form-control">
             <label className="label font-bold">

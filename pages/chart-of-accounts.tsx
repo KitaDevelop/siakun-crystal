@@ -4,8 +4,8 @@ import { NavbarProps } from '@components/Navbar'
 import { Navigation, navigation } from '@constants/navigation'
 import React from 'react'
 import ChartOfAccount from '@components/ChartOfAccounts'
-import { FaSpinner } from 'react-icons/fa'
 import { useYear } from '@hooks/useYear'
+import { Loader } from '@components/Loader'
 
 interface Props { }
 
@@ -23,7 +23,7 @@ export const CoAPage = (props: Props) => {
     <Layout navbarProps={meta}>
       {isLoading && !isSuccess ? (
         <div className="w-full grid place-content-center h-80 text-accent">
-          <FaSpinner className="w-10 h-10 animate-spin" />
+          <Loader />
         </div>
       ) : (
         <ChartOfAccount />
