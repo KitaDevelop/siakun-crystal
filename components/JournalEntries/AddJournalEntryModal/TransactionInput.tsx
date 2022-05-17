@@ -28,9 +28,16 @@ export const TransactionInput = ({ transaction, isOnlyChild, idx }: Props) => {
 
   const chosenAccount = accountOptions.find((x) => x.value.number == transaction.accountNumber)
   const [isDebit, setIsDebit] = useState<boolean>(!!transaction?.debit && transaction.debit > 0)
-  const [debit, setDebit] = useState(transaction?.debit || 0)
-  const [credit, setCredit] = useState(transaction?.credit || 0)
+  const [debit, setDebit] = useState(transaction.debit || 0)
+  const [credit, setCredit] = useState(transaction.credit || 0)
   const [account, setAccount] = useState<Account | undefined>(chosenAccount?.value)
+
+  useEffect(() => {
+    const { debit: debit_, credit: credit_ } = transaction
+    setDebit(debit_ || 0)
+    setCredit(credit_ || 0)
+  }, [transactions])
+
 
   useEffect(() => {
     const transactions_ = [...transactions]

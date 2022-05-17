@@ -33,11 +33,11 @@ export const TransactionInputTable = () => {
     <Table>
       <TableHeader cells={cells}></TableHeader>
       <TableBody>
-        {transactions.map((transaction, i) => (
+        {transactions.map((t, i) => (
           <TransactionInput
-            key={transaction.id}
+            key={t.id}
             idx={i}
-            transaction={transaction}
+            transaction={t}
             isOnlyChild={transactions.length === 1}
           />
         ))}

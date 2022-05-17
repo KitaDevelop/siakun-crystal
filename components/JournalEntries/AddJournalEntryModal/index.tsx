@@ -36,12 +36,13 @@ export const AddJournalEntryModal = ({ isBlank, isOpen, setIsOpen, reloadTable }
   }, [isBlank, id])
 
   useEffect(() => {
+    if (!isOpen && receipt?.startsWith('data:image')) refetch()
+  }, [isOpen, receipt])
+
+  useEffect(() => {
     if (!isBlank && !isLoading && data) {
-      console.log("🚀 ~ file: index.tsx ~ line 40 ~ useEffect ~ data", data)
       const { data: entry } = data
       dispatch({ type: 'set_entry', entry: entry })
-      console.log("🚀 ~ file: index.tsx ~ line 42 ~ useEffect ~ entry", entry)
-
     }
   }, [isLoading, data])
 
