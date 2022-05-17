@@ -7,6 +7,7 @@ import { AccountProvider } from './AccountContext/AccountProvider'
 import { AdjustingEntryProvider } from './AdjustingEntryContext/AdjustingEntryProvider'
 import { AuthProvider } from './AuthContext/AuthProvider'
 import { JournalEntryProvider } from './JournalEntryContext/JournalEntryProvider'
+import { OrganizationProvider } from './OrganizationContext/OrganizationProvider'
 import { SidebarProvider } from './SidebarContext'
 import { TrialBalanceProvider } from './TrialBalanceContext/TrialBalanceProvider'
 import { YearProvider } from './YearContext'
@@ -23,13 +24,15 @@ export const GlobalProvider: React.FC<Props> = ({ children }: Props) => {
       <AuthProvider>
         <YearProvider>
           <SidebarProvider>
-            <JournalEntryProvider>
-              <AdjustingEntryProvider>
-                <AccountProvider>
-                  <TrialBalanceProvider>{children}</TrialBalanceProvider>
-                </AccountProvider>
-              </AdjustingEntryProvider>
-            </JournalEntryProvider>
+            <OrganizationProvider>
+              <JournalEntryProvider>
+                <AdjustingEntryProvider>
+                  <AccountProvider>
+                    <TrialBalanceProvider>{children}</TrialBalanceProvider>
+                  </AccountProvider>
+                </AdjustingEntryProvider>
+              </JournalEntryProvider>
+            </OrganizationProvider>
           </SidebarProvider>
         </YearProvider>
         <ReactQueryDevtools initialIsOpen={false} />
