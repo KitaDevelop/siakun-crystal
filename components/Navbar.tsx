@@ -3,6 +3,7 @@ import { FaRegUser, FaSignOutAlt } from 'react-icons/fa'
 import Image from 'next/image'
 import Link from 'next/link'
 import useAuth from '@hooks/useAuth'
+import { ROLE, UserProfile } from '@context/AuthContext/types'
 
 export interface NavbarProps {
   title: String
@@ -12,6 +13,9 @@ export interface NavbarProps {
 
 export default function Navbar({ title, icon }: NavbarProps) {
   const { userProfile, logout } = useAuth()
+  const { organization, profilePicture, role } = userProfile as UserProfile
+
+  const displayName = role == ROLE.AUDITOR ? "Auditoranus" : organization.name
 
   return (
     <div className="navbar shadow-lg bg-neutral text-neutral-content rounded-box">
@@ -22,14 +26,14 @@ export default function Navbar({ title, icon }: NavbarProps) {
         <span className="font-bold uppercase">{title}</span>
       </div>
       <div className="flex-none font-medium">
-        <div>{userProfile?.organization.name}</div>
+        <div>{displayName}</div>
         <div className="dropdown dropdown-hover dropdown-end">
           <button tabIndex={0} className="ml-2 btn btn-square btn-ghost">
             <div className="avatar">
               <div className="rounded-full w-10 h-10">
                 <Image
                   alt="avatar"
-                  src={userProfile?.profilePicture || '/avatar-placeholder.png'}
+                  src={profilePicture || '/avatar-placeholder.png'}
                   width={40}
                   height={40}
                 />

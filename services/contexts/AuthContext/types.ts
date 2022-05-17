@@ -1,12 +1,18 @@
 import { UseMutationResult } from 'react-query'
 
+export enum ROLE {
+  AUDITOR = 'auditor',
+  LEMBAGA = 'lembaga',
+  SUPERADMIN = 'superadmin',
+}
+
 export interface UserProfile {
   organization: {
     id: number
     name: string
   }
   profilePicture: string
-  role: string
+  role: ROLE
 }
 
 export interface LoginRequestPayload {
