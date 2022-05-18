@@ -1,12 +1,32 @@
-import React, { useState } from 'react'
-import Link from 'next/link'
+import { loadUserProfile } from '@api/auth'
+import FilterControls from '@components/FilterControls'
 import Layout from '@components/Layout'
-import { FiHome } from 'react-icons/fi'
 import { NavbarProps } from '@components/Navbar'
 import { OrganisasiCard } from '@components/OrganisasiCard'
-import FilterControls from '@components/FilterControls'
+import { UserProfile } from '@context/AuthContext/types'
+import useAuth from '@hooks/useAuth'
+import axios from 'axios'
+import { getCookie } from 'cookies-next'
+import { GetServerSideProps } from 'next'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import React, { useState } from 'react'
+import { FiHome } from 'react-icons/fi'
 
-export default function Home() {
+interface Props {
+  userProfile: UserProfile
+}
+
+export default function Home({ userProfile }: Props) {
+  const router = useRouter()
+
+  const { setUserProfile } = useAuth()
+  if (!!userProfile) {
+    setUserProfile(userProfile)
+  } else {
+    router.push('/login')
+  }
+
   const [searchKeyword, setSearchKeyword] = useState('')
   const meta: NavbarProps = {
     title: 'Home',
@@ -31,4 +51,22 @@ export default function Home() {
       </div>
     </Layout>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async ({ params, req, res }) => {
+  const token = getCookie('token', { req, res }) as string
+  if (token) {
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+  }
+
+  let userProfile = null
+  try {
+    userProfile = await loadUserProfile({ token })
+  } catch (e) { }
+
+  return {
+    props: {
+      userProfile,
+    },
+  }
 }
