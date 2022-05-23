@@ -11,7 +11,7 @@ import {
 
 export const useRemoveDisplayPicture = () => {
   const payload: UpdateDisplayPicturePayload = {
-    imageUrl: '',
+    profilePicture: '',
   }
   return useMutation(() => changeDisplayPicture(payload), {
     onSuccess: () => {

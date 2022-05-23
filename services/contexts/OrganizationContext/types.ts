@@ -3,7 +3,7 @@ import React from 'react'
 export type Organization = {
   id: number
   name: string
-  avatar: string
+  profilePicture: string
 }
 export type SelectOrganizationOption = { value: Organization; label: string }
 export type OrganizationProviderProps = { children: React.ReactNode }

@@ -1,9 +1,8 @@
-import { UserProfile } from '@context/AuthContext/types'
 import axios from 'axios'
 import config from 'config'
 
 export interface UpdateDisplayPicturePayload {
-  imageUrl: string
+  profilePicture: string
 }
 
 export interface ChangePasswordPayload {

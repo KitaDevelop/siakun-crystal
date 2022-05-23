@@ -11,6 +11,7 @@ export interface UserProfile {
     id: number
     name: string
   }
+  username: string
   profilePicture: string
   role: ROLE
 }

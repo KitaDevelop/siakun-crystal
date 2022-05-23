@@ -2,13 +2,13 @@ import React, { ChangeEvent, useRef, useState } from 'react'
 import Image from 'next/image'
 import useAuth from '@hooks/useAuth'
 import { blobToBase64 } from '@utils/blobToBase64'
-import { changeDisplayPicture, UpdateDisplayPicturePayload } from '@api/profile/endpoints'
+import { UpdateDisplayPicturePayload } from '@api/profile/endpoints'
 import { useChangeDisplayPicture, useRemoveDisplayPicture } from '@api/profile'
 import { downscaleImage } from '@utils/downscaleImage'
+import { ROLE } from '@context/AuthContext/types'
+import { capitalize } from '@utils/capitalize'
 
-interface Props {}
-
-export const DisplayPicture = (props: Props) => {
+export const DisplayPicture = () => {
   const { userProfile, setUserProfile } = useAuth()
   const [avatarPreview, setPreview] = useState<string>()
   const avatarRef = useRef<HTMLInputElement>(null)
@@ -32,12 +32,10 @@ export const DisplayPicture = (props: Props) => {
 
     if (files && file) {
       let dataUrl = (await blobToBase64(file)) as string
-      console.log(`before ${dataUrl.length}`)
       dataUrl = await downscaleImage(dataUrl, file.type, 112, 0.9)
-      console.log(`after ${dataUrl.length}`)
 
       const payload: UpdateDisplayPicturePayload = {
-        imageUrl: dataUrl,
+        profilePicture: dataUrl,
       }
       changeAvatar.mutate(payload, {
         onSuccess: () => {
@@ -49,6 +47,7 @@ export const DisplayPicture = (props: Props) => {
   }
 
   const displayPictureSrc = avatarPreview ? avatarPreview : userProfile?.profilePicture || '/avatar-placeholder.png'
+  const displayName = userProfile?.role === ROLE.AUDITOR ? userProfile.username : userProfile?.organization.name
 
   return (
     <div className="card bg-base-200 p-8 flex-row shadow-md items-center col-span-2">
@@ -58,7 +57,7 @@ export const DisplayPicture = (props: Props) => {
         </div>
       </div>
       <div className="flex-1 flex flex-col ml-8">
-        <div className="text-2xl font-bold mb-2">{userProfile?.organization.name}</div>
+        <div className="text-2xl font-bold mb-2">{capitalize(displayName!)}</div>
         <div className="flex">
           <input type="file" className="hidden" accept="image/*" ref={avatarRef} onChange={(e) => onAvatarChosen(e)} />
           <div className="btn btn-primary font-bold" onClick={() => chooseAvatar()}>
