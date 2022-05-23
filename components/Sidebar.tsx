@@ -8,6 +8,7 @@ import { useSidebar } from '@context/SidebarContext'
 import useAuth from '@hooks/useAuth'
 import { ROLE } from '@context/AuthContext/types'
 import { OrganizationSelect } from './OrganizationSelect'
+import { useOrganization } from '@hooks/useOrganization'
 
 export const Sidebar: React.FC = () => {
   return (
@@ -20,6 +21,7 @@ export const Sidebar: React.FC = () => {
 
 const SidebarExpanded: React.FC = () => {
   const { pathname } = useRouter()
+  const { organizationView } = useOrganization()
   const { userProfile } = useAuth()
   const {
     state: { isCollapsed },
@@ -45,7 +47,7 @@ const SidebarExpanded: React.FC = () => {
             <div className="flex gap-2">
               <div className="avatar">
                 <div className="w-9 h-9 rounded-full">
-                  <Image alt="organisasi" src="/avatar-placeholder.png" width={36} height={36} />
+                  <Image alt="organisasi" src={organizationView?.profilePicture || "/avatar-placeholder.png"} width={36} height={36} />
                 </div>
               </div>
               <OrganizationSelect />
@@ -78,6 +80,7 @@ const SidebarExpanded: React.FC = () => {
 
 const SidebarCollapsed: React.FC = () => {
   const { userProfile } = useAuth()
+  const { organizationView } = useOrganization()
   const { pathname } = useRouter()
   const { dispatch } = useSidebar()
 
@@ -95,7 +98,7 @@ const SidebarCollapsed: React.FC = () => {
           <div className="dropdown dropdown-right mb-3">
             <div tabIndex={-1} className="avatar mx-2 cursor-pointer">
               <div className="w-9 h-9 rounded-full">
-                <Image alt="organisasi" src="/avatar-placeholder.png" width={36} height={36} />
+                <Image alt="organisasi" src={organizationView?.profilePicture || "/avatar-placeholder.png"} width={36} height={36} />
               </div>
             </div>
             <div tabIndex={-1} className="dropdown-content bg-base-100 w-72 card p-4 shadow-lg overflow-visible">
