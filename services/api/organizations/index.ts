@@ -10,5 +10,9 @@ export const getOrganizations = (year?: number) =>
   )
 
 export const useFetchOrganizations = (year?: number) => {
-  return useQuery('organizations', () => getOrganizations(year), OPTIONS)
+  return useQuery(
+    `organizations-${year}`,
+    () => getOrganizations(year),
+    OPTIONS
+  )
 }
