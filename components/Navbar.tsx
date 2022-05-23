@@ -3,6 +3,8 @@ import { FaRegUser, FaSignOutAlt } from 'react-icons/fa'
 import Image from 'next/image'
 import Link from 'next/link'
 import useAuth from '@hooks/useAuth'
+import { ROLE, UserProfile } from '@context/AuthContext/types'
+import { capitalize } from '@utils/capitalize'
 
 export interface NavbarProps {
   title: String
@@ -13,6 +15,8 @@ export interface NavbarProps {
 export default function Navbar({ title, icon }: NavbarProps) {
   const { userProfile, logout } = useAuth()
 
+  const displayName = userProfile?.role == ROLE.AUDITOR ? userProfile.username : userProfile?.organization.name
+
   return (
     <div className="navbar shadow-lg bg-neutral text-neutral-content rounded-box">
       <div className="flex-none">
@@ -22,7 +26,7 @@ export default function Navbar({ title, icon }: NavbarProps) {
         <span className="font-bold uppercase">{title}</span>
       </div>
       <div className="flex-none font-medium">
-        <div>{userProfile?.organization.name}</div>
+        <div>{capitalize(displayName!)}</div>
         <div className="dropdown dropdown-hover dropdown-end">
           <button tabIndex={0} className="ml-2 btn btn-square btn-ghost">
             <div className="avatar">
