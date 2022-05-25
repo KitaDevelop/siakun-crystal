@@ -18,6 +18,7 @@ export const OPTIONS = {
   cacheTime: 3600 * 1000,
   retry: 2,
   refetchOnWindowFocus: false,
+  onError: handleError,
 }
 
 export const OPTIONS_NO_CACHE = {

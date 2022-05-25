@@ -3,6 +3,7 @@ import { TrialBalanceReducer } from './TrialBalanceReducer'
 import { Dispatch, State, TrialBalanceProviderProps } from './types'
 
 const INITIAL_STATE: State = {
+  isLocked: false,
   financialPosition: [],
   activities: [],
 }

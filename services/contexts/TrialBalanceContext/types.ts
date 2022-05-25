@@ -17,27 +17,29 @@ export type Action =
     }
   | { type: 'ac_delete_row'; id: number }
   | { type: 'ac_edit_row'; id: number; row: TrialBalanceRow }
+  | { type: 'set_is_locked'; isLocked: boolean }
 
 export type Dispatch = (action: Action) => void
 
 export type State = {
+  isLocked: boolean
   financialPosition: TrialBalanceRow[]
   activities: TrialBalanceRow[]
 }
 
 export type TrialBalanceTable = 'fp' | 'ac'
-export type RowType = 'blank' | 'data' | 'header'
+export type RowType = 'Blank' | 'Data' | 'Header'
 export type RowRelativePosition = 'below' | 'above'
 export type RowTypeSelectionMode = 'add' | 'edit'
 
 export interface TrialBalanceRow {
   id: number
-  rowType: RowType
+  type: RowType
   content: string | BalanceRow
 }
 
 export type BalanceRow = {
-  accountNo: string
+  accountNumber: string
   accountName: string
   startBalance?: number
   endBalance?: number
@@ -52,21 +54,39 @@ export type BalanceRow = {
   }
 }
 
-export type TrialBalancePayload = {
-  tableNumber: number
-  entries: TrialBalanceRowPayload[]
+export type TrialBalanceResponse = {
+  data: TrialBalancePayload[]
+  isLocked: boolean
 }
 
-export type TrialBalanceRowPayload = {
+export type TrialBalancePayload = {
+  tableNumber: number
+  rows: TrialBalanceRowPayload[]
+}
+
+export interface TrialBalanceRowPayload {
   id: number
+  type: RowType
+}
+
+export interface BlankRowPayload extends TrialBalanceRowPayload {
+  accountNumber: string
+  accountName?: string
   beginningBalance: number
   movementDebit: number
   movementCredit: number
   endingBalance: number
-  adjustmentDebit: number
-  AdjustmentCredit: number
+  adjustingDebit: number
+  adjustingCredit: number
   adjustedTrialBalance: number
+}
+
+export interface DataRowPayload extends TrialBalanceRowPayload {
   accountNumber: string
+}
+
+export interface HeaderRowPayload extends TrialBalanceRowPayload {
+  header: string
 }
 
 export interface CreateTrialBalancePayload extends TrialBalancePayload {
