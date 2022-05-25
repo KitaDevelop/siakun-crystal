@@ -12,7 +12,7 @@ export const TableReadOnly = ({ data }: Props) => {
     <TableBody>
       {data.map((row, i) => (
         <tr key={i} className="text-right">
-          {row.rowType === 'header' ? (
+          {row.type === 'Header' ? (
             <td colSpan={9} className="text-left font-bold">
               {row.content}
             </td>

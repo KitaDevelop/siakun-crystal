@@ -139,7 +139,7 @@ export const TableEditable = ({ data, targetTable, setPosition, setTargetRow, se
           </div>
           {i % 2 === 0 && <div></div>}
           <tr tabIndex={0} className="text-center">
-            {row.rowType === 'header' ? (
+            {row.type === 'Header' ? (
               <td colSpan={9}>
                 <input
                   className="input input-sm input-bordered w-full"
