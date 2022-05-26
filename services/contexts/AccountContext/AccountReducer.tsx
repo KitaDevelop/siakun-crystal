@@ -7,7 +7,10 @@ export const AccountReducer = (state: State, action: Action) => {
     case 'set_account':
       return { ...state, ...action.account }
     case 'set_parent_number':
-      return { ...state, parentNumber: action.parentNumber }
+      console.log("🚀 ~ file: AccountReducer.tsx ~ line 12 ~ AccountReducer ~ action.parentNumber", action.parentNumber)
+      // state.accounts.find(x => x.number == action.parentNumber)
+      console.log("🚀 ~ file: AccountReducer.tsx ~ line 12 ~ AccountReducer ~ state.accounts.find(x => x.number == action.parentNumber)", state.accounts.find(x => x.number == action.parentNumber))
+      return { ...state, parentNumber: action.parentNumber, parent: action.parent }
     case 'set_account_name':
       return { ...state, name: action.accName }
     case 'set_account_no':

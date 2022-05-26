@@ -14,7 +14,7 @@ export interface Account {
 export type Action =
   | { type: 'set_accounts'; payload: Account[] }
   | { type: 'set_account'; account: Account }
-  | { type: 'set_parent_number'; parentNumber: string }
+  | { type: 'set_parent_number'; parentNumber: string; parent: Account }
   | { type: 'set_account_no'; accNo: string }
   | { type: 'set_account_name'; accName: string }
   | { type: 'set_desc'; desc: string }

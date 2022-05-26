@@ -1,6 +1,7 @@
 import { useAccount } from '@hooks/useAccount'
 import { isSelectAccountOption } from '@utils/isSelectOptionValid'
 import React from 'react'
+import { AiOutlineCloseCircle } from 'react-icons/ai'
 import Select from 'react-select'
 import { customStyles } from './index'
 
@@ -16,6 +17,7 @@ export const ParentAccountSelect = () => {
     label: `${account.number} | ${account.name}`,
   }))
   const chosenAccount = accountOptions.find((x) => x.value.number == parent?.number)
+  console.log("🚀 ~ file: ParentAccountSelect.tsx ~ line 44 ~ ParentAccountSelect ~ parent?.number", parent?.number)
 
   return (
     <div className="form-control">
@@ -26,16 +28,18 @@ export const ParentAccountSelect = () => {
       </label>
       <Select
         options={accountOptions}
-        value={chosenAccount}
+        // value={chosenAccount}
         onChange={(v) => {
           if (isSelectAccountOption(v)) {
-            dispatch({ type: 'set_parent_number', parentNumber: v.value.number })
+            dispatch({ type: 'set_parent_number', parentNumber: v.value.number, parent: v.value })
           }
         }}
         placeholder="Select Parent Account"
         styles={customStyles}
         closeMenuOnSelect
         isSearchable
+        isClearable
+        className="flex-1"
       />
     </div>
   )

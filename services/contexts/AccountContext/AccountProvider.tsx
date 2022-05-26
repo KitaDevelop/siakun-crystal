@@ -1,4 +1,7 @@
 import { useFetchAccounts } from '@api/accounts'
+import { ROLE } from '@context/AuthContext/types'
+import useAuth from '@hooks/useAuth'
+import { useOrganization } from '@hooks/useOrganization'
 import { useYear } from '@hooks/useYear'
 import React, { useEffect, useState } from 'react'
 import { AccountReducer } from './AccountReducer'
@@ -17,12 +20,15 @@ const AccountProvider = ({ children }: AccountProviderProps) => {
   const { accounts, isLocked, ...account } = state
 
   const { year } = useYear()
-  const { isLoading, isRefetching, data, refetch } = useFetchAccounts(year)
+  const { organizationView } = useOrganization()
+  const { userProfile } = useAuth()
+  const { isLoading, isRefetching, data, refetch } = useFetchAccounts(year, userProfile?.role != ROLE.LEMBAGA ? organizationView?.id : undefined)
 
   useEffect(() => {
     if (!isLoading && data) {
       setIsUpdating(true)
       const { data: payload, isLocked } = data.data
+      console.log("🚀 ~ file: AccountProvider.tsx ~ line 31 ~ useEffect ~ payload", payload)
       dispatch({ type: 'set_accounts', payload: payload || [] })
       dispatch({ type: 'set_is_locked', isLocked: isLocked })
       setIsUpdating(false)

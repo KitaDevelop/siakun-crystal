@@ -11,7 +11,7 @@ export const DescriptionInput = () => {
     <div className="form-control">
       <label className="label font-bold">
         <span className="label-text">
-          Description <span className="text-error">*</span>
+          Description
         </span>
       </label>
       <textarea
