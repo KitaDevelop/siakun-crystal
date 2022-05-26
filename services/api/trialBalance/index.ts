@@ -3,8 +3,12 @@ import { UpdateTrialBalancePayload } from '@context/TrialBalanceContext/types'
 import { useMutation, useQuery } from 'react-query'
 import { getTrialBalance, updateTrialBalance } from './endpoints'
 
-export const useFetchTrialBalance = (year?: number) => {
-  return useQuery(`trial-balance-${year}`, () => getTrialBalance(year), OPTIONS)
+export const useFetchTrialBalance = (year?: number, oID?: number) => {
+  return useQuery(
+    `trial-balance-${year}`,
+    () => getTrialBalance(year, oID),
+    OPTIONS
+  )
 }
 
 export const useUpdateTrialBalance = () => {

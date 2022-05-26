@@ -3,14 +3,18 @@ import axios from 'axios'
 import config from 'config'
 import { JournalEntryPayload, JournalEntryResponse } from '.'
 
-export const getJournalEntries = (year?: number) =>
+export const getJournalEntries = (year?: number, oID?: number) =>
   axios.get<JournalEntryResponse>(
-    `${config.API_URL_CARBON}/journal-entries${!!year ? '?year=' + year : ''}`
+    `${config.API_URL_CARBON}/journal-entries${!!year ? '?year=' + year : ''}${
+      !!oID ? '&organizationID=' + oID : ''
+    }`
   )
 
-export const getJournalEntriesByAccount = (accountId: number) =>
+export const getJournalEntriesByAccount = (accountId: number, oID?: number) =>
   axios.get<JournalEntryResponse>(
-    `${config.API_URL_CARBON}/journal-entries/by-account/${accountId}`
+    `${config.API_URL_CARBON}/journal-entries/by-account/${accountId}${
+      !!oID ? '&organizationID=' + oID : ''
+    }`
   )
 
 export const getJournalEntry = (id: number, year?: number) =>

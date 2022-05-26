@@ -38,8 +38,12 @@ export interface SingleAdjustingEntryResponse {
   data: AdjustingEntry
 }
 
-export const useFetchAdjustingEntries = (year?: number) => {
-  return useQuery('adjusting-entries', () => getAdjustingEntries(year), OPTIONS)
+export const useFetchAdjustingEntries = (year?: number, oID?: number) => {
+  return useQuery(
+    'adjusting-entries',
+    () => getAdjustingEntries(year, oID),
+    OPTIONS
+  )
 }
 
 export const useFetchAdjustingEntry = (id: number, year?: number) => {

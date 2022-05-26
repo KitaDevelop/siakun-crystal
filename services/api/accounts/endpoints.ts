@@ -3,9 +3,11 @@ import axios from 'axios'
 import config from 'config'
 import { AccountResponse, SingleAccountResponse } from '.'
 
-export const getAccounts = (year?: number) =>
+export const getAccounts = (year?: number, oID?: number) =>
   axios.get<AccountResponse>(
-    `${config.API_URL_CARBON}/accounts${!!year ? '?year=' + year : ''}`
+    `${config.API_URL_CARBON}/accounts${!!year ? '?year=' + year : ''}${
+      !!oID ? '&organizationID=' + oID : ''
+    }`
   )
 
 export const getAccount = (accountId: string, year?: number) =>
