@@ -96,6 +96,7 @@ const SidebarCollapsed: React.FC = () => {
         </div>
         {userProfile?.role == ROLE.AUDITOR && (
           <div className="dropdown dropdown-right mb-3">
+            <div className="divider m-0 mb-2"></div>
             <div tabIndex={-1} className="avatar mx-2 cursor-pointer">
               <div className="w-9 h-9 rounded-full">
                 <Image alt="organisasi" src={organizationView?.profilePicture || "/avatar-placeholder.png"} width={36} height={36} />
