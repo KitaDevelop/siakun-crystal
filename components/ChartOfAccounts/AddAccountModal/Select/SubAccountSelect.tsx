@@ -44,7 +44,6 @@ export const SubAccountSelect = ({ idx }: Props) => {
   const onSubAccountSelect = (val: SingleValue<AccountSelectOptions>) => {
     if (isSelectAccountOption(val)) {
       setChosen(val)
-      console.log(val)
       const accounts_ = [...(subAccounts || [])]
       accounts_.splice(idx, 1, val?.value?.number)
       dispatch({ type: 'set_sub_accounts', subAccounts: accounts_ })

@@ -4,7 +4,7 @@ import { useMutation, useQuery } from 'react-query'
 import { getTrialBalance, updateTrialBalance } from './endpoints'
 
 export const useFetchTrialBalance = (year?: number) => {
-  return useQuery('journal-entries', () => getTrialBalance(year), OPTIONS)
+  return useQuery(`trial-balance-${year}`, () => getTrialBalance(year), OPTIONS)
 }
 
 export const useUpdateTrialBalance = () => {

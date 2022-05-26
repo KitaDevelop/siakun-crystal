@@ -105,9 +105,6 @@ export const Index = () => {
   }
 
   const exportAsXlsx = () => {
-    console.log(financialPosition)
-    console.log(activities)
-
     var workbook = utils.book_new()
     var financialPositionSheet = utils.json_to_sheet(flattenJson(financialPosition))
     var activitiesSheet = utils.json_to_sheet(flattenJson(activities))

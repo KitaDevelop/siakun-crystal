@@ -8,10 +8,6 @@ import {
 } from '@context/TrialBalanceContext/types'
 
 export const toTrialBalanceTable = (payload: TrialBalancePayload[]) => {
-  console.log(
-    '🚀 ~ file: toTrialBalanceRow.ts ~ line 10 ~ toTrialBalanceTable ~ payload',
-    payload
-  )
   const payloadSorted = payload.sort((a, b) => a.tableNumber - b.tableNumber)
   return {
     financialPosition_: toTrialBalanceRow(payloadSorted[0]),
