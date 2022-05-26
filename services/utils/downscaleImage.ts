@@ -18,15 +18,11 @@ export async function downscaleImage(
   const image = await getImage(dataUrl)
   const oldWidth = image.naturalWidth
   const oldHeight = image.naturalHeight
-  console.log('dims', oldWidth, oldHeight)
 
   const longestDimension = oldWidth > oldHeight ? 'width' : 'height'
   const currentRes = longestDimension == 'width' ? oldWidth : oldHeight
-  console.log('longest dim', longestDimension, currentRes)
 
   if (currentRes > resolution) {
-    console.log('need to resize...')
-
     // Calculate new dimensions
     const newSize =
       longestDimension == 'width'
@@ -34,7 +30,6 @@ export async function downscaleImage(
         : Math.floor((oldWidth / oldHeight) * resolution)
     const newWidth = longestDimension == 'width' ? resolution : newSize
     const newHeight = longestDimension == 'height' ? resolution : newSize
-    console.log('new width / height', newWidth, newHeight)
 
     // Create a temporary canvas to draw the downscaled image on.
     const canvas = document.createElement('canvas')

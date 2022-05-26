@@ -28,8 +28,8 @@ interface Props {
 
 const TableRow = ({ items }: Props) => {
   const rows = items.map((item) => {
-    const { content } = item
-    if (typeof content === 'string')
+    const { type, content } = item
+    if (type === 'Header')
       return (
         <View style={styles.row} key={item.id}>
           <Text style={styles.header}>{item.content}</Text>

@@ -2,7 +2,7 @@ import { Action, BalanceRow, State, TrialBalanceRow } from './types'
 
 export const TrialBalanceReducer = (state: State, action: Action) => {
   const EmptyRow: BalanceRow = {
-    accountNo: '',
+    accountNumber: '',
     accountName: '',
     movement: {},
     adjustment: {},
@@ -20,8 +20,8 @@ export const TrialBalanceReducer = (state: State, action: Action) => {
       var tempFP = [...financialPosition]
       var newRow: TrialBalanceRow = {
         id: Date.now(),
-        rowType: action.rowType,
-        content: action.rowType === 'header' ? '' : EmptyRow,
+        type: action.rowType,
+        content: action.rowType === 'Header' ? '' : EmptyRow,
       }
       if (action.position) {
         var currentPosition: number =
@@ -54,8 +54,8 @@ export const TrialBalanceReducer = (state: State, action: Action) => {
     case 'ac_add_row':
       var newRow: TrialBalanceRow = {
         id: Date.now(),
-        rowType: action.rowType,
-        content: action.rowType === 'header' ? '' : EmptyRow,
+        type: action.rowType,
+        content: action.rowType === 'Header' ? '' : EmptyRow,
       }
       if (action.position) {
         var tempAC = [...activities]
@@ -84,5 +84,8 @@ export const TrialBalanceReducer = (state: State, action: Action) => {
         ...state,
         activities: tempAC,
       }
+
+    case 'set_is_locked':
+      return { ...state, isLocked: action.isLocked }
   }
 }

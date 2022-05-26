@@ -28,7 +28,6 @@ const Index = (props: Props) => {
       { username, password },
       {
         onSuccess: (data) => {
-          console.log(data)
           toast.success('Logged in')
         },
         onError: (error) => {

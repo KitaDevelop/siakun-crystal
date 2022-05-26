@@ -7,7 +7,7 @@ import {
   TrialBalanceTable,
 } from '@context/TrialBalanceContext/types'
 import { useTrialBalance } from '@hooks/useTrialBalance'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { IoAdd } from 'react-icons/io5'
 import { useYear } from '@hooks/useYear'
 
@@ -17,16 +17,24 @@ import { TableEditable } from './TableEditable'
 import { TableReadOnly } from './TableReadOnly'
 
 import * as XLSX from 'xlsx'
+import { useFetchTrialBalance } from '@api/trialBalance'
+import { toTrialBalanceTable } from '@utils/toTrialBalanceRow'
+import toast from 'react-hot-toast'
+import { Loader } from '@components/Loader'
+import { LockedAlert } from '@components/LockedAlert'
 const { writeFile, utils } = XLSX
 
-interface Props {}
-
-export const Index = (props: Props) => {
+export const Index = () => {
   const [isEditing, setIsEditing] = useState<boolean>(false)
   const { year } = useYear()
+  const { isLoading, isFetching, isSuccess, isError, data, refetch } = useFetchTrialBalance(year)
+
+  useEffect(() => {
+    refetch()
+  }, [year])
 
   const {
-    state: { financialPosition, activities },
+    state: { isLocked, financialPosition, activities }, dispatch
   } = useTrialBalance()
 
   const onAddRowFP = () => {
@@ -40,6 +48,30 @@ export const Index = (props: Props) => {
     setTargetTable('ac')
     setPosition(undefined)
   }
+
+  useEffect(() => {
+    if (!(isLoading || isFetching)) {
+      if (isError) {
+        dispatch({ type: "set_financial_position", financialPosition: [] })
+        dispatch({ type: "set_activities", activities: [] })
+      }
+      else if (isSuccess && data) {
+        try {
+          const { isLocked, data: trialBalance_ } = data.data
+          dispatch({ type: 'set_is_locked', isLocked: isLocked })
+          const { financialPosition_, activities_ } = toTrialBalanceTable(trialBalance_)
+
+          dispatch({ type: "set_financial_position", financialPosition: financialPosition_ })
+          dispatch({ type: "set_activities", activities: activities_ })
+        } catch (e) {
+          dispatch({ type: "set_financial_position", financialPosition: [] })
+          dispatch({ type: "set_activities", activities: [] })
+          toast.error((e as Error).message)
+        }
+      }
+    }
+  }, [data, year])
+
 
   // TYPE SELECTION
   const [mode, setMode] = useState<RowTypeSelectionMode>('add')
@@ -57,7 +89,7 @@ export const Index = (props: Props) => {
       } else {
         const balanceRow = content as BalanceRow
         flatJson.push({
-          'Nomor Akun': balanceRow.accountNo,
+          'Nomor Akun': balanceRow.accountNumber,
           'Nama Akun': balanceRow.accountName,
           'Beginning Balance': balanceRow?.startBalance,
           'Debit Movements': balanceRow?.movement?.debit,
@@ -73,9 +105,6 @@ export const Index = (props: Props) => {
   }
 
   const exportAsXlsx = () => {
-    console.log(financialPosition)
-    console.log(activities)
-
     var workbook = utils.book_new()
     var financialPositionSheet = utils.json_to_sheet(flattenJson(financialPosition))
     var activitiesSheet = utils.json_to_sheet(flattenJson(activities))
@@ -86,16 +115,21 @@ export const Index = (props: Props) => {
 
   return (
     <div>
-      <Controls {...{ isEditing, setIsEditing, exportAsXlsx }} position="top" />
+      {isLocked && <div className="mb-4"><LockedAlert /></div>}
+      <Controls {...{ isEditing, setIsEditing, exportAsXlsx, reloadBalance: refetch }} position="top" />
       <div className="font-bold text-xl mb-2">I. Statement of Financial Position</div>
-      <Table zebra>
+      {isLoading || isFetching ? (
+        <div className="w-full grid place-content-center">
+          <Loader />
+        </div>
+      ) : (<Table zebra>
         <TableHeader trialBalance />
         {isEditing ? (
           <TableEditable {...{ setTargetRow, setMode, setPosition, data: financialPosition, targetTable: 'fp' }} />
         ) : (
           <TableReadOnly data={financialPosition} />
         )}
-      </Table>
+      </Table>)}
       {isEditing && (
         <DropdownRowType className="dropdown-top" {...{ targetRow, targetTable, mode, position }}>
           <div className="btn btn-ghost text-primary" onClick={() => onAddRowFP()}>
@@ -106,14 +140,18 @@ export const Index = (props: Props) => {
       )}
       <div className="divider" />
       <div className="font-bold text-xl mb-2">II. Statement of Activities</div>
-      <Table zebra>
+      {isLoading || isFetching ? (
+        <div className="w-full grid place-content-center">
+          <Loader />
+        </div>
+      ) : (<Table zebra>
         <TableHeader trialBalance />
         {isEditing ? (
           <TableEditable {...{ setTargetRow, setMode, setPosition, data: activities, targetTable: 'ac' }} />
         ) : (
           <TableReadOnly data={activities} />
         )}
-      </Table>
+      </Table>)}
       {isEditing && (
         <DropdownRowType className="dropdown-top" {...{ targetRow, targetTable, mode, position }}>
           <div className="btn btn-ghost text-primary mt-2" onClick={() => onAddRowAC()}>
@@ -122,7 +160,7 @@ export const Index = (props: Props) => {
           </div>
         </DropdownRowType>
       )}
-      <Controls {...{ isEditing, setIsEditing, year, exportAsXlsx }} position="bottom" />
+      <Controls {...{ isEditing, setIsEditing, year, exportAsXlsx, reloadBalance: refetch }} position="bottom" />
     </div>
   )
 }
