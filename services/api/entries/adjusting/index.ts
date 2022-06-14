@@ -40,7 +40,7 @@ export interface SingleAdjustingEntryResponse {
 
 export const useFetchAdjustingEntries = (year?: number, oID?: number) => {
   return useQuery(
-    'adjusting-entries',
+    `adjusting-entries-${year}-${oID}`,
     () => getAdjustingEntries(year, oID),
     OPTIONS
   )

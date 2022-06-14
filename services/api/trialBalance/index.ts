@@ -5,7 +5,7 @@ import { getTrialBalance, updateTrialBalance } from './endpoints'
 
 export const useFetchTrialBalance = (year?: number, oID?: number) => {
   return useQuery(
-    `trial-balance-${year}`,
+    `trial-balance-${year}-${oID}`,
     () => getTrialBalance(year, oID),
     OPTIONS
   )

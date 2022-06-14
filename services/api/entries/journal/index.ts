@@ -39,7 +39,7 @@ export interface JournalEntryResponse {
 
 export const useFetchJournalEntries = (year?: number, oID?: number) => {
   return useQuery(
-    'journal-entries',
+    `journal-entries-${year}-${oID}`,
     () => getJournalEntries(year, oID),
     OPTIONS_NO_CACHE
   )
@@ -50,7 +50,7 @@ export const useFetchJournalEntriesByAccount = (
   oID?: number
 ) => {
   return useQuery(
-    `journal-entries-by-account:${accountId}`,
+    `journal-entries-by-account:${accountId}-${oID}`,
     () => getJournalEntriesByAccount(accountId, oID),
     OPTIONS_NO_CACHE
   )

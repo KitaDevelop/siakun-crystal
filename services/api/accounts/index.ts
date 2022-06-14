@@ -30,12 +30,15 @@ export interface DeleteAccountPayload {
 }
 
 export const useFetchAccounts = (year?: number, oID?: number) => {
-  console.log('🚀 ~ file: index.ts ~ line 33 ~ useFetchAccounts ~ oID', oID)
-  return useQuery('accounts', () => getAccounts(year, oID), OPTIONS)
+  return useQuery(
+    `accounts-${year}-${oID}`,
+    () => getAccounts(year, oID),
+    OPTIONS
+  )
 }
 
 export const useFetchAccount = (number: string, year?: number) => {
-  return useQuery('accounts', () => getAccount(number, year), OPTIONS)
+  return useQuery(`accounts-${year}`, () => getAccount(number, year), OPTIONS)
 }
 
 export const useCreateAccount = () => {

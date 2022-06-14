@@ -13,7 +13,7 @@ export const getJournalEntries = (year?: number, oID?: number) =>
 export const getJournalEntriesByAccount = (accountId: number, oID?: number) =>
   axios.get<JournalEntryResponse>(
     `${config.API_URL_CARBON}/journal-entries/by-account/${accountId}${
-      !!oID ? '&organizationID=' + oID : ''
+      !!oID ? '?organizationID=' + oID : ''
     }`
   )
 
