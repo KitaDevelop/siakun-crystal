@@ -120,7 +120,7 @@ export const Index = () => {
     <div>
       {userProfile?.role == ROLE.LEMBAGA ?
         isLocked && <div className="mb-4"><LockedAlert /></div>
-        : <div className="mb-4"><LockedToggleAlert {...{ isLocked, toggleLocked: () => dispatch({ type: 'set_is_locked', isLocked: !isLocked }) }} /></div>
+        : <div className="mb-4"> <LockedToggleAlert /></div>
       }
       <Controls {...{ isEditing, setIsEditing, exportAsXlsx, reloadBalance: refetch }} position="top" />
       <div className="font-bold text-xl mb-2">I. Statement of Financial Position</div>

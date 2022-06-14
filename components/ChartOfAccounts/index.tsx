@@ -50,7 +50,7 @@ export const Index = () => {
     <div className="flex flex-col gap-4">
       {userProfile?.role == ROLE.LEMBAGA ?
         isLocked && <LockedAlert />
-        : <LockedToggleAlert {...{ isLocked, toggleLocked: () => dispatch({ type: 'set_is_locked', isLocked: !isLocked }) }} />
+        : <LockedToggleAlert />
       }
       <FilterControls isCanExport={false} {...{ searchKeyword, setSearchKeyword }} />
       {isRefetching ? (
