@@ -7,12 +7,15 @@ import { useAccount } from '@hooks/useAccount'
 import FilterControls from '@components/FilterControls'
 import { LockedAlert } from '@components/LockedAlert'
 import { Loader } from '@components/Loader'
+import useAuth from '@hooks/useAuth'
+import { ROLE } from '@context/AuthContext/types'
 
 export const Index = () => {
   const [isOpen, setOpen] = useState(false)
   const [isBlank, setBlank] = useState(true)
   const [searchKeyword, setSearchKeyword] = useState('')
 
+  const { userProfile } = useAuth()
   const { accounts: accounts_, isLocked, isRefetching } = useAccount()
   const [accounts, setAccounts] = useState(accounts_)
 
@@ -65,7 +68,7 @@ export const Index = () => {
           </div>
         )}
       </>}
-      {!isLocked && <>
+      {userProfile?.role === ROLE.LEMBAGA && !isLocked && <>
         <button onClick={openModalToCreate} className="btn btn-circle fixed bottom-6 right-6 btn-primary">
           <IoAdd className="w-5 h-5" />
         </button>

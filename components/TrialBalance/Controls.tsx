@@ -11,6 +11,8 @@ import { useUpdateTrialBalance } from '@api/trialBalance'
 import { ConfirmationDialog } from '@components/ConfirmationDialog'
 import toast from 'react-hot-toast'
 import { toTrialBalancePayload } from '@utils/toTrialBalanceRow'
+import { ROLE } from '@context/AuthContext/types'
+import useAuth from '@hooks/useAuth'
 
 interface Props {
   isEditing: Boolean
@@ -22,6 +24,7 @@ interface Props {
 
 export const Controls = ({ isEditing, setIsEditing, exportAsXlsx, reloadBalance, position = 'top' }: Props) => {
   const [confirmSave, setConfirmSave] = useState(false)
+  const { userProfile } = useAuth()
   const { year } = useYear()
   const {
     state: { isLocked, financialPosition, activities },
@@ -80,7 +83,7 @@ export const Controls = ({ isEditing, setIsEditing, exportAsXlsx, reloadBalance,
             </ul>
           </div>
 
-          {!isLocked && (<div className="btn btn-primary btn-outline mx-2" onClick={() => setIsEditing(true)}>
+          {userProfile?.role === ROLE.LEMBAGA && !isLocked && (<div className="btn btn-primary btn-outline mx-2" onClick={() => setIsEditing(true)}>
             <BiEdit className="w-5 h-5 mr-2" /> Edit
           </div>)}
         </div>

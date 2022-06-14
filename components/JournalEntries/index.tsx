@@ -15,12 +15,17 @@ import { sum } from '@utils/sum'
 import EntryRow from './EntryRow'
 import { LockedAlert } from '@components/LockedAlert'
 import { Loader } from '@components/Loader'
+import useAuth from '@hooks/useAuth'
+import { ROLE } from '@context/AuthContext/types'
+import { useOrganization } from '@hooks/useOrganization'
 const { writeFile, utils } = XLSX
 
 
 export const Index = () => {
   const { year } = useYear()
-  const { isLoading, isFetching, data, refetch } = useFetchJournalEntries(year)
+  const { organizationView } = useOrganization()
+  const { userProfile } = useAuth()
+  const { isLoading, isFetching, data, refetch } = useFetchJournalEntries(year, userProfile?.role != ROLE.LEMBAGA ? organizationView?.id : undefined)
   const { state: { isLocked }, dispatch } = useJournalEntry()
 
   const [isOpen, setOpen] = useState<boolean>(false)
@@ -139,7 +144,7 @@ export const Index = () => {
         </>
       )}
 
-      {!isLocked && (
+      {userProfile?.role === ROLE.LEMBAGA && !isLocked && (
         <>
           <button onClick={() => openModalToCreate()} className="btn btn-circle fixed bottom-6 right-6 btn-primary">
             <IoAdd className="w-5 h-5" />
