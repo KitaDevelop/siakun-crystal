@@ -5,7 +5,7 @@ import { IoAdd } from 'react-icons/io5'
 import { AddAccountModal } from './AddAccountModal'
 import { useAccount } from '@hooks/useAccount'
 import FilterControls from '@components/FilterControls'
-import { LockedAlert } from '@components/LockedAlert'
+import { LockedAlert, LockedToggleAlert } from '@components/LockedAlert'
 import { Loader } from '@components/Loader'
 import useAuth from '@hooks/useAuth'
 import { ROLE } from '@context/AuthContext/types'
@@ -16,7 +16,7 @@ export const Index = () => {
   const [searchKeyword, setSearchKeyword] = useState('')
 
   const { userProfile } = useAuth()
-  const { accounts: accounts_, isLocked, isRefetching } = useAccount()
+  const { accounts: accounts_, isLocked, isRefetching, dispatch } = useAccount()
   const [accounts, setAccounts] = useState(accounts_)
 
   useEffect(() => {
@@ -48,7 +48,10 @@ export const Index = () => {
   const cells = ['', 'acc no.', 'account name', 'description', 'jenis', 'tipe', 'saldo normal']
   return (
     <div className="flex flex-col gap-4">
-      {isLocked && <LockedAlert />}
+      {userProfile?.role == ROLE.LEMBAGA ?
+        isLocked && <LockedAlert />
+        : <LockedToggleAlert {...{ isLocked, toggleLocked: () => dispatch({ type: 'set_is_locked', isLocked: !isLocked }) }} />
+      }
       <FilterControls isCanExport={false} {...{ searchKeyword, setSearchKeyword }} />
       {isRefetching ? (
         <div className="w-full grid place-items-center"><Loader /></div>

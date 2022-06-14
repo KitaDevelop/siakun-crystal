@@ -12,7 +12,7 @@ import { useYear } from '@hooks/useYear'
 import { useFetchAdjustingEntries } from '@api/entries/adjusting'
 import { useAdjustingEntry } from '@hooks/useAdjustingEntry'
 import EntryRow from './EntryRow'
-import { LockedAlert } from '@components/LockedAlert'
+import { LockedAlert, LockedToggleAlert } from '@components/LockedAlert'
 import { Loader } from '@components/Loader'
 import { useOrganization } from '@hooks/useOrganization'
 import useAuth from '@hooks/useAuth'
@@ -103,7 +103,10 @@ export const Index = () => {
 
   return (
     <div className="flex flex-col gap-4">
-      {isLocked && <LockedAlert />}
+      {userProfile?.role == ROLE.LEMBAGA ?
+        isLocked && <LockedAlert />
+        : <LockedToggleAlert {...{ isLocked, toggleLocked: () => dispatch({ type: 'set_is_locked', isLocked: !isLocked }) }} />
+      }
       <FilterControls {...{ exportDocument, searchKeyword, setSearchKeyword }} />
       {isLoading && !isSuccess ? (
         <div className="w-full grid place-content-center h-80 text-accent">
