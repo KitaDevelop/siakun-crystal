@@ -76,8 +76,8 @@ export interface BlankRowPayload extends TrialBalanceRowPayload {
   movementDebit: number
   movementCredit: number
   endingBalance: number
-  adjustingDebit: number
-  adjustingCredit: number
+  adjustmentDebit: number
+  adjustmentCredit: number
   adjustedTrialBalance: number
 }
 
