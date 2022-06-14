@@ -46,7 +46,7 @@ const SidebarExpanded: React.FC = () => {
             <div className="text-sm font-bold text-gray-400 mb-1">You are viewing:</div>
             <div className="flex gap-2">
               <div className="avatar">
-                <div className="w-9 h-9 rounded-full">
+                <div className="w-9 h-9 rounded-full border border-gray-400">
                   <Image alt="organisasi" src={organizationView?.profilePicture || "/avatar-placeholder.png"} width={36} height={36} />
                 </div>
               </div>
@@ -98,7 +98,7 @@ const SidebarCollapsed: React.FC = () => {
           <div className="dropdown dropdown-right mb-3">
             <div className="divider m-0 mb-2"></div>
             <div tabIndex={-1} className="avatar mx-2 cursor-pointer">
-              <div className="w-9 h-9 rounded-full">
+              <div className="w-9 h-9 rounded-full border border-gray-400">
                 <Image alt="organisasi" src={organizationView?.profilePicture || "/avatar-placeholder.png"} width={36} height={36} />
               </div>
             </div>
