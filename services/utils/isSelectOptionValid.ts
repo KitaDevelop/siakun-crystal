@@ -10,7 +10,10 @@ export const isSelectJenisOption = (v: any): v is SelectJenisOption => {
 }
 
 export const isSelectAccountOption = (v: any): v is SelectAccountOption => {
-  if ((v as SelectAccountOption).value !== undefined) return v.value
+  if (v === null) return false
+  if ((v as SelectAccountOption).value !== undefined) {
+    return v.value
+  }
   return false
 }
 
