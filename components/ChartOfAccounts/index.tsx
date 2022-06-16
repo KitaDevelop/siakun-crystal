@@ -5,15 +5,18 @@ import { IoAdd } from 'react-icons/io5'
 import { AddAccountModal } from './AddAccountModal'
 import { useAccount } from '@hooks/useAccount'
 import FilterControls from '@components/FilterControls'
-import { LockedAlert } from '@components/LockedAlert'
+import { LockedAlert, LockedToggleAlert } from '@components/LockedAlert'
 import { Loader } from '@components/Loader'
+import useAuth from '@hooks/useAuth'
+import { ROLE } from '@context/AuthContext/types'
 
 export const Index = () => {
   const [isOpen, setOpen] = useState(false)
   const [isBlank, setBlank] = useState(true)
   const [searchKeyword, setSearchKeyword] = useState('')
 
-  const { accounts: accounts_, isLocked, isRefetching } = useAccount()
+  const { userProfile } = useAuth()
+  const { accounts: accounts_, isLocked, isRefetching, dispatch } = useAccount()
   const [accounts, setAccounts] = useState(accounts_)
 
   useEffect(() => {
@@ -45,7 +48,10 @@ export const Index = () => {
   const cells = ['', 'acc no.', 'account name', 'description', 'jenis', 'tipe', 'saldo normal']
   return (
     <div className="flex flex-col gap-4">
-      {isLocked && <LockedAlert />}
+      {userProfile?.role == ROLE.LEMBAGA ?
+        isLocked && <LockedAlert />
+        : <LockedToggleAlert />
+      }
       <FilterControls isCanExport={false} {...{ searchKeyword, setSearchKeyword }} />
       {isRefetching ? (
         <div className="w-full grid place-items-center"><Loader /></div>
@@ -65,7 +71,7 @@ export const Index = () => {
           </div>
         )}
       </>}
-      {!isLocked && <>
+      {userProfile?.role === ROLE.LEMBAGA && !isLocked && <>
         <button onClick={openModalToCreate} className="btn btn-circle fixed bottom-6 right-6 btn-primary">
           <IoAdd className="w-5 h-5" />
         </button>

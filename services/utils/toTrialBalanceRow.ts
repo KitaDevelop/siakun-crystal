@@ -43,8 +43,8 @@ export const toBalanceRow = (entry: BlankRowPayload): TrialBalanceRow => {
         debit: entry.movementDebit,
       },
       adjustment: {
-        credit: entry.adjustingCredit,
-        debit: entry.adjustingDebit,
+        credit: entry.adjustmentCredit,
+        debit: entry.adjustmentDebit,
       },
     },
   }
@@ -88,7 +88,7 @@ const toRowPayload = (
     adjustedTrialBalance: r.adjustedBalance || 0,
     movementCredit: r.movement.credit || 0,
     movementDebit: r.movement.debit || 0,
-    adjustingCredit: r.adjustment.credit || 0,
-    adjustingDebit: r.adjustment.debit || 0,
+    adjustmentCredit: r.adjustment.credit || 0,
+    adjustmentDebit: r.adjustment.debit || 0,
   } as BlankRowPayload
 }

@@ -16,3 +16,13 @@ export const useFetchOrganizations = (year?: number) => {
     OPTIONS
   )
 }
+
+export const lockReport = (organizationID: number, year: number) =>
+  axios.post(
+    `${config.API_URL_CARBON}/reports/${year}/lock?organizationID=${organizationID}`
+  )
+
+export const unlockReport = (organizationID: number, year: number) =>
+  axios.post(
+    `${config.API_URL_CARBON}/reports/${year}/unlock?organizationID=${organizationID}`
+  )

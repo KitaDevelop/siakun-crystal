@@ -26,7 +26,7 @@ export const AddAccountModal = ({ isOpen, setIsOpen, isBlank }: Props) => {
 
   useEffect(() => {
     if (isBlank) dispatch({ type: 'set_account', account: { ...EmptyAccount, parent: undefined } })
-  }, [isBlank])
+  }, [isOpen, isBlank])
 
   const onSaveAccount = () => {
     if (isBlank)

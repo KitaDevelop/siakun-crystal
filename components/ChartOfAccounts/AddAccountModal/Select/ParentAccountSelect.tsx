@@ -7,7 +7,6 @@ import { customStyles } from './index'
 export const ParentAccountSelect = () => {
   const {
     accounts,
-    account: { parent },
     dispatch,
   } = useAccount()
 
@@ -15,7 +14,6 @@ export const ParentAccountSelect = () => {
     value: account,
     label: `${account.number} | ${account.name}`,
   }))
-  const chosenAccount = accountOptions.find((x) => x.value.number == parent?.number)
 
   return (
     <div className="form-control">
@@ -26,16 +24,17 @@ export const ParentAccountSelect = () => {
       </label>
       <Select
         options={accountOptions}
-        value={chosenAccount}
         onChange={(v) => {
           if (isSelectAccountOption(v)) {
-            dispatch({ type: 'set_parent_number', parentNumber: v.value.number })
+            dispatch({ type: 'set_parent_number', parentNumber: v.value.number, parent: v.value })
           }
         }}
         placeholder="Select Parent Account"
         styles={customStyles}
         closeMenuOnSelect
         isSearchable
+        isClearable
+        className="flex-1"
       />
     </div>
   )

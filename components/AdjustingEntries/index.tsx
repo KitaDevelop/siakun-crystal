@@ -12,15 +12,19 @@ import { useYear } from '@hooks/useYear'
 import { useFetchAdjustingEntries } from '@api/entries/adjusting'
 import { useAdjustingEntry } from '@hooks/useAdjustingEntry'
 import EntryRow from './EntryRow'
-import { LockedAlert } from '@components/LockedAlert'
+import { LockedAlert, LockedToggleAlert } from '@components/LockedAlert'
 import { Loader } from '@components/Loader'
+import { useOrganization } from '@hooks/useOrganization'
+import useAuth from '@hooks/useAuth'
+import { ROLE } from '@context/AuthContext/types'
 const { writeFile, utils } = XLSX
 
-interface Props { }
-
-export const Index = (props: Props) => {
+export const Index = () => {
   const { year } = useYear()
-  const { isLoading, isSuccess, data, refetch } = useFetchAdjustingEntries(year)
+  const { organizationView } = useOrganization()
+  const { userProfile } = useAuth()
+
+  const { isLoading, isSuccess, data, refetch } = useFetchAdjustingEntries(year, userProfile?.role != ROLE.LEMBAGA ? organizationView?.id : undefined)
   const { state: { isLocked }, dispatch } = useAdjustingEntry()
 
   const [isOpen, setOpen] = useState(false)
@@ -99,7 +103,10 @@ export const Index = (props: Props) => {
 
   return (
     <div className="flex flex-col gap-4">
-      {isLocked && <LockedAlert />}
+      {userProfile?.role == ROLE.LEMBAGA ?
+        isLocked && <LockedAlert />
+        : <LockedToggleAlert />
+      }
       <FilterControls {...{ exportDocument, searchKeyword, setSearchKeyword }} />
       {isLoading && !isSuccess ? (
         <div className="w-full grid place-content-center h-80 text-accent">
@@ -138,7 +145,7 @@ export const Index = (props: Props) => {
         </>
       )}
 
-      {!isLocked && (
+      {userProfile?.role === ROLE.LEMBAGA && !isLocked && (
         <>
           <button onClick={openModalToCreate} className="btn btn-circle fixed bottom-6 right-6 btn-primary">
             <IoAdd className="w-5 h-5" />

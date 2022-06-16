@@ -15,6 +15,7 @@ import { FiHome } from 'react-icons/fi'
 import { useFetchOrganizations } from '@api/organizations'
 import { useYear } from '@hooks/useYear'
 import { useOrganization } from '@hooks/useOrganization'
+import { Organization } from '@context/OrganizationContext/types'
 
 interface Props {
   userProfile: UserProfile
@@ -33,8 +34,9 @@ export default function Home({ userProfile }: Props) {
 
   const { year } = useYear()
   const { organizations, setOrganizations } = useOrganization()
-  const { isLoading, data, isFetching, refetch } = useFetchOrganizations(year)
+  const { isLoading, data } = useFetchOrganizations(year)
 
+  const [orgDisplay, setOrgDisplay] = useState<Organization[]>(organizations)
   const [searchKeyword, setSearchKeyword] = useState('')
 
   useEffect(() => {
@@ -43,6 +45,16 @@ export default function Home({ userProfile }: Props) {
       setOrganizations(organization_)
     }
   }, [isLoading, data])
+
+  useEffect(() => {
+    if (data) {
+      const { data: org_ } = data
+      if (searchKeyword != '') setOrgDisplay(
+        org_.filter((e) => e.name.toLowerCase().includes(searchKeyword.toLowerCase()))
+      )
+      else setOrgDisplay(org_)
+    }
+  }, [data, searchKeyword])
 
 
   const meta: NavbarProps = {
@@ -55,7 +67,7 @@ export default function Home({ userProfile }: Props) {
       <div className="mx-auto max-w-screen-xl mb-8">
         <FilterControls isCanExport={false} {...{ searchKeyword, setSearchKeyword }} />
         <div className="grid grid-cols-3 gap-4 mt-6">
-          {organizations.map((org) => (
+          {orgDisplay.map((org) => (
             <OrganisasiCard key={org.id} id={org.id} organization={org} />
           ))}
         </div>

@@ -21,12 +21,15 @@ import { useFetchTrialBalance } from '@api/trialBalance'
 import { toTrialBalanceTable } from '@utils/toTrialBalanceRow'
 import toast from 'react-hot-toast'
 import { Loader } from '@components/Loader'
-import { LockedAlert } from '@components/LockedAlert'
+import { LockedAlert, LockedToggleAlert } from '@components/LockedAlert'
+import useAuth from '@hooks/useAuth'
+import { ROLE } from '@context/AuthContext/types'
 const { writeFile, utils } = XLSX
 
 export const Index = () => {
   const [isEditing, setIsEditing] = useState<boolean>(false)
   const { year } = useYear()
+  const { userProfile } = useAuth()
   const { isLoading, isFetching, isSuccess, isError, data, refetch } = useFetchTrialBalance(year)
 
   useEffect(() => {
@@ -115,7 +118,10 @@ export const Index = () => {
 
   return (
     <div>
-      {isLocked && <div className="mb-4"><LockedAlert /></div>}
+      {userProfile?.role == ROLE.LEMBAGA ?
+        isLocked && <div className="mb-4"><LockedAlert /></div>
+        : <div className="mb-4"> <LockedToggleAlert /></div>
+      }
       <Controls {...{ isEditing, setIsEditing, exportAsXlsx, reloadBalance: refetch }} position="top" />
       <div className="font-bold text-xl mb-2">I. Statement of Financial Position</div>
       {isLoading || isFetching ? (

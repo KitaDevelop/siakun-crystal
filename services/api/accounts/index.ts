@@ -29,12 +29,20 @@ export interface DeleteAccountPayload {
   year?: number
 }
 
-export const useFetchAccounts = (year?: number) => {
-  return useQuery('accounts', () => getAccounts(year), OPTIONS)
+export const useFetchAccounts = (year?: number, oID?: number) => {
+  return useQuery(
+    `accounts-${year}-${oID}`,
+    () => getAccounts(year, oID),
+    OPTIONS
+  )
 }
 
 export const useFetchAccount = (number: string, year?: number) => {
-  return useQuery('accounts', () => getAccount(number, year), OPTIONS)
+  return useQuery(
+    `accounts-${number}-${year}`,
+    () => getAccount(number, year),
+    OPTIONS
+  )
 }
 
 export const useCreateAccount = () => {

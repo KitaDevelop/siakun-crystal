@@ -38,16 +38,15 @@ export const TransactionInput = ({ transaction, isOnlyChild, idx }: Props) => {
     setCredit(credit_ || 0)
   }, [transactions])
 
-
   useEffect(() => {
     const transactions_ = [...transactions]
     transactions_[idx] = {
       ...transactions_[idx],
-      ...(isDebit ? { debit } : { credit }),
+      ...(isDebit ? { debit, credit: 0 } : { credit, debit: 0 }),
       accountNumber: account?.number || '',
     }
     dispatch({ type: 'set_transactions', transactions: transactions_ })
-  }, [debit, credit, account])
+  }, [isDebit, debit, credit, account])
 
   const onTransactionDelete = () => {
     const transactions_ = [...transactions]

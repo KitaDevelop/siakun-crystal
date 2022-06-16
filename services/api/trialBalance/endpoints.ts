@@ -6,9 +6,11 @@ import {
 import axios from 'axios'
 import config from 'config'
 
-export const getTrialBalance = (year?: number) =>
+export const getTrialBalance = (year?: number, oID?: number) =>
   axios.get<TrialBalanceResponse>(
-    `${config.API_URL_CARBON}/trial-balances${!!year ? '?year=' + year : ''}`
+    `${config.API_URL_CARBON}/trial-balances${!!year ? '?year=' + year : ''}${
+      !!oID ? '&organizationID=' + oID : ''
+    }`
   )
 
 export const updateTrialBalance = (

@@ -7,9 +7,11 @@ import {
   SingleAdjustingEntryResponse,
 } from '.'
 
-export const getAdjustingEntries = (year?: number) =>
+export const getAdjustingEntries = (year?: number, oID?: number) =>
   axios.get<AdjustingEntryResponse>(
-    `${config.API_URL_CARBON}/adjusting-entries${!!year ? '?year=' + year : ''}`
+    `${config.API_URL_CARBON}/adjusting-entries${
+      !!year ? '?year=' + year : ''
+    }${!!oID ? '&organizationID=' + oID : ''}`
   )
 
 export const getAdjustingEntry = (id: number, year?: number) =>
