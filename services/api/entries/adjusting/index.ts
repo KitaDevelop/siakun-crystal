@@ -48,7 +48,7 @@ export const useFetchAdjustingEntries = (year?: number, oID?: number) => {
 
 export const useFetchAdjustingEntry = (id: number, year?: number) => {
   return useQuery(
-    `adjusting-entry:${id}`,
+    `adjusting-entry-${year}:${id}`,
     () => getAdjustingEntry(id, year),
     OPTIONS
   )

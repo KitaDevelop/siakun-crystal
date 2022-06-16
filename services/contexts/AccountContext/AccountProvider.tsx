@@ -28,7 +28,6 @@ const AccountProvider = ({ children }: AccountProviderProps) => {
     if (!isLoading && data) {
       setIsUpdating(true)
       const { data: payload, isLocked } = data.data
-      console.log("🚀 ~ file: AccountProvider.tsx ~ line 31 ~ useEffect ~ payload", payload)
       dispatch({ type: 'set_accounts', payload: payload || [] })
       dispatch({ type: 'set_is_locked', isLocked: isLocked })
       setIsUpdating(false)

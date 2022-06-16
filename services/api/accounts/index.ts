@@ -38,7 +38,11 @@ export const useFetchAccounts = (year?: number, oID?: number) => {
 }
 
 export const useFetchAccount = (number: string, year?: number) => {
-  return useQuery(`accounts-${year}`, () => getAccount(number, year), OPTIONS)
+  return useQuery(
+    `accounts-${number}-${year}`,
+    () => getAccount(number, year),
+    OPTIONS
+  )
 }
 
 export const useCreateAccount = () => {

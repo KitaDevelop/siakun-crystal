@@ -58,7 +58,7 @@ export const useFetchJournalEntriesByAccount = (
 
 export const useFetchJournalEntry = (id: number, year?: number) => {
   return useQuery(
-    `journal-entry:${id}`,
+    `journal-entry-${year}:${id}`,
     () => getJournalEntry(id, year),
     OPTIONS_NO_CACHE
   )
