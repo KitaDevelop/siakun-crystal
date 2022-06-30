@@ -1,4 +1,4 @@
-import { Table, TableHeader } from '@components/Table'
+import { Table, TableBody, TableHeader } from '@components/Table'
 import { JournalEntry } from '@context/JournalEntryContext/types'
 import React, { useEffect, useState } from 'react'
 import { IoAdd } from 'react-icons/io5'
@@ -20,13 +20,18 @@ import { ROLE } from '@context/AuthContext/types'
 import { useOrganization } from '@hooks/useOrganization'
 const { writeFile, utils } = XLSX
 
-
 export const Index = () => {
   const { year } = useYear()
   const { organizationView } = useOrganization()
   const { userProfile } = useAuth()
-  const { isLoading, isFetching, data, refetch } = useFetchJournalEntries(year, userProfile?.role != ROLE.LEMBAGA ? organizationView?.id : undefined)
-  const { state: { isLocked }, dispatch } = useJournalEntry()
+  const { isLoading, isFetching, data, refetch } = useFetchJournalEntries(
+    year,
+    userProfile?.role != ROLE.LEMBAGA ? organizationView?.id : undefined
+  )
+  const {
+    state: { isLocked },
+    dispatch,
+  } = useJournalEntry()
 
   const [isOpen, setOpen] = useState<boolean>(false)
   const [isBlank, setIsBlank] = useState(true)
@@ -48,20 +53,25 @@ export const Index = () => {
   useEffect(() => {
     if (data) {
       const { data: entries_ } = data.data
-      if (searchKeyword != '') setEntries(
-        entries_.filter(
-          (e) =>
-            e.date.includes(searchKeyword) ||
-            e.description.includes(searchKeyword) ||
-            e.transactions.reduce((a: boolean, b) => a || b.account!.number.includes(searchKeyword), false)
+      if (searchKeyword != '')
+        setEntries(
+          entries_.filter(
+            (e) =>
+              e.date.includes(searchKeyword) ||
+              e.description.includes(searchKeyword) ||
+              e.transactions.reduce((a: boolean, b) => a || b.account!.number.includes(searchKeyword), false)
+          )
         )
-      )
       else setEntries(entries_)
     }
   }, [data, searchKeyword])
 
-  const currentCredit = sum(entries?.map((x) => x.transactions.reduce((acc: number, t) => acc + (t?.credit || 0), 0)) || [])
-  const currentDebit = sum(entries?.map((x) => x.transactions.reduce((acc: number, t) => acc + (t?.debit || 0), 0)) || [])
+  const currentCredit = sum(
+    entries?.map((x) => x.transactions.reduce((acc: number, t) => acc + (t?.credit || 0), 0)) || []
+  )
+  const currentDebit = sum(
+    entries?.map((x) => x.transactions.reduce((acc: number, t) => acc + (t?.debit || 0), 0)) || []
+  )
 
   const flattenJson = (data: JournalEntry[]) => {
     var flatJson = []
@@ -105,10 +115,7 @@ export const Index = () => {
 
   return (
     <div className="flex flex-col gap-4">
-      {userProfile?.role == ROLE.LEMBAGA ?
-        isLocked && <LockedAlert />
-        : <LockedToggleAlert />
-      }
+      {userProfile?.role == ROLE.LEMBAGA ? isLocked && <LockedAlert /> : <LockedToggleAlert />}
       <FilterControls {...{ exportDocument, searchKeyword, setSearchKeyword }} />
       {isLoading || isFetching ? (
         <div className="w-full grid place-content-center h-80 text-accent">
@@ -121,20 +128,22 @@ export const Index = () => {
             {entries.map((entry, idx) => (
               <EntryRow key={entry.id} {...{ idx, entry, isLocked, openModalToEdit, reloadTable: refetch }} />
             ))}
-            {entries.length > 0 && (
-              <tr className="text-center font-bold">
-                <td colSpan={3} className="text-right uppercase">
-                  Total
-                </td>
-                <td className="text-right text-green-900 bg-success bg-opacity-10 rounded-l-lg">
-                  {numberToRupiah(currentDebit)}
-                </td>
-                <td className="text-right text-red-900 bg-error bg-opacity-10 rounded-r-lg">
-                  {numberToRupiah(currentCredit)}
-                </td>
-                <td></td>
-              </tr>
-            )}
+            <TableBody>
+              {entries.length > 0 && (
+                <tr className="text-center font-bold">
+                  <td colSpan={3} className="text-right uppercase">
+                    Total
+                  </td>
+                  <td className="text-right text-green-900 bg-success bg-opacity-10 rounded-l-lg">
+                    {numberToRupiah(currentDebit)}
+                  </td>
+                  <td className="text-right text-red-900 bg-error bg-opacity-10 rounded-r-lg">
+                    {numberToRupiah(currentCredit)}
+                  </td>
+                  <td></td>
+                </tr>
+              )}
+            </TableBody>
           </Table>
           {entries && entries.length == 0 && (
             <div className="card w-full bg-base-200 p-8 text-center items-center">
