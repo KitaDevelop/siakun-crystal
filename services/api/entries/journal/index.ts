@@ -60,7 +60,7 @@ export const useFetchJournalEntry = (id: number, year?: number) => {
   return useQuery(
     `journal-entry-${year}:${id}`,
     () => getJournalEntry(id, year),
-    OPTIONS_NO_CACHE
+    { ...OPTIONS_NO_CACHE, enabled: id != -1 }
   )
 }
 

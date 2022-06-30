@@ -50,7 +50,7 @@ export const useFetchAdjustingEntry = (id: number, year?: number) => {
   return useQuery(
     `adjusting-entry-${year}:${id}`,
     () => getAdjustingEntry(id, year),
-    OPTIONS
+    { ...OPTIONS, enabled: id != -1 }
   )
 }
 
