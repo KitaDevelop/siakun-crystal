@@ -1,4 +1,4 @@
-import { AccountType } from '@context/AccountContext/types'
+import { AccountType } from '@constants/accounts'
 import { useAccount } from '@hooks/useAccount'
 import React from 'react'
 

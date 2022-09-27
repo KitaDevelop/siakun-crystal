@@ -1,5 +1,4 @@
 import { customStyles } from '@components/ChartOfAccounts/AddAccountModal/Select'
-import { BalanceRow, TrialBalanceRow } from '@context/TrialBalanceContext/types'
 import { useAccount } from '@hooks/useAccount'
 import { isSelectAccountOption } from '@utils/isSelectOptionValid'
 import { ChangeEvent, useEffect, useState } from 'react'
@@ -54,7 +53,9 @@ export const TableRowEditable = ({ rowData, onEditRow }: TableRowEditableProps) 
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data: { data: row } } = await getAggregateAccountData(accountNumber, year)
+      const {
+        data: { data: row },
+      } = await getAggregateAccountData(accountNumber, year)
       setStartBalance(row.beginningBalance)
       setMovCredit(row.movementCredit)
       setMovDebit(row.movementDebit)
@@ -66,29 +67,30 @@ export const TableRowEditable = ({ rowData, onEditRow }: TableRowEditableProps) 
     fetchData()
   }, [accountNumber])
 
-
   return (
     <>
-      {rowData.type === 'Blank' && <>
-        <td>
-          <input
-            className="input input-sm input-bordered w-full"
-            placeholder="Account No."
-            type="text"
-            value={accountNumber}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => setAccountNumber(e.target.value)}
-          />
-        </td>
-        <td className="whitespace-normal text-left">
-          <input
-            className="input input-sm input-bordered w-full"
-            placeholder="Account Name"
-            type="text"
-            value={accountName}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => setAccountName(e.target.value)}
-          />
-        </td>
-      </>}
+      {rowData.type === 'Blank' && (
+        <>
+          <td>
+            <input
+              className="input input-sm input-bordered w-full"
+              placeholder="Account No."
+              type="text"
+              value={accountNumber}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setAccountNumber(e.target.value)}
+            />
+          </td>
+          <td className="whitespace-normal text-left">
+            <input
+              className="input input-sm input-bordered w-full"
+              placeholder="Account Name"
+              type="text"
+              value={accountName}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setAccountName(e.target.value)}
+            />
+          </td>
+        </>
+      )}
       {isDataRow && (
         <td colSpan={2} className="text-left relative">
           <Select

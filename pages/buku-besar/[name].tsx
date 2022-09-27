@@ -1,17 +1,13 @@
-import { getUserProfile } from '@api/auth'
 import { getJournalEntriesByAccount } from '@api/entries/journal/endpoints'
 import BukuBesar from '@components/BukuBesar'
 import Layout from '@components/Layout'
 import { NavbarProps } from '@components/Navbar'
+import { ROLE } from '@constants/auth'
 import { navigation, Navigation } from '@constants/navigation'
-import { ROLE, UserProfile } from '@context/AuthContext/types'
-import { JournalEntry } from '@context/JournalEntryContext/types'
 import { useAccount } from '@hooks/useAccount'
 import useAuth from '@hooks/useAuth'
 import { useOrganization } from '@hooks/useOrganization'
 import { extractAccountInfo } from '@utils/extractAccountInfo'
-import axios from 'axios'
-import { getCookie } from 'cookies-next'
 import { GetServerSideProps } from 'next'
 import React, { useEffect, useState } from 'react'
 
@@ -29,7 +25,7 @@ const meta: NavbarProps = {
 
 export const BukuBesarPage = ({ name, accountId }: Props) => {
   const { accounts } = useAccount()
-  const account = accounts.find(x => x.id === accountId)!
+  const account = accounts.find((x) => x.id === accountId)!
 
   const [entries, setEntries] = useState<JournalEntry[]>([])
   const { userProfile } = useAuth()
@@ -38,16 +34,19 @@ export const BukuBesarPage = ({ name, accountId }: Props) => {
   useEffect(() => {
     const fetchAccounts = async () => {
       if (userProfile?.role === ROLE.LEMBAGA) {
-        const { data: { data } } = await getJournalEntriesByAccount(accountId, userProfile.organization.id)
+        const {
+          data: { data },
+        } = await getJournalEntriesByAccount(accountId, userProfile.organization.id)
         setEntries(data)
       } else {
-        const { data: { data } } = await getJournalEntriesByAccount(accountId, organizationView?.id)
+        const {
+          data: { data },
+        } = await getJournalEntriesByAccount(accountId, organizationView?.id)
         setEntries(data)
       }
     }
     fetchAccounts()
   }, [])
-
 
   return (
     <Layout navbarProps={{ ...meta, pageName: name }}>

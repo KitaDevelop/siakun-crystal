@@ -1,5 +1,5 @@
 import { capitalize } from '@utils/capitalize'
-import axios, { AxiosError } from 'axios'
+import { AxiosError } from 'axios'
 import toast from 'react-hot-toast'
 import { useMutation } from 'react-query'
 import {

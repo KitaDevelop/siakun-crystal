@@ -1,5 +1,3 @@
-import { AccountType, NormalBalance } from '@context/AccountContext/types'
-import { useAccount } from '@hooks/useAccount'
 import React from 'react'
 import { AccountTypeRadio } from '../Form/AccountTypeRadio'
 import { BeginningBalanceInput } from '../Form/BeginningBalanceInput'

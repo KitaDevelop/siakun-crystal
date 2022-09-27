@@ -1,4 +1,3 @@
-import { Account, EmptyAccount } from '@context/AccountContext/types'
 import { useAccount } from '@hooks/useAccount'
 import React, { useEffect } from 'react'
 import { IoAdd } from 'react-icons/io5'

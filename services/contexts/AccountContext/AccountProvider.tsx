@@ -1,13 +1,13 @@
 import { useFetchAccounts } from '@api/accounts'
-import { ROLE } from '@context/AuthContext/types'
+import { EmptyAccount } from '@constants/accounts'
+import { ROLE } from '@constants/auth'
 import useAuth from '@hooks/useAuth'
 import { useOrganization } from '@hooks/useOrganization'
 import { useYear } from '@hooks/useYear'
 import React, { useEffect, useState } from 'react'
 import { AccountReducer } from './AccountReducer'
-import { AccountContextValue, AccountProviderProps, State, EmptyAccount } from './types'
 
-const INITIAL_STATE: State = {
+const INITIAL_STATE: AccountState = {
   isLocked: false,
   accounts: [],
   ...EmptyAccount,
@@ -22,7 +22,10 @@ const AccountProvider = ({ children }: AccountProviderProps) => {
   const { year } = useYear()
   const { organizationView } = useOrganization()
   const { userProfile } = useAuth()
-  const { isLoading, isRefetching, data, refetch } = useFetchAccounts(year, userProfile?.role != ROLE.LEMBAGA ? organizationView?.id : undefined)
+  const { isLoading, isRefetching, data, refetch } = useFetchAccounts(
+    year,
+    userProfile?.role != ROLE.LEMBAGA ? organizationView?.id : undefined
+  )
 
   useEffect(() => {
     if (!isLoading && data) {

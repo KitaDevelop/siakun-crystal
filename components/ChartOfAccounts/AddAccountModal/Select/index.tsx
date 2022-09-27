@@ -1,4 +1,3 @@
-import { Account, AccountCategory } from '@context/AccountContext/types'
 import { CSSObjectWithLabel } from 'react-select'
 
 export const customStyles = {

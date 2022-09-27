@@ -28,15 +28,21 @@ export const LockedToggleAlert = () => {
         ) : (
           <>
             <BiLockOpen className="w-5 h-5" />
-            <span>This report is <u>not</u> locked. The organization is allowed to edit.</span>
+            <span>
+              This report is <u>not</u> locked. The organization is allowed to edit.
+            </span>
           </>
         )}
       </div>
       <div onClick={toggleLocked} className="btn btn-sm">
         {isLocked ? (
-          <><BiLockOpen className="w-5 h-5 mr-1" /> unlock</>
+          <>
+            <BiLockOpen className="w-5 h-5 mr-1" /> unlock
+          </>
         ) : (
-          <><BiLock className="w-5 h-5 mr-1" /> lock</>
+          <>
+            <BiLock className="w-5 h-5 mr-1" /> lock
+          </>
         )}
       </div>
     </div>

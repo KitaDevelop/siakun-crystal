@@ -1,6 +1,6 @@
-import { useCreateAccount, useFetchAccounts, useUpdateAccount } from '@api/accounts'
+import { useCreateAccount, useUpdateAccount } from '@api/accounts'
 import { Modal } from '@components/Modal'
-import { AccountCategory, EmptyAccount } from '@context/AccountContext/types'
+import { EmptyAccount } from '@constants/accounts'
 import { useAccount } from '@hooks/useAccount'
 import { useYear } from '@hooks/useYear'
 import React, { useEffect } from 'react'
@@ -63,7 +63,7 @@ export const AddAccountModal = ({ isOpen, setIsOpen, isBlank }: Props) => {
         isOverflow: account.category == AccountCategory.AKUN || account.category == AccountCategory.JUMLAH,
       }}
     >
-      <div className="font-bold text-xl mb-4">{isBlank ? "Create New" : "Edit"} Account</div>
+      <div className="font-bold text-xl mb-4">{isBlank ? 'Create New' : 'Edit'} Account</div>
       <form className="w-full flex flex-col gap-2">
         <ParentAccountSelect />
         <AccountNumberInput />

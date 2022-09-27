@@ -6,25 +6,26 @@ import { customStyles } from './ChartOfAccounts/AddAccountModal/Select'
 
 export const OrganizationSelect = () => {
   const { organizations, organizationView, setOrganizationView } = useOrganization()
-  const organizationOptions = organizations.map((org) => ({
+  const organizationOptions = organizations.map((org: Organization) => ({
     value: org,
     label: org.name,
   }))
-  const chosenOrganization = organizationOptions.find((x) => x.value == organizationView)
+  const chosenOrganization = organizationOptions.find((x: SelectOrganizationOption) => x.value == organizationView)
 
-
-  return <Select
-    className="flex-1"
-    options={organizationOptions}
-    onChange={(v) => {
-      if (isSelectOrganizationOption(v)) {
-        setOrganizationView(v.value)
-      }
-    }}
-    placeholder="Select organization"
-    value={chosenOrganization}
-    styles={customStyles}
-    closeMenuOnSelect
-    isSearchable
-  />
+  return (
+    <Select
+      className="flex-1"
+      options={organizationOptions}
+      onChange={(v) => {
+        if (isSelectOrganizationOption(v)) {
+          setOrganizationView(v.value)
+        }
+      }}
+      placeholder="Select organization"
+      value={chosenOrganization}
+      styles={customStyles}
+      closeMenuOnSelect
+      isSearchable
+    />
+  )
 }

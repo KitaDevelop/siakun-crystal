@@ -1,6 +1,4 @@
-import { Action, State } from './types'
-
-export const AccountReducer = (state: State, action: Action) => {
+export const AccountReducer = (state: AccountState, action: AccountAction) => {
   switch (action.type) {
     case 'set_accounts':
       return { ...state, accounts: action.payload }

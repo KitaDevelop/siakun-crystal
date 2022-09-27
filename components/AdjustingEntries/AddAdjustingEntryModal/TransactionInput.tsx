@@ -2,11 +2,9 @@ import { customStyles } from '@components/ChartOfAccounts/AddAccountModal/Select
 import React, { useEffect, useState } from 'react'
 import Select from 'react-select'
 import { IoTrashOutline } from 'react-icons/io5'
-import { Transaction } from '@context/JournalEntryContext/types'
 import { useAdjustingEntry } from '@hooks/useAdjustingEntry'
 import { useAccount } from '@hooks/useAccount'
 import { isSelectAccountOption } from '@utils/isSelectOptionValid'
-import { Account } from '@context/AccountContext/types'
 
 interface Props {
   transaction: Transaction
@@ -40,8 +38,8 @@ export const TransactionInput = ({ transaction, isOnlyChild, idx }: Props) => {
       accountNumber: account?.number,
       account: {
         name: account?.name || '',
-        number: account?.number || ''
-      }
+        number: account?.number || '',
+      },
     }
     dispatch({ type: 'set_transactions', transactions: transactions_ })
   }, [debit, credit, account])

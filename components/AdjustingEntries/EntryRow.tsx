@@ -1,5 +1,4 @@
 import { TableBody } from '@components/Table'
-import { AdjustingEntry } from '@context/AdjustingEntryContext/types'
 import React, { Fragment, ReactElement, useState } from 'react'
 import { numberToRupiah } from '@utils//numberToRupiah'
 import { useDeleteAdjustingEntry } from '@api/entries/adjusting'
@@ -25,7 +24,9 @@ export default function EntryRow({
 }: Props): ReactElement {
   const { year } = useYear()
   const [isOpenDialog, setIsOpenDialog] = useState(false)
-  const { state: { isLocked } } = useAdjustingEntry()
+  const {
+    state: { isLocked },
+  } = useAdjustingEntry()
   const deleteEntry = useDeleteAdjustingEntry()
 
   const onEditEntry = () => {
@@ -77,7 +78,8 @@ export default function EntryRow({
               isOpen={isOpenDialog}
               setIsOpen={setIsOpenDialog}
               onConfirm={onDeleteEntry}
-              confirmMessage="Yes, delete">
+              confirmMessage="Yes, delete"
+            >
               <div className="font-medium text-stone-700 text-lg">Are you sure you want to delete this entry?</div>
             </ConfirmationDialog>
           </td>

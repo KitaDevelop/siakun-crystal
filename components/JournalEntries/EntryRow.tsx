@@ -1,5 +1,4 @@
 import { TableBody } from '@components/Table'
-import { JournalEntry } from '@context/JournalEntryContext/types'
 import React, { Fragment, ReactElement, useState } from 'react'
 import { numberToRupiah } from '@utils//numberToRupiah'
 import { formatDate } from '@utils/formatDate'
@@ -62,32 +61,37 @@ export default function EntryRow({
             tabIndex={0}
             className="p-2 shadow menu compact bg-base-100 overflow-visible rounded-box w-52 dropdown-content"
           >
-            {receipt && <li>
-              <a onClick={() => downloadFile(receipt)} >
-                <FiDownload className="w-5 h-5 mr-2" />
-                Download Receipt
-              </a>
-            </li>}
-            {!isLocked && <>
+            {receipt && (
               <li>
-                <a onClick={onEditEntry}>
-                  <MdOutlineEdit className="w-5 h-5 mr-2" />
-                  Edit Entry
+                <a onClick={() => downloadFile(receipt)}>
+                  <FiDownload className="w-5 h-5 mr-2" />
+                  Download Receipt
                 </a>
               </li>
-              <li>
-                <a onClick={() => setIsOpenDialog(true)}>
-                  <IoTrashOutline className="w-5 h-5 mr-2" />
-                  Delete Entry
-                </a>
-              </li>
-            </>}
+            )}
+            {!isLocked && (
+              <>
+                <li>
+                  <a onClick={onEditEntry}>
+                    <MdOutlineEdit className="w-5 h-5 mr-2" />
+                    Edit Entry
+                  </a>
+                </li>
+                <li>
+                  <a onClick={() => setIsOpenDialog(true)}>
+                    <IoTrashOutline className="w-5 h-5 mr-2" />
+                    Delete Entry
+                  </a>
+                </li>
+              </>
+            )}
           </ul>
           <ConfirmationDialog
             isOpen={isOpenDialog}
             setIsOpen={setIsOpenDialog}
             onConfirm={onDeleteEntry}
-            confirmMessage="Yes, delete">
+            confirmMessage="Yes, delete"
+          >
             <div className="font-medium text-stone-700 text-lg">Are you sure you want to delete this entry?</div>
           </ConfirmationDialog>
         </td>

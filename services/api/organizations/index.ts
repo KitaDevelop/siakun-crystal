@@ -1,4 +1,3 @@
-import { Organization } from '@context/OrganizationContext/types'
 import axios from 'axios'
 import config from 'config'
 import { useQuery } from 'react-query'

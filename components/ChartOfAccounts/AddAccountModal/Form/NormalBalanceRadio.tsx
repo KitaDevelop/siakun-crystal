@@ -1,4 +1,4 @@
-import { NormalBalance } from '@context/AccountContext/types'
+import { NormalBalance } from '@constants/accounts'
 import { useAccount } from '@hooks/useAccount'
 import React from 'react'
 

@@ -1,4 +1,4 @@
-export interface Account {
+interface Account {
   id: number
   parentNumber?: string
   parent?: Account
@@ -11,7 +11,21 @@ export interface Account {
   beginningBalance?: number
   subAccounts?: string[]
 }
-export type Action =
+enum AccountCategory {
+  NONE,
+  HEADING = 'Heading',
+  AKUN = 'Akun',
+  JUMLAH = 'Jumlah',
+}
+enum AccountType {
+  NERACA = 'Neraca',
+  LABARUGI = 'Labarugi',
+}
+enum NormalBalance {
+  DEBIT = 'Debit',
+  CREDIT = 'Kredit',
+}
+type AccountAction =
   | { type: 'set_accounts'; payload: Account[] }
   | { type: 'set_account'; account: Account }
   | { type: 'set_parent_number'; parentNumber: string; parent: Account }
@@ -24,46 +38,44 @@ export type Action =
   | { type: 'set_jenis'; jenis: AccountCategory }
   | { type: 'set_sub_accounts'; subAccounts: string[] }
   | { type: 'set_is_locked'; isLocked: boolean }
-export type Dispatch = (action: Action) => void
-export interface State extends Account {
+type AccountDispatch = (action: AccountDispatch) => void
+interface AccountState extends Account {
   isLocked: boolean
   accounts: Account[]
 }
-export type AccountContextValue = {
+type AccountContextValue = {
   accounts: Account[]
   account: Account
   isLocked: boolean
   isRefetching: boolean
   dispatch: Dispatch
 }
-export type AccountProviderProps = { children: React.ReactNode }
-export enum AccountCategory {
-  NONE,
-  HEADING = 'Heading',
-  AKUN = 'Akun',
-  JUMLAH = 'Jumlah',
-}
-export enum AccountType {
-  NERACA = 'Neraca',
-  LABARUGI = 'Labarugi',
-}
-export enum NormalBalance {
-  DEBIT = 'Debit',
-  CREDIT = 'Kredit',
-}
-export const EmptyAccount: Account = {
-  id: -1,
-  parentNumber: '',
-  number: '',
-  name: '',
-  description: '',
-  category: AccountCategory.NONE,
-}
-export type SelectJenisOption = {
+type AccountProviderProps = { children: React.ReactNode }
+type SelectJenisOption = {
   label: string
   value: AccountCategory
 }
-export type SelectAccountOption = {
+type SelectAccountOption = {
   label: string
   value: Account
+}
+interface AccountResponse {
+  isLocked: boolean
+  data: Account[]
+}
+interface SingleAccountResponse {
+  data: Account
+}
+interface UpdateAccountPayload {
+  accountNumber: string
+  account: Partial<Account>
+  year?: number
+}
+interface DeleteAccountPayload {
+  accountNumber: string
+  year?: number
+}
+interface AccountSelectOptions {
+  value: Account
+  label: string
 }

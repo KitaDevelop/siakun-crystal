@@ -1,6 +1,4 @@
-import { Action, State } from './types'
-
-export const JournalEntryReducer = (state: State, action: Action): State => {
+export const JournalEntryReducer = (state: JournalEntryState, action: JournalEntryAction): JournalEntryState => {
   switch (action.type) {
     case 'set_entries':
       return { ...state, entries: action.entries }

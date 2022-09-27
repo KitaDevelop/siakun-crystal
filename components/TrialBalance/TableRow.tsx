@@ -1,4 +1,3 @@
-import { BalanceRow, TrialBalanceRow } from '@context/TrialBalanceContext/types'
 import React from 'react'
 import { numberToRupiah } from '@utils//numberToRupiah'
 

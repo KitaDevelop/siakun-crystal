@@ -1,5 +1,4 @@
 import { TableBody } from '@components/Table'
-import { Account } from '@context/AccountContext/types'
 import { capitalize } from '@utils/capitalize'
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
@@ -82,39 +81,42 @@ export const AccountRow = ({
             className="p-2 shadow menu compact bg-base-100 overflow-visible rounded-box w-52 dropdown-content"
           >
             <li>
-              <Link href={`/buku-besar/${slugify(id + "-" + name)}`} passHref>
+              <Link href={`/buku-besar/${slugify(id + '-' + name)}`} passHref>
                 <a>
                   <IoBookOutline className="w-5 h-5 mr-2" />
                   Buku Besar
                 </a>
               </Link>
             </li>
-            {!isLocked && <>
-              <li>
-                <a onClick={onEditAccount}>
-                  <MdOutlineEdit className="w-5 h-5 mr-2" />
-                  Edit Account
-                </a>
-              </li>
-              <li>
-                <a onClick={() => setIsOpenDialog(true)}>
-                  <IoTrashOutline className="w-5 h-5 mr-2" />
-                  Delete Account
-                </a>
-              </li>
-            </>}
+            {!isLocked && (
+              <>
+                <li>
+                  <a onClick={onEditAccount}>
+                    <MdOutlineEdit className="w-5 h-5 mr-2" />
+                    Edit Account
+                  </a>
+                </li>
+                <li>
+                  <a onClick={() => setIsOpenDialog(true)}>
+                    <IoTrashOutline className="w-5 h-5 mr-2" />
+                    Delete Account
+                  </a>
+                </li>
+              </>
+            )}
           </ul>
           <ConfirmationDialog
             isOpen={isOpenDialog}
             setIsOpen={setIsOpenDialog}
             onConfirm={onDeleteAccount}
-            confirmMessage="Yes, delete">
+            confirmMessage="Yes, delete"
+          >
             <div className="font-medium text-stone-700 text-lg">Are you sure you want to delete this account?</div>
           </ConfirmationDialog>
         </td>
       </tr>
       {idx % 2 !== 0 && <tr></tr>}
-      <Link href={`/buku-besar/${slugify(id + "-" + name)}`} passHref>
+      <Link href={`/buku-besar/${slugify(id + '-' + name)}`} passHref>
         <tr className="text-center cursor-pointer hover">
           <td>{idx}</td>
           <td>{number}</td>

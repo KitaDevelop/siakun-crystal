@@ -2,11 +2,9 @@ import { customStyles } from '@components/ChartOfAccounts/AddAccountModal/Select
 import React, { useEffect, useState } from 'react'
 import Select from 'react-select'
 import { IoTrashOutline } from 'react-icons/io5'
-import { Transaction } from '@context/JournalEntryContext/types'
 import { useJournalEntry } from '@hooks/useJournalEntry'
 import { useAccount } from '@hooks/useAccount'
 import { isSelectAccountOption } from '@utils/isSelectOptionValid'
-import { Account } from '@context/AccountContext/types'
 
 interface Props {
   transaction: Transaction

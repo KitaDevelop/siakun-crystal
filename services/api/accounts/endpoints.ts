@@ -1,7 +1,5 @@
-import { Account } from '@context/AccountContext/types'
 import axios from 'axios'
 import config from 'config'
-import { AccountResponse, SingleAccountResponse } from '.'
 
 export const getAccounts = (year?: number, oID?: number) =>
   axios.get<AccountResponse>(

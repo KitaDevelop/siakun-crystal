@@ -1,4 +1,3 @@
-import { Account } from '@context/AccountContext/types'
 import { useAccount } from '@hooks/useAccount'
 import { isSelectAccountOption } from '@utils/isSelectOptionValid'
 import React, { useEffect, useState } from 'react'
@@ -8,11 +7,6 @@ import { customStyles } from './index'
 
 interface Props {
   idx: number
-}
-
-interface AccountSelectOptions {
-  value: Account
-  label: string
 }
 
 export const SubAccountSelect = ({ idx }: Props) => {

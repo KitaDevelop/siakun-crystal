@@ -3,7 +3,7 @@ import { FaRegUser, FaSignOutAlt } from 'react-icons/fa'
 import Image from 'next/image'
 import Link from 'next/link'
 import useAuth from '@hooks/useAuth'
-import { ROLE, UserProfile } from '@context/AuthContext/types'
+import { ROLE } from '@constants/auth'
 import { capitalize } from '@utils/capitalize'
 
 export interface NavbarProps {

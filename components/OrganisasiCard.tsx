@@ -1,6 +1,5 @@
 import React from 'react'
 import Image from 'next/image'
-import { Organization } from '@context/OrganizationContext/types'
 import { useRouter } from 'next/router'
 import { useOrganization } from '@hooks/useOrganization'
 import { mod } from '@utils/mod'

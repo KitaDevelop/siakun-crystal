@@ -1,4 +1,4 @@
-import { jenisAccount } from '@constants/categories'
+import { jenisAccount } from '@constants/accounts'
 import { useAccount } from '@hooks/useAccount'
 import { isSelectJenisOption } from '@utils/isSelectOptionValid'
 import React from 'react'

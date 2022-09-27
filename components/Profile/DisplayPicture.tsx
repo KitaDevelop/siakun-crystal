@@ -5,7 +5,7 @@ import { blobToBase64 } from '@utils/blobToBase64'
 import { UpdateDisplayPicturePayload } from '@api/profile/endpoints'
 import { useChangeDisplayPicture, useRemoveDisplayPicture } from '@api/profile'
 import { downscaleImage } from '@utils/downscaleImage'
-import { ROLE } from '@context/AuthContext/types'
+import { ROLE } from '@constants/auth'
 import { capitalize } from '@utils/capitalize'
 
 export const DisplayPicture = () => {

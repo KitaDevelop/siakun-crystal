@@ -6,7 +6,7 @@ import { navigation } from '@constants/navigation'
 import { FiChevronsLeft, FiChevronsRight } from 'react-icons/fi'
 import { useSidebar } from '@context/SidebarContext'
 import useAuth from '@hooks/useAuth'
-import { ROLE } from '@context/AuthContext/types'
+import { ROLE } from '@constants/auth'
 import { OrganizationSelect } from './OrganizationSelect'
 import { useOrganization } from '@hooks/useOrganization'
 
@@ -30,8 +30,9 @@ const SidebarExpanded: React.FC = () => {
 
   return (
     <div
-      className={`drawer-side p-2 overflow-y-auto bg-base-200 z-10 text-base-content overflow-hidden transition-all ease-in-out ${isCollapsed ? '-translate-x-full w-0 h-0' : 'w-72'
-        }`}
+      className={`drawer-side p-2 overflow-y-auto bg-base-200 z-10 text-base-content overflow-hidden transition-all ease-in-out ${
+        isCollapsed ? '-translate-x-full w-0 h-0' : 'w-72'
+      }`}
     >
       <div className="flex flex-col items-start">
         <div className="object-none p-4 pb-2 cursor-pointer">
@@ -47,7 +48,12 @@ const SidebarExpanded: React.FC = () => {
             <div className="flex gap-2">
               <div className="avatar">
                 <div className="w-9 h-9 rounded-full border border-gray-400">
-                  <Image alt="organisasi" src={organizationView?.profilePicture || "/avatar-placeholder.png"} width={36} height={36} />
+                  <Image
+                    alt="organisasi"
+                    src={organizationView?.profilePicture || '/avatar-placeholder.png'}
+                    width={36}
+                    height={36}
+                  />
                 </div>
               </div>
               <OrganizationSelect />
@@ -99,7 +105,12 @@ const SidebarCollapsed: React.FC = () => {
             <div className="divider m-0 mb-2"></div>
             <div tabIndex={-1} className="avatar mx-2 cursor-pointer">
               <div className="w-9 h-9 rounded-full border border-gray-400">
-                <Image alt="organisasi" src={organizationView?.profilePicture || "/avatar-placeholder.png"} width={36} height={36} />
+                <Image
+                  alt="organisasi"
+                  src={organizationView?.profilePicture || '/avatar-placeholder.png'}
+                  width={36}
+                  height={36}
+                />
               </div>
             </div>
             <div tabIndex={-1} className="dropdown-content bg-base-100 w-72 card p-4 shadow-lg overflow-visible">
