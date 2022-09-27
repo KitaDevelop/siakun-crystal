@@ -61,7 +61,7 @@ export default function Home({ userProfile }: Props) {
       <div className="mx-auto max-w-screen-xl mb-8">
         <FilterControls isCanExport={false} {...{ searchKeyword, setSearchKeyword }} />
         <div className="grid grid-cols-3 gap-4 mt-6">
-          {orgDisplay.map((org) => (
+          {orgDisplay?.map((org) => (
             <OrganisasiCard key={org.id} id={org.id} organization={org} />
           ))}
         </div>

@@ -15,7 +15,7 @@ export interface NavbarProps {
 export default function Navbar({ title, icon }: NavbarProps) {
   const { userProfile, logout } = useAuth()
 
-  const displayName = userProfile?.role == ROLE.AUDITOR ? userProfile.username : userProfile?.organization.name
+  const displayName = userProfile?.role == ROLE.AUDITOR ? userProfile.username : userProfile?.organization?.name
 
   return (
     <div className="navbar shadow-lg bg-neutral text-neutral-content rounded-box">

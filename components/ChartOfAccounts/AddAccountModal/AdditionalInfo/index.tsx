@@ -1,3 +1,4 @@
+import { AccountCategory } from '@constants/accounts'
 import { useAccount } from '@hooks/useAccount'
 import React from 'react'
 import { AccountAdditionalInfo } from './AccountAdditionalInfo'

@@ -2,12 +2,7 @@ import { capitalize } from '@utils/capitalize'
 import { AxiosError } from 'axios'
 import toast from 'react-hot-toast'
 import { useMutation } from 'react-query'
-import {
-  changeDisplayPicture,
-  changePassword,
-  ChangePasswordPayload,
-  UpdateDisplayPicturePayload,
-} from './endpoints'
+import { changeDisplayPicture, changePassword } from './endpoints'
 
 export const useRemoveDisplayPicture = () => {
   const payload: UpdateDisplayPicturePayload = {

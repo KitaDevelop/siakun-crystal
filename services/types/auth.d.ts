@@ -28,3 +28,13 @@ interface LoginResponse {
 interface LoadUserProfileRequestPayload {
   token: string
 }
+
+interface UpdateDisplayPicturePayload {
+  profilePicture: string
+}
+
+interface ChangePasswordPayload {
+  oldPassword: string
+  newPassword: string
+  confirmPassword: string
+}

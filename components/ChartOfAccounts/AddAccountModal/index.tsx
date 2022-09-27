@@ -1,6 +1,6 @@
 import { useCreateAccount, useUpdateAccount } from '@api/accounts'
 import { Modal } from '@components/Modal'
-import { EmptyAccount } from '@constants/accounts'
+import { AccountCategory, EmptyAccount } from '@constants/accounts'
 import { useAccount } from '@hooks/useAccount'
 import { useYear } from '@hooks/useYear'
 import React, { useEffect } from 'react'
