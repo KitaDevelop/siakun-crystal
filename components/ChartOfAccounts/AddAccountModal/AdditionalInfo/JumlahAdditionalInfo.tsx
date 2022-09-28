@@ -1,21 +1,24 @@
 import { useAccount } from '@hooks/useAccount'
 import React, { useEffect } from 'react'
 import { IoAdd } from 'react-icons/io5'
+import { AccountInputProps } from '..'
 import { SubAccountSelect } from '../Select/SubAccountSelect'
+import { useWatch } from 'react-hook-form'
 
-export const JumlahAdditionalInfo = () => {
-  const {
-    account: { subAccounts },
-    dispatch,
-  } = useAccount()
+export const JumlahAdditionalInfo = ({ control, errors, setValue }: AccountInputProps) => {
+  const subAccounts = useWatch({ name: 'subAccounts', control })
+  console.log(
+    '🚀 ~ file: JumlahAdditionalInfo.tsx ~ line 10 ~ JumlahAdditionalInfo ~ subAccounts',
+    subAccounts
+  )
 
-  useEffect(() => {
-    if (!subAccounts) dispatch({ type: 'set_sub_accounts', subAccounts: [] })
-  }, [])
+  // useEffect(() => {
+  //   if (!subAccounts) dispatch({ type: 'set_sub_accounts', subAccounts: [] })
+  // }, [])
 
   const addSubAccountHandler = () => {
     const accounts = [...(subAccounts || []), '']
-    dispatch({ type: 'set_sub_accounts', subAccounts: accounts })
+    setValue && setValue('subAccounts', accounts)
   }
 
   return (
@@ -24,7 +27,10 @@ export const JumlahAdditionalInfo = () => {
         <span className="label-text">Sub-Accounts</span>
       </label>
       <div className="flex flex-col gap-2">
-        {subAccounts && subAccounts.map((accNumber, idx) => <SubAccountSelect key={accNumber} idx={idx} />)}
+        {subAccounts &&
+          subAccounts.map((_, idx) => (
+            <SubAccountSelect key={idx} idx={idx} {...{ control, errors, setValue }} />
+          ))}
       </div>
       <div onClick={addSubAccountHandler} className="btn btn-ghost text-primary self-start btn-sm">
         <IoAdd className="mr-2" /> Add More

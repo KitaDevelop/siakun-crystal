@@ -11,12 +11,18 @@ import useAuth from '@hooks/useAuth'
 import { ROLE } from '@constants/auth'
 
 export const Index = () => {
-  const [isOpen, setOpen] = useState(false)
   const [isBlank, setBlank] = useState(true)
   const [searchKeyword, setSearchKeyword] = useState('')
 
   const { userProfile } = useAuth()
-  const { accounts: accounts_, isLocked, isRefetching } = useAccount()
+  const {
+    accounts: accounts_,
+    targetAccountNumber,
+    isModalOpen,
+    isLocked,
+    isRefetching,
+    dispatch,
+  } = useAccount()
   const [accounts, setAccounts] = useState(accounts_)
 
   useEffect(() => {
@@ -35,13 +41,17 @@ export const Index = () => {
     else setAccounts(accounts_)
   }, [searchKeyword, accounts_])
 
+  const setModalOpen = (to: boolean) => {
+    dispatch({ type: 'set_is_modal_open', to })
+  }
+
   const openModalToCreate = () => {
-    setOpen(true)
+    setModalOpen(true)
     setBlank(true)
   }
 
   const openModalToEdit = () => {
-    setOpen(true)
+    setModalOpen(true)
     setBlank(false)
   }
 
@@ -80,10 +90,18 @@ export const Index = () => {
       )}
       {userProfile?.role === ROLE.LEMBAGA && !isLocked && (
         <>
-          <button onClick={openModalToCreate} className="btn btn-circle fixed bottom-6 right-6 btn-primary">
+          <button
+            onClick={openModalToCreate}
+            className="btn btn-circle fixed bottom-6 right-6 btn-primary"
+          >
             <IoAdd className="w-5 h-5" />
           </button>
-          <AddAccountModal {...{ isBlank, isOpen, setIsOpen: setOpen }} />
+          <AddAccountModal
+            isBlank={isBlank}
+            isOpen={isModalOpen}
+            setIsOpen={setModalOpen}
+            account={accounts.find((account) => account.number === targetAccountNumber)}
+          />
         </>
       )}
     </div>

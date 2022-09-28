@@ -1,10 +1,10 @@
-import { customStyles } from '@components/ChartOfAccounts/AddAccountModal/Select'
 import { useAccount } from '@hooks/useAccount'
 import { isSelectAccountOption } from '@utils/isSelectOptionValid'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { getAggregateAccountData } from '@api/trialBalance/endpoints'
 import Select from 'react-select'
 import { useYear } from '@hooks/useYear'
+import { customStyles } from '@components/Form'
 
 type TableRowEditableProps = {
   rowData: TrialBalanceRow
@@ -49,7 +49,17 @@ export const TableRowEditable = ({ rowData, onEditRow }: TableRowEditableProps) 
     }
     const newRow = { ...rowData, content: newContent }
     onEditRow(rowData.id, newRow)
-  }, [accountName, accountNumber, startBalance, endBalance, adjustedBalance, movCredit, movDebit, adjCredit, adjDebit])
+  }, [
+    accountName,
+    accountNumber,
+    startBalance,
+    endBalance,
+    adjustedBalance,
+    movCredit,
+    movDebit,
+    adjCredit,
+    adjDebit,
+  ])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -175,7 +185,9 @@ export const TableRowEditable = ({ rowData, onEditRow }: TableRowEditableProps) 
           className="input input-sm input-bordered w-full"
           placeholder="-"
           value={adjustedBalance}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => setAdjustedBalance(e.target.valueAsNumber)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            setAdjustedBalance(e.target.valueAsNumber)
+          }
           disabled={isDataRow}
         />
       </td>

@@ -2,7 +2,7 @@ import { useOrganization } from '@hooks/useOrganization'
 import { isSelectOrganizationOption } from '@utils/isSelectOptionValid'
 import React from 'react'
 import Select from 'react-select'
-import { customStyles } from './ChartOfAccounts/AddAccountModal/Select'
+import { customStyles } from './Form'
 
 export const OrganizationSelect = () => {
   const { organizations, organizationView, setOrganizationView } = useOrganization()
@@ -10,7 +10,9 @@ export const OrganizationSelect = () => {
     value: org,
     label: org.name,
   }))
-  const chosenOrganization = organizationOptions.find((x: SelectOrganizationOption) => x.value == organizationView)
+  const chosenOrganization = organizationOptions.find(
+    (x: SelectOrganizationOption) => x.value == organizationView
+  )
 
   return (
     <Select

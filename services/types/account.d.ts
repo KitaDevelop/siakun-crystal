@@ -1,7 +1,6 @@
 interface Account {
   id: number
   parentNumber?: string
-  parent?: Account
   number: string
   name: string
   description: string
@@ -27,27 +26,31 @@ enum NormalBalance {
 }
 type AccountAction =
   | { type: 'set_accounts'; payload: Account[] }
-  | { type: 'set_account'; account: Account }
-  | { type: 'set_parent_number'; parentNumber: string; parent: Account }
-  | { type: 'set_account_no'; accNo: string }
-  | { type: 'set_account_name'; accName: string }
-  | { type: 'set_desc'; desc: string }
-  | { type: 'set_normal_balance'; normalBalance: NormalBalance }
-  | { type: 'set_account_type'; accType: AccountType }
-  | { type: 'set_beginning_balance'; beginningBalance: number }
-  | { type: 'set_jenis'; jenis: AccountCategory }
-  | { type: 'set_sub_accounts'; subAccounts: string[] }
+  // | { type: 'set_account'; account: Account }
+  // | { type: 'set_parent_number'; parentNumber: string; parent: Account }
+  | { type: 'set_target_account'; accNo: string }
+  // | { type: 'set_account_name'; accName: string }
+  // | { type: 'set_desc'; desc: string }
+  // | { type: 'set_normal_balance'; normalBalance: NormalBalance }
+  // | { type: 'set_account_type'; accType: AccountType }
+  // | { type: 'set_beginning_balance'; beginningBalance: number }
+  // | { type: 'set_jenis'; jenis: AccountCategory }
+  // | { type: 'set_sub_accounts'; subAccounts: string[] }
   | { type: 'set_is_locked'; isLocked: boolean }
+  | { type: 'set_is_modal_open'; to: boolean }
 type AccountDispatch = (action: AccountDispatch) => void
-interface AccountState extends Account {
+interface AccountState {
   isLocked: boolean
+  isModalOpen: boolean
   accounts: Account[]
+  targetAccountNumber: string
 }
 type AccountContextValue = {
   accounts: Account[]
-  account: Account
+  targetAccountNumber: string
   isLocked: boolean
   isRefetching: boolean
+  isModalOpen: boolean
   dispatch: Dispatch
 }
 type AccountProviderProps = { children: React.ReactNode }
@@ -76,6 +79,6 @@ interface DeleteAccountPayload {
   year?: number
 }
 interface AccountSelectOptions {
-  value: Account
+  value: string
   label: string
 }

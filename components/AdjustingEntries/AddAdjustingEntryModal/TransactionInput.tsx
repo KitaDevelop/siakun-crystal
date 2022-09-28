@@ -1,10 +1,10 @@
-import { customStyles } from '@components/ChartOfAccounts/AddAccountModal/Select'
 import React, { useEffect, useState } from 'react'
 import Select from 'react-select'
 import { IoTrashOutline } from 'react-icons/io5'
 import { useAdjustingEntry } from '@hooks/useAdjustingEntry'
 import { useAccount } from '@hooks/useAccount'
 import { isSelectAccountOption } from '@utils/isSelectOptionValid'
+import { customStyles } from '@components/Form'
 
 interface Props {
   transaction: Transaction
@@ -105,7 +105,10 @@ export const TransactionInput = ({ transaction, isOnlyChild, idx }: Props) => {
       </td>
       <td>
         {!isOnlyChild && (
-          <div onClick={onTransactionDelete} className="btn btn-sm btn-error btn-outline btn-circle">
+          <div
+            onClick={onTransactionDelete}
+            className="btn btn-sm btn-error btn-outline btn-circle"
+          >
             <IoTrashOutline className="text-base" />
           </div>
         )}

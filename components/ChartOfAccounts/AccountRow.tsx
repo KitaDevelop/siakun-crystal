@@ -23,7 +23,7 @@ export const AccountRow = ({
   idx,
   openModalToEdit,
   isLocked,
-  account: { id, parentNumber, number, name, description, category, type, parent, normalBalance },
+  account: { id, number, name, description, category, type, normalBalance },
 }: Props) => {
   const { mutate } = useDeleteAccount()
   const { accounts, dispatch } = useAccount()
@@ -49,20 +49,7 @@ export const AccountRow = ({
   }
 
   const onEditAccount = () => {
-    dispatch({
-      type: 'set_account',
-      account: {
-        id,
-        parentNumber,
-        parent,
-        number,
-        name,
-        description,
-        category,
-        type,
-        normalBalance,
-      },
-    })
+    dispatch({ type: 'set_target_account', accNo: number })
     openModalToEdit()
   }
 
@@ -71,7 +58,10 @@ export const AccountRow = ({
       <tr className="invisible group-hover:visible absolute -left-5">
         <td className="dropdown">
           <div className="relative">
-            <div tabIndex={0} className="handle text-gray-400 hover:bg-gray-100 btn btn-xs btn-ghost">
+            <div
+              tabIndex={0}
+              className="handle text-gray-400 hover:bg-gray-100 btn btn-xs btn-ghost"
+            >
               <FiMoreVertical className="absolute w-5 h-5" style={{ left: '-5px' }} />
               <FiMoreVertical className="absolute  w-5 h-5" style={{ left: '1px' }} />
             </div>
@@ -111,7 +101,9 @@ export const AccountRow = ({
             onConfirm={onDeleteAccount}
             confirmMessage="Yes, delete"
           >
-            <div className="font-medium text-stone-700 text-lg">Are you sure you want to delete this account?</div>
+            <div className="font-medium text-stone-700 text-lg">
+              Are you sure you want to delete this account?
+            </div>
           </ConfirmationDialog>
         </td>
       </tr>

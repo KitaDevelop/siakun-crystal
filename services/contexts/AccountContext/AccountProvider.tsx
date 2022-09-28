@@ -1,5 +1,4 @@
 import { useFetchAccounts } from '@api/accounts'
-import { EmptyAccount } from '@constants/accounts'
 import { ROLE } from '@constants/auth'
 import useAuth from '@hooks/useAuth'
 import { useOrganization } from '@hooks/useOrganization'
@@ -9,15 +8,16 @@ import { AccountReducer } from './AccountReducer'
 
 const INITIAL_STATE: AccountState = {
   isLocked: false,
+  isModalOpen: false,
   accounts: [],
-  ...EmptyAccount,
+  targetAccountNumber: '',
 }
 const AccountContext = React.createContext<AccountContextValue | undefined>(undefined)
 
 const AccountProvider = ({ children }: AccountProviderProps) => {
   const [state, dispatch] = React.useReducer(AccountReducer, INITIAL_STATE)
   const [isUpdating, setIsUpdating] = useState(false) // to reduce table jumping on rerender
-  const { accounts, isLocked, ...account } = state
+  const { accounts } = state
 
   const { year } = useYear()
   const { organizationView } = useOrganization()
@@ -41,7 +41,7 @@ const AccountProvider = ({ children }: AccountProviderProps) => {
     refetch()
   }, [year])
 
-  const value = { accounts, account, isLocked, isRefetching: isRefetching || isUpdating, dispatch }
+  const value = { ...state, accounts, isRefetching: isRefetching || isUpdating, dispatch }
   return <AccountContext.Provider value={value}>{children}</AccountContext.Provider>
 }
 export { AccountContext, AccountProvider }

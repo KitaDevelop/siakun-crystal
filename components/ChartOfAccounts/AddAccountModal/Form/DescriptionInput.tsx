@@ -1,25 +1,16 @@
-import { useAccount } from '@hooks/useAccount'
-import React, { ChangeEvent } from 'react'
+import { Textarea } from '@components/Form'
+import React from 'react'
+import { Controller } from 'react-hook-form'
+import { AccountInputProps } from '..'
 
-export const DescriptionInput = () => {
-  const {
-    account: { description },
-    dispatch,
-  } = useAccount()
-
+export const DescriptionInput = ({ control }: AccountInputProps) => {
   return (
-    <div className="form-control">
-      <label className="label font-bold">
-        <span className="label-text">
-          Description
-        </span>
-      </label>
-      <textarea
-        className="textarea textarea-bordered resize-none"
-        placeholder="Enter Description"
-        value={description}
-        onChange={(e: ChangeEvent<HTMLTextAreaElement>) => dispatch({ type: 'set_desc', desc: e.target.value })}
-      ></textarea>
-    </div>
+    <Controller
+      name="description"
+      control={control}
+      render={({ field }) => (
+        <Textarea label="Description" placeholder="Enter Description" {...field} />
+      )}
+    />
   )
 }

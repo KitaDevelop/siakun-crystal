@@ -1,18 +1,9 @@
 import { AccountType } from '@constants/accounts'
-import { useAccount } from '@hooks/useAccount'
 import React from 'react'
+import { Control, Controller } from 'react-hook-form'
+import { AccountInputProps } from '../index'
 
-export const AccountTypeRadio = () => {
-  const {
-    account: { type },
-    dispatch,
-  } = useAccount()
-
-  const onAccountTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target
-    dispatch({ type: 'set_account_type', accType: value as AccountType })
-  }
-
+export const AccountTypeRadio = ({ control }: AccountInputProps) => {
   return (
     <div className="form-control">
       <label className="label font-bold">
@@ -21,30 +12,38 @@ export const AccountTypeRadio = () => {
         </span>
       </label>
       <div className="grid grid-cols-3 ml-2">
-        <label htmlFor="at-neraca" className="flex gap-2 items-center">
-          <input
-            onChange={onAccountTypeChange}
-            id="at-neraca"
-            type="radio"
-            name="account-type"
-            className="radio radio-secondary"
-            checked={type == AccountType.NERACA}
-            value={AccountType.NERACA}
-          />
-          <span className="label-text">Neraca</span>
-        </label>
-        <label htmlFor="at-labarugi" className="flex gap-2 items-center">
-          <input
-            onChange={onAccountTypeChange}
-            id="at-labarugi"
-            type="radio"
-            name="account-type"
-            className="radio radio-secondary"
-            checked={type == AccountType.LABARUGI}
-            value={AccountType.LABARUGI}
-          />
-          <span className="label-text">Labarugi</span>
-        </label>
+        <Controller
+          name="type"
+          control={control}
+          render={({ field }) => (
+            <>
+              <label htmlFor="at-neraca" className="flex gap-2 items-center">
+                <input
+                  id="at-neraca"
+                  tabIndex={0}
+                  required
+                  type="radio"
+                  className="radio radio-secondary"
+                  checked={field.value === AccountType.NERACA}
+                  {...field}
+                />
+                <span className="label-text">Neraca</span>
+              </label>
+              <label htmlFor="at-labarugi" className="flex gap-2 items-center">
+                <input
+                  id="at-labarugi"
+                  tabIndex={0}
+                  required
+                  type="radio"
+                  className="radio radio-secondary"
+                  checked={field.value === AccountType.LABARUGI}
+                  {...field}
+                />
+                <span className="label-text">Labarugi</span>
+              </label>
+            </>
+          )}
+        />
       </div>
     </div>
   )
