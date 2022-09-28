@@ -26,16 +26,7 @@ enum NormalBalance {
 }
 type AccountAction =
   | { type: 'set_accounts'; payload: Account[] }
-  // | { type: 'set_account'; account: Account }
-  // | { type: 'set_parent_number'; parentNumber: string; parent: Account }
   | { type: 'set_target_account'; accNo: string }
-  // | { type: 'set_account_name'; accName: string }
-  // | { type: 'set_desc'; desc: string }
-  // | { type: 'set_normal_balance'; normalBalance: NormalBalance }
-  // | { type: 'set_account_type'; accType: AccountType }
-  // | { type: 'set_beginning_balance'; beginningBalance: number }
-  // | { type: 'set_jenis'; jenis: AccountCategory }
-  // | { type: 'set_sub_accounts'; subAccounts: string[] }
   | { type: 'set_is_locked'; isLocked: boolean }
   | { type: 'set_is_modal_open'; to: boolean }
 type AccountDispatch = (action: AccountDispatch) => void
