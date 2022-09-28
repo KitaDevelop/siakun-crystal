@@ -1,7 +1,4 @@
 import { useChangePassword } from '@api/profile'
-import { ChangePasswordPayload } from '@api/profile/endpoints'
-import { capitalize } from '@utils/capitalize'
-import { AxiosError } from 'axios'
 import React, { FormEvent, useState } from 'react'
 import toast from 'react-hot-toast'
 import { PasswordInput } from './PasswordInput'
@@ -36,13 +33,21 @@ export const ChangePassword = (props: Props) => {
           <label className="label font-bold">
             <span className="label-text">Old Password</span>
           </label>
-          <PasswordInput password={oldPassword} setPassword={setOldPassword} placeholder="Enter your old password" />
+          <PasswordInput
+            password={oldPassword}
+            setPassword={setOldPassword}
+            placeholder="Enter your old password"
+          />
         </div>
         <div className="form-control w-full">
           <label className="label font-bold">
             <span className="label-text">New Password</span>
           </label>
-          <PasswordInput password={newPassword} setPassword={setNewPassword} placeholder="Enter a new password" />
+          <PasswordInput
+            password={newPassword}
+            setPassword={setNewPassword}
+            placeholder="Enter a new password"
+          />
         </div>
         <div className="form-control w-full">
           <label className="label font-bold">

@@ -1,6 +1,5 @@
 import FilterControls from '@components/FilterControls'
 import { Table, TableHeader } from '@components/Table'
-import { AdjustingEntry } from '@context/AdjustingEntryContext/types'
 import React, { useEffect, useState } from 'react'
 import { IoAdd } from 'react-icons/io5'
 import { AddAdjustingEntryModal } from './AddAdjustingEntryModal'
@@ -16,7 +15,7 @@ import { LockedAlert, LockedToggleAlert } from '@components/LockedAlert'
 import { Loader } from '@components/Loader'
 import { useOrganization } from '@hooks/useOrganization'
 import useAuth from '@hooks/useAuth'
-import { ROLE } from '@context/AuthContext/types'
+import { ROLE } from '@constants/auth'
 const { writeFile, utils } = XLSX
 
 export const Index = () => {
@@ -24,8 +23,14 @@ export const Index = () => {
   const { organizationView } = useOrganization()
   const { userProfile } = useAuth()
 
-  const { isLoading, isSuccess, data, refetch } = useFetchAdjustingEntries(year, userProfile?.role != ROLE.LEMBAGA ? organizationView?.id : undefined)
-  const { state: { isLocked }, dispatch } = useAdjustingEntry()
+  const { isLoading, isSuccess, data, refetch } = useFetchAdjustingEntries(
+    year,
+    userProfile?.role != ROLE.LEMBAGA ? organizationView?.id : undefined
+  )
+  const {
+    state: { isLocked },
+    dispatch,
+  } = useAdjustingEntry()
 
   const [isOpen, setOpen] = useState(false)
   const [isBlank, setIsBlank] = useState(true)
@@ -47,17 +52,17 @@ export const Index = () => {
   useEffect(() => {
     if (data) {
       const { data: entries_ } = data.data
-      if (searchKeyword != '') setEntries(
-        entries_.filter(
-          (e) =>
-            e.description.includes(searchKeyword) ||
-            e.transactions.reduce((a: boolean, b) => a || b.account!.number.includes(searchKeyword), false)
+      if (searchKeyword != '')
+        setEntries(
+          entries_.filter(
+            (e) =>
+              e.description.includes(searchKeyword) ||
+              e.transactions.reduce((a: boolean, b) => a || b.account!.number.includes(searchKeyword), false)
+          )
         )
-      )
       else setEntries(entries_)
     }
   }, [searchKeyword])
-
 
   const currentCredit = sum(entries.map((x) => x.transactions.reduce((acc: number, t) => acc + (t?.credit || 0), 0)))
   const currentDebit = sum(entries.map((x) => x.transactions.reduce((acc: number, t) => acc + (t?.debit || 0), 0)))
@@ -103,10 +108,7 @@ export const Index = () => {
 
   return (
     <div className="flex flex-col gap-4">
-      {userProfile?.role == ROLE.LEMBAGA ?
-        isLocked && <LockedAlert />
-        : <LockedToggleAlert />
-      }
+      {userProfile?.role == ROLE.LEMBAGA ? isLocked && <LockedAlert /> : <LockedToggleAlert />}
       <FilterControls {...{ exportDocument, searchKeyword, setSearchKeyword }} />
       {isLoading && !isSuccess ? (
         <div className="w-full grid place-content-center h-80 text-accent">
@@ -117,7 +119,7 @@ export const Index = () => {
           <Table zebra>
             <TableHeader cells={cells} />
             {entries.map((entry, idx) => (
-              <EntryRow key={entry.id}  {...{ idx, entry, openModalToEdit, reloadTable: refetch }} />
+              <EntryRow key={entry.id} {...{ idx, entry, openModalToEdit, reloadTable: refetch }} />
             ))}
             {entries.length > 0 && (
               <tr className="text-center font-bold">

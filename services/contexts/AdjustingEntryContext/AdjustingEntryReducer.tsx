@@ -1,6 +1,4 @@
-import { Action, State } from './types'
-
-export const AdjustingEntryReducer = (state: State, action: Action) => {
+export const AdjustingEntryReducer = (state: AdjustingEntryState, action: AdjustingEntryAction) => {
   switch (action.type) {
     case 'set_entries':
       return { ...state, entries: action.entries }

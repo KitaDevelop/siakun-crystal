@@ -1,10 +1,4 @@
 import { TableBody } from '@components/Table'
-import {
-  RowRelativePosition,
-  RowTypeSelectionMode,
-  TrialBalanceRow,
-  TrialBalanceTable,
-} from '@context/TrialBalanceContext/types'
 import { useTrialBalance } from '@hooks/useTrialBalance'
 import React, { ChangeEvent } from 'react'
 import { FiMoreVertical } from 'react-icons/fi'

@@ -1,6 +1,3 @@
-import { Transaction } from '@context/JournalEntryContext/types'
-import { useAccount } from '@hooks/useAccount'
-import { findAccountNameByNumber } from '@utils/findAccountNameByNumber'
 import { numberToRupiah } from '@utils/numberToRupiah'
 import React from 'react'
 

@@ -1,11 +1,5 @@
 import axios from 'axios'
 import config from 'config'
-import {
-  LoginResponse,
-  LoginRequestPayload,
-  LoadUserProfileRequestPayload,
-  UserProfile,
-} from '@context/AuthContext/types'
 
 export const login = async (payload: LoginRequestPayload) => {
   const res = await axios.post<LoginResponse>(

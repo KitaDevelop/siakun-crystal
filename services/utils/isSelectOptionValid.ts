@@ -1,9 +1,3 @@
-import {
-  SelectAccountOption,
-  SelectJenisOption,
-} from '@context/AccountContext/types'
-import { SelectOrganizationOption } from '@context/OrganizationContext/types'
-
 export const isSelectJenisOption = (v: any): v is SelectJenisOption => {
   if ((v as SelectJenisOption).value !== undefined) return v.value
   return false

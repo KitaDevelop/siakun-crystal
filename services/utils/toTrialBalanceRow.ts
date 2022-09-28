@@ -1,12 +1,3 @@
-import {
-  BalanceRow,
-  BlankRowPayload,
-  HeaderRowPayload,
-  TrialBalancePayload,
-  TrialBalanceRow,
-  TrialBalanceRowPayload,
-} from '@context/TrialBalanceContext/types'
-
 export const toTrialBalanceTable = (payload: TrialBalancePayload[]) => {
   const payloadSorted = payload.sort((a, b) => a.tableNumber - b.tableNumber)
   return {

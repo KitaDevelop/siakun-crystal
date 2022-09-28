@@ -1,31 +1,23 @@
-import { useAccount } from '@hooks/useAccount'
-import React, { ChangeEvent } from 'react'
+import { InputField } from '@components/Form'
+import React from 'react'
+import { Controller } from 'react-hook-form'
+import { AccountInputProps } from '..'
 
-export const BeginningBalanceInput = () => {
-  const {
-    account: { beginningBalance },
-    dispatch,
-  } = useAccount()
-
+export const BeginningBalanceInput = ({ control, errors }: AccountInputProps) => {
   return (
-    <div className="form-control">
-      <label className="label font-bold">
-        <span className="label-text">
-          Beginning Balance <span className="text-error"></span>
-        </span>
-      </label>
-      <div className="relative">
-        <div className="absolute top-0 left-0 btn btn-ghost hover:bg-transparent rounded-r-none normal-case">Rp</div>
-        <input
+    <Controller
+      name="beginningBalance"
+      control={control}
+      render={({ field }) => (
+        <InputField
           type="number"
+          label="Beginning Balance"
           placeholder="Enter Beginning Balance"
-          className="input input-bordered pl-12 w-full"
-          value={beginningBalance}
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            dispatch({ type: 'set_beginning_balance', beginningBalance: Number(e.target.value) })
-          }
+          error={errors.beginningBalance?.message}
+          isRequired
+          {...field}
         />
-      </div>
-    </div>
+      )}
+    />
   )
 }

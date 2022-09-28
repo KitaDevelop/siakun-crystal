@@ -1,13 +1,11 @@
-import React from 'react'
-
-export type Organization = {
+type Organization = {
   id: number
   name: string
   profilePicture: string
 }
-export type SelectOrganizationOption = { value: Organization; label: string }
-export type OrganizationProviderProps = { children: React.ReactNode }
-export type OrganizationContextType = {
+type SelectOrganizationOption = { value: Organization; label: string }
+type OrganizationProviderProps = { children: React.ReactNode }
+type OrganizationContextType = {
   organizations: Organization[]
   setOrganizations: (organization: Organization[]) => void
   organizationView: Organization | null

@@ -1,7 +1,5 @@
-import { JournalEntry } from '@context/JournalEntryContext/types'
 import axios from 'axios'
 import config from 'config'
-import { JournalEntryPayload, JournalEntryResponse } from '.'
 
 export const getJournalEntries = (year?: number, oID?: number) =>
   axios.get<JournalEntryResponse>(

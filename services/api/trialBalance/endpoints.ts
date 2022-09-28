@@ -1,8 +1,3 @@
-import {
-  BlankRowPayload,
-  TrialBalancePayload,
-  TrialBalanceResponse,
-} from '@context/TrialBalanceContext/types'
 import axios from 'axios'
 import config from 'config'
 

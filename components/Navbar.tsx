@@ -3,7 +3,7 @@ import { FaRegUser, FaSignOutAlt } from 'react-icons/fa'
 import Image from 'next/image'
 import Link from 'next/link'
 import useAuth from '@hooks/useAuth'
-import { ROLE, UserProfile } from '@context/AuthContext/types'
+import { ROLE } from '@constants/auth'
 import { capitalize } from '@utils/capitalize'
 
 export interface NavbarProps {
@@ -15,7 +15,7 @@ export interface NavbarProps {
 export default function Navbar({ title, icon }: NavbarProps) {
   const { userProfile, logout } = useAuth()
 
-  const displayName = userProfile?.role == ROLE.AUDITOR ? userProfile.username : userProfile?.organization.name
+  const displayName = userProfile?.role == ROLE.AUDITOR ? userProfile.username : userProfile?.organization?.name
 
   return (
     <div className="navbar shadow-lg bg-neutral text-neutral-content rounded-box">

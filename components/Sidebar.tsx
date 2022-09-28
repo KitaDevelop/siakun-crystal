@@ -6,7 +6,7 @@ import { navigation } from '@constants/navigation'
 import { FiChevronsLeft, FiChevronsRight } from 'react-icons/fi'
 import { useSidebar } from '@context/SidebarContext'
 import useAuth from '@hooks/useAuth'
-import { ROLE } from '@context/AuthContext/types'
+import { ROLE } from '@constants/auth'
 import { OrganizationSelect } from './OrganizationSelect'
 import { useOrganization } from '@hooks/useOrganization'
 

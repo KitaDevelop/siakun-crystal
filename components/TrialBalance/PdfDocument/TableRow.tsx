@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react'
 import { Text, View, StyleSheet } from '@react-pdf/renderer'
-import { BalanceRow, TrialBalanceRow } from '@context/TrialBalanceContext/types'
 import { numberToRupiah } from '@utils/numberToRupiah'
 
 const styles = StyleSheet.create({

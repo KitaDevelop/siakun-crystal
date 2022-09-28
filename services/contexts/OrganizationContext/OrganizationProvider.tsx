@@ -1,9 +1,7 @@
-import { lockReport, unlockReport, useFetchOrganizations } from '@api/organizations';
-import { useYear } from '@hooks/useYear';
+import { unlockReport, lockReport, useFetchOrganizations } from '@api/organizations'
+import { useYear } from '@hooks/useYear'
 import React, { useEffect, useState } from 'react'
-import toast from 'react-hot-toast';
-import { Organization, OrganizationContextType, OrganizationProviderProps } from './types';
-
+import toast from 'react-hot-toast'
 
 const OrganizationContext = React.createContext<OrganizationContextType | undefined>(undefined)
 
@@ -32,7 +30,21 @@ const OrganizationProvider = ({ children }: OrganizationProviderProps) => {
     setIsLocked(!isLocked)
   }
 
-  return <OrganizationContext.Provider value={{ organizations, setOrganizations, organizationView, setOrganizationView, isLocked, setIsLocked, toggleLocked }}>{children}</OrganizationContext.Provider>
+  return (
+    <OrganizationContext.Provider
+      value={{
+        organizations,
+        setOrganizations,
+        organizationView,
+        setOrganizationView,
+        isLocked,
+        setIsLocked,
+        toggleLocked,
+      }}
+    >
+      {children}
+    </OrganizationContext.Provider>
+  )
 }
 
 export { OrganizationContext, OrganizationProvider }

@@ -1,28 +1,31 @@
 import { useFetchAccounts } from '@api/accounts'
-import { ROLE } from '@context/AuthContext/types'
+import { ROLE } from '@constants/auth'
 import useAuth from '@hooks/useAuth'
 import { useOrganization } from '@hooks/useOrganization'
 import { useYear } from '@hooks/useYear'
 import React, { useEffect, useState } from 'react'
 import { AccountReducer } from './AccountReducer'
-import { AccountContextValue, AccountProviderProps, State, EmptyAccount } from './types'
 
-const INITIAL_STATE: State = {
+const INITIAL_STATE: AccountState = {
   isLocked: false,
+  isModalOpen: false,
   accounts: [],
-  ...EmptyAccount,
+  targetAccountNumber: '',
 }
 const AccountContext = React.createContext<AccountContextValue | undefined>(undefined)
 
 const AccountProvider = ({ children }: AccountProviderProps) => {
   const [state, dispatch] = React.useReducer(AccountReducer, INITIAL_STATE)
   const [isUpdating, setIsUpdating] = useState(false) // to reduce table jumping on rerender
-  const { accounts, isLocked, ...account } = state
+  const { accounts } = state
 
   const { year } = useYear()
   const { organizationView } = useOrganization()
   const { userProfile } = useAuth()
-  const { isLoading, isRefetching, data, refetch } = useFetchAccounts(year, userProfile?.role != ROLE.LEMBAGA ? organizationView?.id : undefined)
+  const { isLoading, isRefetching, data, refetch } = useFetchAccounts(
+    year,
+    userProfile?.role != ROLE.LEMBAGA ? organizationView?.id : undefined
+  )
 
   useEffect(() => {
     if (!isLoading && data) {
@@ -38,7 +41,7 @@ const AccountProvider = ({ children }: AccountProviderProps) => {
     refetch()
   }, [year])
 
-  const value = { accounts, account, isLocked, isRefetching: isRefetching || isUpdating, dispatch }
+  const value = { ...state, accounts, isRefetching: isRefetching || isUpdating, dispatch }
   return <AccountContext.Provider value={value}>{children}</AccountContext.Provider>
 }
 export { AccountContext, AccountProvider }

@@ -1,6 +1,7 @@
-import { Action, BalanceRow, State, TrialBalanceRow } from './types'
-
-export const TrialBalanceReducer = (state: State, action: Action) => {
+export const TrialBalanceReducer = (
+  state: TrialBalanceState,
+  action: TrialBalanceAction
+) => {
   const EmptyRow: BalanceRow = {
     accountNumber: '',
     accountName: '',

@@ -1,14 +1,15 @@
 import React from 'react'
 import { TrialBalanceReducer } from './TrialBalanceReducer'
-import { Dispatch, State, TrialBalanceProviderProps } from './types'
 
-const INITIAL_STATE: State = {
+const INITIAL_STATE: TrialBalanceState = {
   isLocked: false,
   financialPosition: [],
   activities: [],
 }
 
-const TrialBalanceContext = React.createContext<{ state: State; dispatch: Dispatch } | undefined>(undefined)
+const TrialBalanceContext = React.createContext<
+  { state: TrialBalanceState; dispatch: TrialBalanceDispatch } | undefined
+>(undefined)
 
 const TrialBalanceProvider = ({ children }: TrialBalanceProviderProps) => {
   const [state, dispatch] = React.useReducer(TrialBalanceReducer, INITIAL_STATE)

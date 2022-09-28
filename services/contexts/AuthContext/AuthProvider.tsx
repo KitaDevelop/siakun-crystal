@@ -1,10 +1,23 @@
 import axios from 'axios'
 import React, { createContext, ReactNode, useEffect, useRef, useState } from 'react'
 import { useMutation, useQuery } from 'react-query'
-import { getCookie, setCookies, removeCookies, checkCookies } from 'cookies-next';
+import { getCookie, setCookies, removeCookies, checkCookies } from 'cookies-next'
 import { loadUserProfile, login } from '@api/auth'
-import { AuthContextValue, UserProfile } from './types'
 import { useRouter } from 'next/router'
+import { UseMutationResult } from 'react-query'
+
+export interface AuthContextValue {
+  userProfile: UserProfile | null
+  driveOAuth: string
+  setUserProfile: (payload: UserProfile) => void
+  isAuthenticated: boolean
+  useLoginMutation: UseMutationResult<LoginResponse, unknown, LoginRequestPayload, unknown>
+  isLoadingUserProfile: boolean
+  isLoadingLogin: boolean
+  logout: () => void
+  setUserAvatar: (avatar: string) => void
+  setDriveOAuth: (url: string) => void
+}
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined)
 
@@ -22,7 +35,6 @@ function AuthProvider({ children }: { children: ReactNode }) {
       setToken(token_)
     }
   }, [])
-
 
   useEffect(() => {
     if (token) axios.defaults.headers.common['Authorization'] = `Bearer ${token}`

@@ -1,5 +1,4 @@
-import { Table, TableBody, TableHeader } from '@components/Table'
-import { JournalEntry } from '@context/JournalEntryContext/types'
+import { Table, TableBody,  TableHeader } from '@components/Table'
 import React, { useEffect, useState } from 'react'
 import { IoAdd } from 'react-icons/io5'
 import { AddJournalEntryModal } from './AddJournalEntryModal'
@@ -16,8 +15,8 @@ import EntryRow from './EntryRow'
 import { LockedAlert, LockedToggleAlert } from '@components/LockedAlert'
 import { Loader } from '@components/Loader'
 import useAuth from '@hooks/useAuth'
-import { ROLE } from '@context/AuthContext/types'
 import { useOrganization } from '@hooks/useOrganization'
+import { ROLE } from '@constants/auth'
 const { writeFile, utils } = XLSX
 
 export const Index = () => {

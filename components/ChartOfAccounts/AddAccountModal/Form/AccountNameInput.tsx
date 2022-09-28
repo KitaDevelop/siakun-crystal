@@ -1,26 +1,22 @@
-import { useAccount } from '@hooks/useAccount'
-import React, { ChangeEvent } from 'react'
+import { InputField } from '@components/Form'
+import React from 'react'
+import { Controller } from 'react-hook-form'
+import { AccountInputProps } from '..'
 
-export const AccountNameInput = () => {
-  const {
-    account: { name },
-    dispatch,
-  } = useAccount()
-
+export const AccountNameInput = ({ control, errors }: AccountInputProps) => {
   return (
-    <div className="form-control">
-      <label className="label font-bold">
-        <span className="label-text">
-          Account Name <span className="text-error">*</span>
-        </span>
-      </label>
-      <input
-        type="text"
-        placeholder="Enter Account Name"
-        className="input input-bordered"
-        value={name}
-        onChange={(e: ChangeEvent<HTMLInputElement>) => dispatch({ type: 'set_account_name', accName: e.target.value })}
-      />
-    </div>
+    <Controller
+      name="name"
+      control={control}
+      render={({ field }) => (
+        <InputField
+          label="Account Name"
+          placeholder="Enter Account Name"
+          isRequired
+          error={errors.name?.message}
+          {...field}
+        />
+      )}
+    />
   )
 }
