@@ -1,5 +1,4 @@
-import { useAccount } from '@hooks/useAccount'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { IoAdd } from 'react-icons/io5'
 import { AccountInputProps } from '..'
 import { SubAccountSelect } from '../Select/SubAccountSelect'
@@ -7,14 +6,6 @@ import { useWatch } from 'react-hook-form'
 
 export const JumlahAdditionalInfo = ({ control, errors, setValue }: AccountInputProps) => {
   const subAccounts = useWatch({ name: 'subAccounts', control })
-  console.log(
-    '🚀 ~ file: JumlahAdditionalInfo.tsx ~ line 10 ~ JumlahAdditionalInfo ~ subAccounts',
-    subAccounts
-  )
-
-  // useEffect(() => {
-  //   if (!subAccounts) dispatch({ type: 'set_sub_accounts', subAccounts: [] })
-  // }, [])
 
   const addSubAccountHandler = () => {
     const accounts = [...(subAccounts || []), '']
@@ -35,6 +26,7 @@ export const JumlahAdditionalInfo = ({ control, errors, setValue }: AccountInput
       <div onClick={addSubAccountHandler} className="btn btn-ghost text-primary self-start btn-sm">
         <IoAdd className="mr-2" /> Add More
       </div>
+      <p>{errors.subAccounts?.message}</p>
     </div>
   )
 }

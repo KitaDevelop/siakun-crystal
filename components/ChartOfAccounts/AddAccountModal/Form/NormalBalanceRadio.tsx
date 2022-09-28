@@ -20,25 +20,27 @@ export const NormalBalanceRadio = ({ control, errors }: AccountInputProps) => {
           <div className="grid grid-cols-3 ml-2">
             <label htmlFor="nb-debit" className="flex gap-2 items-center">
               <input
+                {...field}
                 id="nb-debit"
                 tabIndex={0}
                 type="radio"
                 className="radio radio-secondary"
                 required
                 checked={field.value === NormalBalance.DEBIT}
-                {...field}
+                value={NormalBalance.DEBIT}
               ></input>
               <span className="label-text">Debit</span>
             </label>
             <label htmlFor="nb-credit" className="flex gap-2 items-center">
               <input
+                {...field}
                 id="nb-credit"
                 tabIndex={0}
                 type="radio"
                 className="radio radio-secondary"
                 checked={field.value === NormalBalance.CREDIT}
+                value={NormalBalance.CREDIT}
                 required
-                {...field}
               ></input>
               <span className="label-text">Credit</span>
             </label>

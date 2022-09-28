@@ -47,26 +47,15 @@ export const SubAccountSelect = ({ idx, control, setValue }: Props) => {
 
   return (
     <div className="flex gap-2 items-center">
-      <Controller
-        name="subAccounts"
-        rules={{
-          required: true,
-          validate: (accounts) => accounts?.some((accNumber) => accNumber === ''),
-        }}
-        control={control}
-        render={({ field }) => (
-          <Select
-            {...field}
-            className="flex-1"
-            options={options}
-            placeholder="Select Sub Account"
-            styles={customStyles}
-            closeMenuOnSelect
-            isSearchable
-            value={options.find((x) => x.value == subAccounts?.[idx])}
-            onChange={(val) => onSubAccountSelect(val)}
-          />
-        )}
+      <Select
+        className="flex-1"
+        options={options}
+        placeholder="Select Sub Account"
+        styles={customStyles}
+        closeMenuOnSelect
+        isSearchable
+        value={options.find((x) => x.value == subAccounts?.[idx])}
+        onChange={(val) => onSubAccountSelect(val)}
       />
       <div onClick={onDeleteSubAccount} className="btn btn-circle btn-secondary btn-outline btn-sm">
         <IoTrashOutline className="w-5 h-5" />

@@ -60,7 +60,16 @@ const useAccountForm = (account?: Account) => {
       return {
         ...data,
         beginningBalance: Number(data.beginningBalance),
+        parentNumber: data.parentNumber !== '' ? data.parentNumber : undefined,
       }
+    else if (data.category === AccountCategory.JUMLAH) {
+      const { beginningBalance, normalBalance, type, ...account } = data
+      return {
+        ...account,
+        parentNumber: data.parentNumber !== '' ? data.parentNumber : undefined,
+        subAccounts: data.subAccounts?.filter((x) => x !== ''),
+      }
+    }
     return data
   }
 

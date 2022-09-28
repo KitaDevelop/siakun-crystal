@@ -34,7 +34,6 @@ export const AddAccountModal = ({ isOpen, setIsOpen, isBlank, account }: Props) 
   }, [isOpen, isBlank])
 
   const onSaveAccount = (data: Account) => {
-    console.log('🚀 ~ file: index.tsx ~ line 31 ~ onSaveAccount ~ data', data)
     if (isBlank) createAccount(data)
     else updateAccount(data)
   }

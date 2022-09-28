@@ -46,6 +46,7 @@ export const Index = () => {
   }
 
   const openModalToCreate = () => {
+    dispatch({ type: 'set_target_account', accNo: '' })
     setModalOpen(true)
     setBlank(true)
   }

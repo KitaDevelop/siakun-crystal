@@ -19,25 +19,27 @@ export const AccountTypeRadio = ({ control }: AccountInputProps) => {
             <>
               <label htmlFor="at-neraca" className="flex gap-2 items-center">
                 <input
+                  {...field}
                   id="at-neraca"
                   tabIndex={0}
                   required
                   type="radio"
                   className="radio radio-secondary"
                   checked={field.value === AccountType.NERACA}
-                  {...field}
+                  value={AccountType.NERACA}
                 />
                 <span className="label-text">Neraca</span>
               </label>
               <label htmlFor="at-labarugi" className="flex gap-2 items-center">
                 <input
+                  {...field}
                   id="at-labarugi"
                   tabIndex={0}
                   required
                   type="radio"
                   className="radio radio-secondary"
                   checked={field.value === AccountType.LABARUGI}
-                  {...field}
+                  value={AccountType.LABARUGI}
                 />
                 <span className="label-text">Labarugi</span>
               </label>
