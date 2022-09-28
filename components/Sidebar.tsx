@@ -101,8 +101,7 @@ const SidebarCollapsed: React.FC = () => {
           </Link>
         </div>
         {userProfile?.role == ROLE.AUDITOR && (
-          <div className="dropdown dropdown-right mb-3">
-            <div className="divider m-0 mb-2"></div>
+          <div className="dropdown dropdown-right mb-3 border-t border-gray-200 pt-4">
             <div tabIndex={-1} className="avatar mx-2 cursor-pointer">
               <div className="w-9 h-9 rounded-full border border-gray-400">
                 <Image

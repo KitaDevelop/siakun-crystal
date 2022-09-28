@@ -78,7 +78,7 @@ export const AddAdjustingEntryModal = ({ isBlank, isOpen, setIsOpen, reloadTable
   }
   return (
     <Modal {...{ isOpen, setIsOpen, size: 'lg', isOverflow: transactions.length > 2 }}>
-      <div className="font-bold text-xl mb-4">{isBlank ? "Create New" : "Edit"} Adjusting Entry</div>
+      <div className="font-bold text-xl mb-4">{isBlank ? 'Create New' : 'Edit'} Adjusting Entry</div>
       {!isBlank && isLoading ? (
         <div className="w-full grid place-content-center h-80 text-accent">
           <Loader />

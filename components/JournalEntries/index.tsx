@@ -1,4 +1,4 @@
-import { Table, TableHeader } from '@components/Table'
+import { Table, TableBody, TableHeader } from '@components/Table'
 import React, { useEffect, useState } from 'react'
 import { IoAdd } from 'react-icons/io5'
 import { AddJournalEntryModal } from './AddJournalEntryModal'
@@ -58,7 +58,10 @@ export const Index = () => {
             (e) =>
               e.date.includes(searchKeyword) ||
               e.description.includes(searchKeyword) ||
-              e.transactions.reduce((a: boolean, b) => a || b.account!.number.includes(searchKeyword), false)
+              e.transactions.reduce(
+                (a: boolean, b) => a || b.account!.number.includes(searchKeyword),
+                false
+              )
           )
         )
       else setEntries(entries_)
@@ -125,22 +128,27 @@ export const Index = () => {
           <Table zebra>
             <TableHeader cells={cells} />
             {entries.map((entry, idx) => (
-              <EntryRow key={entry.id} {...{ idx, entry, isLocked, openModalToEdit, reloadTable: refetch }} />
+              <EntryRow
+                key={entry.id}
+                {...{ idx, entry, isLocked, openModalToEdit, reloadTable: refetch }}
+              />
             ))}
-            {entries.length > 0 && (
-              <tr className="text-center font-bold">
-                <td colSpan={3} className="text-right uppercase">
-                  Total
-                </td>
-                <td className="text-right text-green-900 bg-success bg-opacity-10 rounded-l-lg">
-                  {numberToRupiah(currentDebit)}
-                </td>
-                <td className="text-right text-red-900 bg-error bg-opacity-10 rounded-r-lg">
-                  {numberToRupiah(currentCredit)}
-                </td>
-                <td></td>
-              </tr>
-            )}
+            <TableBody>
+              {entries.length > 0 && (
+                <tr className="text-center font-bold">
+                  <td colSpan={3} className="text-right uppercase">
+                    Total
+                  </td>
+                  <td className="text-right text-green-900 bg-success bg-opacity-10 rounded-l-lg">
+                    {numberToRupiah(currentDebit)}
+                  </td>
+                  <td className="text-right text-red-900 bg-error bg-opacity-10 rounded-r-lg">
+                    {numberToRupiah(currentCredit)}
+                  </td>
+                  <td></td>
+                </tr>
+              )}
+            </TableBody>
           </Table>
           {entries && entries.length == 0 && (
             <div className="card w-full bg-base-200 p-8 text-center items-center">
@@ -155,10 +163,15 @@ export const Index = () => {
 
       {userProfile?.role === ROLE.LEMBAGA && !isLocked && (
         <>
-          <button onClick={() => openModalToCreate()} className="btn btn-circle fixed bottom-6 right-6 btn-primary">
+          <button
+            onClick={() => openModalToCreate()}
+            className="btn btn-circle fixed bottom-6 right-6 btn-primary"
+          >
             <IoAdd className="w-5 h-5" />
           </button>
-          <AddJournalEntryModal {...{ isBlank, isOpen, reloadTable: refetch, setIsOpen: setOpen }} />
+          <AddJournalEntryModal
+            {...{ isBlank, isOpen, reloadTable: refetch, setIsOpen: setOpen }}
+          />
         </>
       )}
     </div>
