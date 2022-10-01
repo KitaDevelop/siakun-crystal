@@ -25,9 +25,12 @@ export const useFetchAccount = (number: string, year?: number) => {
 }
 
 export const useCreateAccount = () => {
-  return useMutation((account: Account) => createAccount(account), {
-    onError: handleError,
-  })
+  return useMutation(
+    ({ account, year }: CreateAccountPayload) => createAccount(account, year),
+    {
+      onError: handleError,
+    }
+  )
 }
 
 export const useUpdateAccount = () => {

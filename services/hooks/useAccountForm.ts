@@ -74,19 +74,22 @@ const useAccountForm = (account?: Account) => {
   }
 
   const createAccount = (data: Account) => {
-    createAccountMutation.mutate(cleanData(data), {
-      onSuccess: () => {
-        const accounts_ = [...accounts, data]
-        dispatch({ type: 'set_accounts', payload: accounts_ })
-        dispatch({ type: 'set_is_modal_open', to: false })
-        toast.success('Successfully created a new account.')
-      },
-    })
+    createAccountMutation.mutate(
+      { account: cleanData(data), year },
+      {
+        onSuccess: () => {
+          const accounts_ = [...accounts, data]
+          dispatch({ type: 'set_accounts', payload: accounts_ })
+          dispatch({ type: 'set_is_modal_open', to: false })
+          toast.success('Successfully created a new account.')
+        },
+      }
+    )
   }
 
   const updateAccount = (data: Account) => {
     updateAccountMutation.mutate(
-      { accountNumber: data.number, account: cleanData(data), year: year },
+      { accountNumber: data.number, account: cleanData(data), year },
       {
         onSuccess: () => {
           const accounts_ = [...accounts]

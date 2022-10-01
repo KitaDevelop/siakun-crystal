@@ -15,9 +15,12 @@ export const getAccount = (accountId: string, year?: number) =>
     }`
   )
 
-export const createAccount = (account: Account) => {
+export const createAccount = (account: Account, year?: number) => {
   const { id, ...newAccount } = account
-  return axios.post<Account>(`${config.API_URL_CARBON}/accounts`, newAccount)
+  return axios.post<Account>(
+    `${config.API_URL_CARBON}/accounts${!!year ? '?year=' + year : ''}`,
+    newAccount
+  )
 }
 
 export const updateAccount = (

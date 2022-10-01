@@ -60,6 +60,10 @@ interface AccountResponse {
 interface SingleAccountResponse {
   data: Account
 }
+interface CreateAccountPayload {
+  account: Account
+  year?: number
+}
 interface UpdateAccountPayload {
   accountNumber: string
   account: Partial<Account>
