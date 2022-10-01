@@ -1,8 +1,7 @@
 import React from 'react'
 import { AdjustingEntryReducer } from './AdjustingEntryReducer'
-import { AdjustingEntryProviderProps, Dispatch, State } from './types'
 
-const INITIAL_STATE: State = {
+const INITIAL_STATE: AdjustingEntryState = {
   isLocked: false,
   entries: [],
   id: -1,
@@ -10,7 +9,9 @@ const INITIAL_STATE: State = {
   transactions: [{ id: Date.now(), accountNumber: '' }],
 }
 
-const AdjustingEntryContext = React.createContext<{ state: State; dispatch: Dispatch } | undefined>(undefined)
+const AdjustingEntryContext = React.createContext<
+  { state: AdjustingEntryState; dispatch: AdjustingEntryDispatch } | undefined
+>(undefined)
 
 const AdjustingEntryProvider = ({ children }: AdjustingEntryProviderProps) => {
   const [state, dispatch] = React.useReducer(AdjustingEntryReducer, INITIAL_STATE)

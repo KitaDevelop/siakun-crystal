@@ -1,7 +1,6 @@
 import React from 'react'
-import { Page, Document, Text, View, StyleSheet, Font } from '@react-pdf/renderer'
+import { Page, Document, Text, StyleSheet, Font } from '@react-pdf/renderer'
 import ItemsTable from './ItemsTable'
-import { TrialBalanceRow } from '@context/TrialBalanceContext/types'
 
 interface Props {
   financialPosition: TrialBalanceRow[]

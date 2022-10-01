@@ -1,5 +1,4 @@
 import { handleError, OPTIONS } from '@api/.'
-import { UpdateTrialBalancePayload } from '@context/TrialBalanceContext/types'
 import { useMutation, useQuery } from 'react-query'
 import { getTrialBalance, updateTrialBalance } from './endpoints'
 

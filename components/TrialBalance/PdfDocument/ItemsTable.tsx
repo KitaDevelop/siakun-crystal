@@ -1,7 +1,6 @@
 import React from 'react'
 import { View, StyleSheet } from '@react-pdf/renderer'
 import TableRow from './TableRow'
-import { TrialBalanceRow } from '@context/TrialBalanceContext/types'
 import TableHeader from './TableHeader'
 interface Props {
   data: TrialBalanceRow[]

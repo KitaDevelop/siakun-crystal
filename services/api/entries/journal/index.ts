@@ -1,5 +1,4 @@
-import { DeletePayload, handleError, OPTIONS, OPTIONS_NO_CACHE } from '@api/.'
-import { JournalEntry } from '@context/JournalEntryContext/types'
+import { DeletePayload, handleError, OPTIONS_NO_CACHE } from '@api/.'
 import { useMutation, useQuery } from 'react-query'
 import {
   createJournalEntry,
@@ -9,33 +8,6 @@ import {
   getJournalEntry,
   updateJournalEntry,
 } from './endpoints'
-
-export interface UpdateJournalEntryPayload {
-  id: number
-  entry: JournalEntryPayload
-  year: number
-}
-
-export interface CreateJournalEntryPayload {
-  entry: JournalEntryPayload
-  year: number
-}
-
-export interface JournalEntryPayload {
-  date: string
-  description: string
-  receipt?: string
-  transactions: {
-    accountNumber: string
-    debit: number
-    credit: number
-  }[]
-}
-
-export interface JournalEntryResponse {
-  isLocked: boolean
-  data: JournalEntry[]
-}
 
 export const useFetchJournalEntries = (year?: number, oID?: number) => {
   return useQuery(
@@ -60,7 +32,7 @@ export const useFetchJournalEntry = (id: number, year?: number) => {
   return useQuery(
     `journal-entry-${year}:${id}`,
     () => getJournalEntry(id, year),
-    OPTIONS_NO_CACHE
+    { ...OPTIONS_NO_CACHE, enabled: id != -1 }
   )
 }
 

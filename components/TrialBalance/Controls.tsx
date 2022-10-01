@@ -11,8 +11,8 @@ import { useUpdateTrialBalance } from '@api/trialBalance'
 import { ConfirmationDialog } from '@components/ConfirmationDialog'
 import toast from 'react-hot-toast'
 import { toTrialBalancePayload } from '@utils/toTrialBalanceRow'
-import { ROLE } from '@context/AuthContext/types'
 import useAuth from '@hooks/useAuth'
+import { ROLE } from '@constants/auth'
 
 interface Props {
   isEditing: Boolean
@@ -33,7 +33,7 @@ export const Controls = ({ isEditing, setIsEditing, exportAsXlsx, reloadBalance,
   const updateTrialBalance = useUpdateTrialBalance()
 
   const onSave = async () => {
-    [financialPosition, activities].forEach((rows, idx) => {
+    ;[financialPosition, activities].forEach((rows, idx) => {
       updateTrialBalance.mutate(
         { year, tableNumber: idx + 1, rows: toTrialBalancePayload(rows) },
         {
@@ -41,7 +41,7 @@ export const Controls = ({ isEditing, setIsEditing, exportAsXlsx, reloadBalance,
             setConfirmSave(false)
             setIsEditing(false)
             reloadBalance()
-            toast.success("Trial balance saved.")
+            toast.success('Trial balance saved.')
           },
         }
       )
@@ -58,7 +58,9 @@ export const Controls = ({ isEditing, setIsEditing, exportAsXlsx, reloadBalance,
           <div className="btn btn-ghost text-secondary mx-2" onClick={() => setIsEditing(false)}>
             Cancel
           </div>
-          <ConfirmationDialog isOpen={confirmSave} setIsOpen={setConfirmSave} onConfirm={onSave} confirmMessage="Save">Save trial balance of {year}?</ConfirmationDialog>
+          <ConfirmationDialog isOpen={confirmSave} setIsOpen={setConfirmSave} onConfirm={onSave} confirmMessage="Save">
+            Save trial balance of {year}?
+          </ConfirmationDialog>
         </div>
       ) : (
         <div className={`flex ${position === 'bottom' && 'flex-row-reverse'}`}>
@@ -83,9 +85,11 @@ export const Controls = ({ isEditing, setIsEditing, exportAsXlsx, reloadBalance,
             </ul>
           </div>
 
-          {userProfile?.role === ROLE.LEMBAGA && !isLocked && (<div className="btn btn-primary btn-outline mx-2" onClick={() => setIsEditing(true)}>
-            <BiEdit className="w-5 h-5 mr-2" /> Edit
-          </div>)}
+          {userProfile?.role === ROLE.LEMBAGA && !isLocked && (
+            <div className="btn btn-primary btn-outline mx-2" onClick={() => setIsEditing(true)}>
+              <BiEdit className="w-5 h-5 mr-2" /> Edit
+            </div>
+          )}
         </div>
       )}
       {position === 'top' && (

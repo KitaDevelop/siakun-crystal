@@ -1,5 +1,3 @@
-import { Account } from '@context/AccountContext/types'
-
 export const findAccountNameByNumber = (
   accounts: Account[],
   number: string

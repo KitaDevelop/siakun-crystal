@@ -1,6 +1,5 @@
 import { TransactionRow } from '@components/JournalEntries/TransactionRow'
 import { TableBody } from '@components/Table'
-import { JournalEntry } from '@context/JournalEntryContext/types'
 import { downloadFile } from '@utils/downloadFile'
 import { formatDate } from '@utils/formatDate'
 import { numberToRupiah } from '@utils/numberToRupiah'
@@ -28,12 +27,14 @@ export const EntryRowReadonly = ({ idx, entry: { id, date, description, receipt,
             tabIndex={0}
             className="p-2 shadow menu compact bg-base-100 overflow-visible rounded-box w-52 dropdown-content"
           >
-            {receipt && <li>
-              <a onClick={() => downloadFile(receipt)} >
-                <FiDownload className="w-5 h-5 mr-2" />
-                Download Receipt
-              </a>
-            </li>}
+            {receipt && (
+              <li>
+                <a onClick={() => downloadFile(receipt)}>
+                  <FiDownload className="w-5 h-5 mr-2" />
+                  Download Receipt
+                </a>
+              </li>
+            )}
           </ul>
         </td>
       </tr>

@@ -1,5 +1,4 @@
 import { useMutation, useQuery } from 'react-query'
-import { Account } from '@context/AccountContext/types'
 import {
   createAccount,
   deleteAccount,
@@ -8,26 +7,6 @@ import {
   updateAccount,
 } from './endpoints'
 import { handleError, OPTIONS } from '..'
-
-export interface AccountResponse {
-  isLocked: boolean
-  data: Account[]
-}
-
-export interface SingleAccountResponse {
-  data: Account
-}
-
-export interface UpdateAccountPayload {
-  accountNumber: string
-  account: Partial<Account>
-  year?: number
-}
-
-export interface DeleteAccountPayload {
-  accountNumber: string
-  year?: number
-}
 
 export const useFetchAccounts = (year?: number, oID?: number) => {
   return useQuery(
@@ -46,9 +25,12 @@ export const useFetchAccount = (number: string, year?: number) => {
 }
 
 export const useCreateAccount = () => {
-  return useMutation((account: Account) => createAccount(account), {
-    onError: handleError,
-  })
+  return useMutation(
+    ({ account, year }: CreateAccountPayload) => createAccount(account, year),
+    {
+      onError: handleError,
+    }
+  )
 }
 
 export const useUpdateAccount = () => {

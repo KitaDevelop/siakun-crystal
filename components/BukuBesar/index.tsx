@@ -1,9 +1,4 @@
-import EntryRow from '@components/JournalEntries/EntryRow'
 import { Table, TableHeader } from '@components/Table'
-import { SelectYearOption } from '@constants/years'
-import { Account } from '@context/AccountContext/types'
-import { JournalEntry } from '@context/JournalEntryContext/types'
-import { useYear } from '@hooks/useYear'
 import { formatDate } from '@utils/formatDate'
 import { numberToRupiah } from '@utils/numberToRupiah'
 import { sum } from '@utils/sum'
@@ -24,9 +19,12 @@ interface Props {
 export const Index = ({ account, entries }: Props) => {
   const [searchKeyword, setSearchKeyword] = useState<string>('')
 
-  const currentCredit = sum(entries?.map((x) => x.transactions.reduce((acc: number, t) => acc + (t?.credit || 0), 0)) || [])
-  const currentDebit = sum(entries?.map((x) => x.transactions.reduce((acc: number, t) => acc + (t?.debit || 0), 0)) || [])
-
+  const currentCredit = sum(
+    entries?.map((x) => x.transactions.reduce((acc: number, t) => acc + (t?.credit || 0), 0)) || []
+  )
+  const currentDebit = sum(
+    entries?.map((x) => x.transactions.reduce((acc: number, t) => acc + (t?.debit || 0), 0)) || []
+  )
 
   const flattenJson = (data: JournalEntry[]) => {
     var flatJson = []
@@ -82,9 +80,7 @@ export const Index = ({ account, entries }: Props) => {
       </div>
       <Table zebra>
         <TableHeader cells={cells} />
-        {entries && entries.map((entry, idx) => (
-          <EntryRowReadonly key={entry.id} idx={idx} entry={entry} />
-        ))}
+        {entries && entries.map((entry, idx) => <EntryRowReadonly key={entry.id} idx={idx} entry={entry} />)}
         {entries && entries.length > 0 && (
           <tr className="text-center font-bold">
             <td colSpan={3} className="text-right uppercase">

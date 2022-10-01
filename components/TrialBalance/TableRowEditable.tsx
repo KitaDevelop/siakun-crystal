@@ -1,11 +1,10 @@
-import { customStyles } from '@components/ChartOfAccounts/AddAccountModal/Select'
-import { BalanceRow, TrialBalanceRow } from '@context/TrialBalanceContext/types'
 import { useAccount } from '@hooks/useAccount'
 import { isSelectAccountOption } from '@utils/isSelectOptionValid'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { getAggregateAccountData } from '@api/trialBalance/endpoints'
 import Select from 'react-select'
 import { useYear } from '@hooks/useYear'
+import { customStyles } from '@components/Form'
 
 type TableRowEditableProps = {
   rowData: TrialBalanceRow
@@ -50,11 +49,23 @@ export const TableRowEditable = ({ rowData, onEditRow }: TableRowEditableProps) 
     }
     const newRow = { ...rowData, content: newContent }
     onEditRow(rowData.id, newRow)
-  }, [accountName, accountNumber, startBalance, endBalance, adjustedBalance, movCredit, movDebit, adjCredit, adjDebit])
+  }, [
+    accountName,
+    accountNumber,
+    startBalance,
+    endBalance,
+    adjustedBalance,
+    movCredit,
+    movDebit,
+    adjCredit,
+    adjDebit,
+  ])
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data: { data: row } } = await getAggregateAccountData(accountNumber, year)
+      const {
+        data: { data: row },
+      } = await getAggregateAccountData(accountNumber, year)
       setStartBalance(row.beginningBalance)
       setMovCredit(row.movementCredit)
       setMovDebit(row.movementDebit)
@@ -66,29 +77,30 @@ export const TableRowEditable = ({ rowData, onEditRow }: TableRowEditableProps) 
     fetchData()
   }, [accountNumber])
 
-
   return (
     <>
-      {rowData.type === 'Blank' && <>
-        <td>
-          <input
-            className="input input-sm input-bordered w-full"
-            placeholder="Account No."
-            type="text"
-            value={accountNumber}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => setAccountNumber(e.target.value)}
-          />
-        </td>
-        <td className="whitespace-normal text-left">
-          <input
-            className="input input-sm input-bordered w-full"
-            placeholder="Account Name"
-            type="text"
-            value={accountName}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => setAccountName(e.target.value)}
-          />
-        </td>
-      </>}
+      {rowData.type === 'Blank' && (
+        <>
+          <td>
+            <input
+              className="input input-sm input-bordered w-full"
+              placeholder="Account No."
+              type="text"
+              value={accountNumber}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setAccountNumber(e.target.value)}
+            />
+          </td>
+          <td className="whitespace-normal text-left">
+            <input
+              className="input input-sm input-bordered w-full"
+              placeholder="Account Name"
+              type="text"
+              value={accountName}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setAccountName(e.target.value)}
+            />
+          </td>
+        </>
+      )}
       {isDataRow && (
         <td colSpan={2} className="text-left relative">
           <Select
@@ -173,7 +185,9 @@ export const TableRowEditable = ({ rowData, onEditRow }: TableRowEditableProps) 
           className="input input-sm input-bordered w-full"
           placeholder="-"
           value={adjustedBalance}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => setAdjustedBalance(e.target.valueAsNumber)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            setAdjustedBalance(e.target.valueAsNumber)
+          }
           disabled={isDataRow}
         />
       </td>

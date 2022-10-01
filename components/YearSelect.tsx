@@ -2,7 +2,7 @@ import { isSelectYearOption, years } from '@constants/years'
 import { useYear } from '@hooks/useYear'
 import React from 'react'
 import Select from 'react-select'
-import { customStyles } from './ChartOfAccounts/AddAccountModal/Select'
+import { customStyles } from './Form'
 
 export const YearSelector = () => {
   const { year, setYear } = useYear()

@@ -1,11 +1,5 @@
-import { AdjustingEntry } from '@context/AdjustingEntryContext/types'
 import axios from 'axios'
 import config from 'config'
-import {
-  AdjustingEntryPayload,
-  AdjustingEntryResponse,
-  SingleAdjustingEntryResponse,
-} from '.'
 
 export const getAdjustingEntries = (year?: number, oID?: number) =>
   axios.get<AdjustingEntryResponse>(

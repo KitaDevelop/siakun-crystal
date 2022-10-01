@@ -1,5 +1,4 @@
 import { TableBody } from '@components/Table'
-import { TrialBalanceRow } from '@context/TrialBalanceContext/types'
 import React from 'react'
 import { TableRow } from './TableRow'
 

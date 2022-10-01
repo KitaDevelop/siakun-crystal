@@ -1,10 +1,3 @@
-import {
-  RowRelativePosition,
-  RowType,
-  RowTypeSelectionMode,
-  TrialBalanceRow,
-  TrialBalanceTable,
-} from '@context/TrialBalanceContext/types'
 import { useTrialBalance } from '@hooks/useTrialBalance'
 import React from 'react'
 
